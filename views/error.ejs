@@ -1,0 +1,33 @@
+<%- include('./layouts/header'); -%>
+    <% if(typeof err !=="string" ) {%>
+        <div class='container mt-5'>
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">
+                            <%= err.message%>
+                        </h4>
+                        <!-- <p>
+                            <%//= err.stack %>
+                        </p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } else{ %>
+            <div class='container mt-5'>
+                <div class="row">
+                    <div class="col-6 offset-3">
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading" style="text-align: justify;">
+                                <%=err%>
+                            </h4>
+                            <!-- <p>
+                                <%=// err.stack %>
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+                <%- include('./layouts/footer'); -%>

@@ -1,0 +1,30 @@
+<%- include("../layouts/header"); -%>
+    <a href="/price/all">Back to all purchase</a>
+    <div class="card">
+        <form method="post" action="/price" class="needs-validation" nonvalidate>
+            <div class="form-group mb-3 mx-3">
+                <label for="nameofpurchase" class="form-label">Purchase Name</label>
+                <input type="text" class="form-control" id="nameofpurchase" name="nameofpurchase"
+                    placeholder="Purchase Name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3 mx-3">
+                <label for="price" class="form-label">price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Give price" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3 mx-3">
+                <label for="order" class="form-label">order</label>
+                <input type="number" class="form-control" id="order" name="order" placeholder="Enter order" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+        </form>
+    </div>
+    <%- include("../layouts/footer"); -%>

@@ -1,0 +1,36 @@
+<%- include("../layouts/header"); -%>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Numbering</th>
+                <th scope="col">Name of purchase</th>
+                <th scope="col">price</th>
+                <th scope="col">order</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% purchase.forEach((p,i)=> { %>
+                <tr>
+                    <th scope="row">
+                        <%=i %>
+                    </th>
+                    <td>
+                        <%=p.nameofpurchase %>
+                    </td>
+                    <td>
+                        <%=p.price %>
+                    </td>
+                    <td>
+                        <%=p.order%>
+                    </td>
+                    <td>
+                        <a href="/price/edit_purchase/<%=p._id %> ">Edit</a>
+                        <a href="/price/delete_purchase/<%=p._id %> ">Delete</a>
+                    </td>
+                </tr>
+                <%}); %>
+        </tbody>
+    </table>
+    <%- include("../layouts/footer"); -%>

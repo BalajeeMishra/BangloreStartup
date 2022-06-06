@@ -1,0 +1,149 @@
+<%- include("../layouts/header"); -%>
+    <div class="edited_card">
+        <form method="post" action="/admin/product/<%=webinar._id%>?_method=PUT" class="needs-validation"
+            enctype="multipart/form-data" nonvalidate>
+            <!-- <select name="types" id="cars">
+            <option value="webinar">webinar</option>
+            <option value="seminar">seminar</option>
+        </select> -->
+            <div class="twocolumn">
+                <div class="part1">
+                    <div class="form-group mb-3 mx-3">
+                        <label for="types">Types of</label>
+                        <select name="types" id="types">
+                            <option value="<%=webinar.types %>">webinar</option>
+                            <option value="<%=webinar.types %>">seminar</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="types">Status</label>
+                        <select name="status" id="status">
+                            <option value="live">Live</option>
+                            <option value="recorded">Recorded</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3 mx-3">
+                        <label for="nameofdepartment">Category</label>
+                        <select name="nameofdepartment" id="nameofdepartment">
+                            <% categories.forEach(function(cat){ %>
+                                <option value="<%=cat.nameofdepartment %>">
+                                    <%=cat.nameofdepartment %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group mb-3 mx-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name of instructor"
+                            value="<%=webinar.name %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="title"
+                            value="<%=webinar.title %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" class="form-control" cols="30" rows="10"
+                            placeholder="Description"> value="<%=webinar.title %>"</textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3 mx-3">
+                        <label for="webinartiming" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="webinartiming" name="webinartiming"
+                            value="<%=webinar.webinartiming %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="time" class="form-label">Time</label>
+                        <input type="time" name="time" id="time" placeholder="Time" class="form-control" min="09:00"
+                            max="18:00" value="<%=webinar.time %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="duration" class="form-label">Duration</label>
+                        <input type="Number" name="duration" id="duration" placeholder="Time" class="form-control"
+                            min="09:00" max="18:00" value="<%=webinar.duration %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 mx-3">
+                        <label for="image">Image</label>
+                        <input type="file" class="form-control" name="image" value="<%=webinar.image%>" id="img">
+                    </div>
+                </div>
+
+                <div class="part2">
+                    <div class="form-group mb-3 mx-3">
+                        <label for="advantageous" class="form-label">Why Should You Attend</label>
+                        <textarea name="advantageous" id="advantageous" class="form-control" cols="30" rows="10"
+                            placeholder="Why Should You Attend:"><%=webinar.advantageous %></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
+                        <textarea name="abouttopic" id="abouttopic" class="form-control" cols="30" rows="10"
+                            placeholder="Areas Covered in the Webinar"><%=webinar.abouttopic %></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 mx-3">
+                        <label for="bestfor" class="form-label">Who Will Benefit</label>
+                        <textarea name="bestfor" id="bestfor" class="form-control" cols="30" rows="10"
+                            placeholder="Who Will Benefit"><%=webinar.bestfor %></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button mb-2 mx-3 text-center">
+                <button type="submit" class="btn btn-success">Add
+                    Detail</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+    <%- include("../layouts/footer"); -%>

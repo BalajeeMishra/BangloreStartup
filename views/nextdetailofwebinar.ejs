@@ -1,0 +1,50 @@
+<%- include("./layouts/header"); -%>
+    <%allWebinar.forEach(e=> { %>
+        <div class="card_one">
+            <div class="content">
+                <div class="image">
+                    <img src="/<%=e.image%> " width="100px" height="100px">
+                </div>
+                <div class="title">
+                    <h5 class="mr-4">
+                        <%=e.title %>
+                    </h5>
+                    <div class="inside_data">
+                        <p>
+                            <%=e.name %>
+                        </p>
+                        <p>
+                            <%=e.duration %> minutes
+                        </p>
+                        <p>Product id:<%=e.id %>
+                        </p>
+                    </div>
+                    <div class="description">
+                        <%=e.description %>
+                    </div>
+                    <div class="button">
+                        <a href="/webinar/allnext">
+                            <button class="btn btn-primary mt-5">More detail</button>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="content2">
+                <h4> Why should you attend?</h4>
+                <p>
+                    <%= e.advantageous %>
+                </p>
+            </div>
+            <h4>Area covered in the webinar</h4>
+            <p>
+                <%=e.abouttopic %>
+            </p>
+            <h4>who will benefit</h4>
+            <p>
+                <%=e.bestfor %>
+            </p>
+        </div>
+
+        <%}); %>
+            <%- include("./layouts/footer"); -%>

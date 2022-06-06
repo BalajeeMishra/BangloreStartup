@@ -1,0 +1,20 @@
+<%- include("../layouts/header"); -%>
+    <div class="portfolio">
+        <% portfolio.forEach(p=>{ %>
+            <div class="portfolio_inside">
+                <div>
+                    <img src="/<%=p.image%>" width="150" height="150">
+                </div>
+                <h5>
+                    <%= p.name %>
+                </h5>
+
+                <a href="/portfolio/edit/<%=p._id%> " class="ml-4">Edit</a>
+                <a href="/portfolio/delete/<%=p._id%>" class=" ml-4">Delete</a>
+            </div>
+            <% }) %>
+
+    </div>
+
+
+    <%- include("../layouts/footer"); -%>

@@ -1,0 +1,23 @@
+<%- include("../layouts/header"); -%>
+
+    <div class="container main-title">
+
+        <h2 class="page-title">Add a category</h2>
+        <a href="/admin/allcategories" class="btn btn-info mt-2">Back to all categories</a>
+    </div>
+    <br><br>
+
+
+    <div class="container table-style">
+
+        <form method="post" action="/admin/add-category">
+            <div class="form-group">
+                <label for="nameofdepartment">Title</label>
+                <input class="form-control" type="text" name="nameofdepartment" id="nameofdepartment"
+                    placeholder="Add the department">
+            </div>
+            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+        </form>
+    </div>
+
+    <%- include("../layouts/footer"); -%>

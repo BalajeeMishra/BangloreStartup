@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-blue" id="navbar">
+    <div class="container-fluid" id="containers">
+        <a class="navbar-brand" href="/">NewOne</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a href="/webinar" class="nav-link">webinar</a>
+            <a href="/portfolio" class="nav-link">portfolio</a>
+            <a href="/webinar/all" class="nav-link">All webinar</a>
+            <a href="/admin" class="nav-link">Admin dashboard</a>
+            <div class="right">
+                <% if(!currentUser) {%>
+                    <a href="/user/register" class="nav-link">Register</a>
+                    <a href="/user/login" class="nav-link">Login</a>
+                    <% }else{%>
+                        <a href="/user/logout" class="nav-link">Logout</a>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+</nav>

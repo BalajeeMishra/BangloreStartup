@@ -1,0 +1,35 @@
+<%- include("../layouts/header"); -%>
+    <div class="card">
+        <form method="post" action="/webinar/moredetail" class="needs-validation" nonvalidate>
+            <div class="form-group mb-3 mx-3">
+                <label for="advantageous" class="form-label">Why Should You Attend</label>
+                <textarea name="advantageous" id="advantageous" class="form-control" cols="30" rows="10"
+                    placeholder="Why Should You Attend:"></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3 mx-3">
+                <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
+                <textarea name="abouttopic" id="abouttopic" class="form-control" cols="30" rows="10"
+                    placeholder="Areas Covered in the Webinar"></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3 mx-3">
+                <label for="bestfor" class="form-label">Who Will Benefit</label>
+                <textarea name="bestfor" id="bestfor" class="form-control" cols="30" rows="10"
+                    placeholder="Who Will Benefit"></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="button mb-2 mx-3">
+                <button type="submit" class="btn btn-success">Add
+                    Detail</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include("../layouts/footer"); -%>

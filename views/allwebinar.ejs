@@ -1,0 +1,101 @@
+<%- include("./layouts/header"); -%>
+    <%allWebinar.forEach(e=> { %>
+        <div class="card_one">
+            <div class="content">
+                <div class="image">
+                    <img src="/<%=e.image%> " width="100px" height="100px">
+                </div>
+                <div class="title">
+                    <h5 class="mr-4">
+                        <%=e.title %>
+                    </h5>
+                    <h5 class="mr-4">
+                        <%=e.category %>
+                    </h5>
+                    <div class="inside_data">
+                        <p>
+                            <%=e.name %>
+                        </p>
+                        <p>
+                            <%=e.duration %> minutes
+                        </p>
+                        <p>Product id:<%=e.id %>
+                        </p>
+                    </div>
+                    <div class="description">
+                        <%=e.description %>
+                    </div>
+                    <div class="button">
+                        <a href="/webinar/allnext">
+                            <button class="btn btn-primary mt-5">More detail</button>
+                        </a>
+
+                        <a href="/cart ">
+                            <button class="btn btn-primary mt-5">Buy Now</button>
+                        </a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%}); %>
+            <!-- <form method="post" action="/webinar/onthebasisofCategory">
+                <!-- <div class="rightcategory">  -->
+            <% department.forEach((e,i)=>{%>
+                <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment %> "
+                    onclick="onthebasisofCategory()">
+                <%=e.nameofdepartment %> <br>
+                    <% }) %>
+
+                        <!-- <button type="submit" class="btn btn-success">Submit to find</button> -->
+                        <!-- </div> -->
+                        <!-- </form> -->
+
+                        <%- include("./layouts/footer"); -%>
+
+                            <script>
+                                async function onthebasisofCategory() {
+
+                                    var category = document.querySelector('.messageCheckbox:checked').value;
+                                    var checkedValue = document.querySelector('.messageCheckbox:checked')
+                                    console.log(checkedValue.value);
+                                    const response = await fetch("/webinar/onthebasisofCategory", {
+                                        method: "post",
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ category })
+                                    });
+                                    console.log(response);
+                                    // JSON.stringify(checkedValue.value)
+                                    checkedValue.classList.remove("messageCheckbox");
+                                    console.log("balajee mishra")
+                                    window.location.href = "http://localhost:3000/webinar/searched";
+                                }
+                            </script>
+                            <!-- <div class="card_one">
+                <div class="content">
+                    <div class="image">
+                        <img src="/home_page.jpg" width="100px" height="100px">
+                    </div>
+                    <div class="title">
+                        <h5 class="mr-4">Principles for the Management of Operational Risk</h5>
+                        <div class="inside_data">
+                            <p>Stanley Epstein</p>
+                            <p>90 min</p>
+                            <p>Product id:702286</p>
+                        </div>
+                        <div class="description">
+                            This webinar highlights the evolution of operational risk management. The principles outlined in
+                            the
+                            Bank for International Settlements (BIS) report are based on best industry practice, supervisory
+                            experience and cover three overarching themes: governance, risk
+                        </div>
+                        <div class="button">
+                            <button class="btn btn-primary mt-5">More detail</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->

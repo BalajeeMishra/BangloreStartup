@@ -1,0 +1,116 @@
+.right{
+    position: absolute;
+    right: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+  nav {
+    background-color: rgba(226, 193, 4, 0.774) !important;
+    transition: 0.5s;
+  }
+  .home_image{
+    margin-top: 0px;
+    background: url(home_page.jpg) no-repeat center center/cover;
+    height: 90vh;
+    position: relative;
+    background-color: #000; 
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 3em;
+    overflow: hidden;
+  }
+  .card{
+    width: 75%;
+    color: rgb(28 5 128);
+    background: rgba(119, 164, 172, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 80px auto !important;
+    padding: 25px 15px;
+  }
+  .card_one{
+    width: 60%;
+    color: rgb(28 5 128);
+    background: rgba(119, 164, 172, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 10px auto !important;
+    padding: 25px 15px;
+  }
+
+  .content{
+    display: flex;
+
+  }
+  .inside_data{
+    display: flex;
+  }
+  .inside_data p{
+    margin-left: 50px;
+  }
+  .title h5{
+    margin-left: 20px ;
+  }
+  .description{
+    margin-left: 10px;
+  }
+  .edited_card{
+    width: 90%;
+    color: rgb(28 5 128);
+    background: rgba(119, 164, 172, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 80px auto !important;
+    padding: 25px 15px;
+
+  }
+  .twocolumn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .portfolio_inside{
+    color: rgb(28 5 128);
+    background: rgba(119, 164, 172, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 80px auto !important;
+    padding: 25px 15px;
+    width: 30%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+  }
+
+  .rightcategory{
+    color: rgb(28 5 128);
+    background: rgba(119, 164, 172, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 80px auto !important;
+    padding: 25px 15px;
+    width: 30%;
+    
+    position: relative;
+    left: 600px;
+    bottom: 500px;
+
+  }

@@ -1,0 +1,153 @@
+<%- include("./layouts/header"); -%>
+    <div class="container  mt-4 card">
+        <h2 class="page-title">
+            Register
+        </h2>
+        <div class="surface text-center"></div>
+        <form method="post" action="/register" class="needs-validation" id="formdata" nonvalidate>
+
+            <div class="form-group mb-3">
+                <label for="firstname" class="form-label">First Name</label>
+                <input type="text" name="firstname" class="form-control" placeholder="First Name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="lastname" class="form-label">Last Name</label>
+                <input type="text" name="lastname" class="form-control" placeholder="Last Name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password"
+                    value="<%= typeof password != 'undefined' ? password : '' %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <% if(typeof password !='undefined' && password.length<6 ){ %>
+                    <div id="p1">
+                        <p style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
+                            Password must be at least 6 characters</p>
+                    </div>
+                    <% } %>
+            </div>
+
+
+            <div class="form-group mb-3">
+                <label for="password2" class="form-label">Confirm Password</label>
+                <input type="password" id="password2" name="password2" class="form-control"
+                    placeholder="Confirm Password" value="<%= typeof password2 != 'undefined' ? password2 : '' %>" />
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <% if(typeof password2 !='undefined' ){ %>
+                    <div id="p2">
+                        <p id="p2" style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
+                            Passwords do not match
+                        </p>
+                    </div>
+                    <% } %>
+
+            </div>
+            <div class="form-group mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" name="address" class="form-control" placeholder="Address" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="company" class="form-label">Company Name</label>
+                <input type="text" name="company" class="form-control" placeholder="companyname" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="jobtitle" class="form-label">Job Title</label>
+                <input type="text" name="jobtitle" class="form-control" placeholder="Job Title" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="company" class="form-label">Company</label>
+                <input type="text" name="company" class="form-control" placeholder="company" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+
+
+            <button type="submit" id="btn" class="btn btn-success mb-3">Submit</button>
+        </form>
+    </div>
+    </div>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+            // Loop over them and prevent submission
+            Array.from(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        function loader() {
+            document.getElementsByClassName("surface")[0].innerText = "wait...";
+        }
+        const form = document.getElementById("formdata");
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            var final_Response;
+            if (typeof final_Response === "undefined") {
+                loader();
+            }
+            let formData = new FormData(form);
+            const response = await fetch("/register", {
+                method: "post",
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams(formData)
+            })
+
+            final_Response = await response.json();
+            document.getElementsByClassName("surface")[0].innerHTML = "";
+            if (final_Response.mail_sent) {
+                alert("please go and verify your mail..");
+            }
+            const message = final_Response.message
+            if (message) {
+                alert(`${message}, for more action please verify your mail `);
+            }
+            // localStorage.setItem("some",some);
+        });
+    </script>
+    <%- include("./layouts/footer"); -%>

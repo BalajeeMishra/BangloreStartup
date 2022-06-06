@@ -1,0 +1,30 @@
+<%- include("../layouts/header"); -%>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name of category</th>
+                <th scope="col">Name of category</th>
+                <th scope="col">action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%category.forEach((e,i)=> { %>
+                <tr>
+                    <th scope="row">
+                        <%=i %>
+                    </th>
+                    <td>
+                        <%=e.nameofdepartment%>
+                    </td>
+                    <td>
+                        <a href="/admin/edit_category/<%=e.id %> ">Edit</a>
+                        <a href="/admin/delete_category/<%=e.id %> ">Delete</a>
+                    </td>
+
+                </tr>
+                <%}); %>
+
+        </tbody>
+    </table>
+
+    <%- include("../layouts/footer"); -%>
