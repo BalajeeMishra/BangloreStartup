@@ -26,7 +26,7 @@ router.post(
         password2,
         phone,
         address,
-        cpmpany,
+        company,
         jobtitle,
       } = req.body;
       console.log("balajee", req.body);
@@ -62,7 +62,7 @@ router.post(
         console.log("unexpected Problem", e)
       );
       console.log("balajee mishra");
-      console.log("register", registereduser);
+      console.log("register", registeredUser);
       req.session.ids = registeredUser._id || null;
       if (typeof registeredUser != "undefined") {
         const result = await mailForVerify(email, req.session.token);
@@ -85,6 +85,7 @@ router.get("/login", async (req, res) => {
 });
 
 router.post(
+  "/login",
   isVerified,
   passport.authenticate("local", {
     failureFlash: true,
