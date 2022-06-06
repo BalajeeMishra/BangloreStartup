@@ -29,6 +29,7 @@ router.post(
         cpmpany,
         jobtitle,
       } = req.body;
+      console.log("balajee", req.body);
       const userData = req.body;
       if (password != password2) {
         // errors.push({ msg: 'Passwords do not match' });
@@ -40,12 +41,11 @@ router.post(
         return res.render("register", { userData });
       }
       req.session.token = jwt.sign(
-        { name, email, password },
+        { firstname, email, password },
         process.env.JWT_ACC_ACTIVATE,
         { expiresIn: "1m" }
       );
-      // req.session.token = token;
-
+      console.log("mishra", req.session.token);
       const user = new User({
         firstname,
         lastname,
@@ -54,26 +54,29 @@ router.post(
         token: req.session.token,
         phone,
         address,
-        cpmpany,
+        company,
         jobtitle,
       });
 
-      const registeredUser = await User.register(user, password).catch((e) => {
-        return res.json({ message: e.message });
-      });
+      const registeredUser = await User.register(user, password).catch((e) =>
+        console.log("unexpected Problem", e)
+      );
+      console.log("balajee mishra");
+      console.log("register", registereduser);
       req.session.ids = registeredUser._id || null;
       if (typeof registeredUser != "undefined") {
         const result = await mailForVerify(email, req.session.token);
         if (result) {
+          console.log(result);
           // return res.render("mail_verification", { mail_verify: true });
           return res.json({ mail_sent: true });
         }
       } else {
-        return res.redirect("/register");
+        return res.redirect("/user/register");
       }
     } catch (e) {
       req.flash("error", e.message);
-      res.redirect("/register");
+      return res.redirect("/user/register");
     }
   })
 );
@@ -85,7 +88,7 @@ router.post(
   isVerified,
   passport.authenticate("local", {
     failureFlash: true,
-    failureRedirect: "/login",
+    failureRedirect: "/user/login",
     successFlash: true,
     successRedirect: "/",
   })

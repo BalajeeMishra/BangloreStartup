@@ -103,6 +103,23 @@ app.use("/admin", AdminDashboard);
 app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
+
+const handleValidationErr = (err) => {
+  return new AppError("please fill up all the required field carefully", 400);
+};
+
+app.use((err, req, res, next) => {
+  if (err.name === "ValidationError") err = handleValidationErr(err);
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  if (err) {
+    res.status(statusCode).render("error", { err });
+  }
+});
+
 app.get("/", async (req, res) => {
   const webinar = await WebinarModel.find({});
   webinar.sort(function (a, b) {

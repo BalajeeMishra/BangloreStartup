@@ -85,15 +85,12 @@
                 </div>
             </div>
             <div class="form-group mb-3">
-                <label for="company" class="form-label">Company</label>
-                <input type="text" name="company" class="form-control" placeholder="company" required>
+                <label for="phone" class="form-label">phone</label>
+                <input type="number" name="phone" class="form-control" placeholder="phone" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
-
-
-
             <button type="submit" id="btn" class="btn btn-success mb-3">Submit</button>
         </form>
     </div>
@@ -130,7 +127,7 @@
                 loader();
             }
             let formData = new FormData(form);
-            const response = await fetch("/register", {
+            const response = await fetch("/user/register", {
                 method: "post",
                 headers: {
                     "Content-type": "application/x-www-form-urlencoded"
