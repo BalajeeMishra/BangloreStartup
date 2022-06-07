@@ -23,6 +23,7 @@ const AddPrice = require("./routes/add_price");
 const Cart = require("./routes/cart");
 const UserRoute = require("./routes/user");
 const User = require("./models/user");
+const Payment = require("./routes/payment");
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,
@@ -103,7 +104,7 @@ app.use("/admin", AdminDashboard);
 app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
-
+app.use("/payment", Payment);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);
 };

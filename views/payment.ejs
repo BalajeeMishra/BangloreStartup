@@ -1,0 +1,22 @@
+<h3>Welcome to Payment Gateway</h3>
+<form action="/payment" method="post">
+    <!-- <div class="form-group mb-3">
+        <label for="name" class="form-label">First Name</label>
+        <input type="text" name="name" class="form-control" placeholder="Enter your Name" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div> -->
+    <!-- <div class="form-group mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" placeholder="Email" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>  -->
+
+    <script src="//checkout.stripe.com/v2/checkout.js" class="stripe-button" data-key="<%= key %>" data-amount="7000"
+        data-currency="usd" data-name="Gautam Sharma" data-description="Buy React.js Complete Course"
+        data-locale="auto">
+        </script>
+</form>
