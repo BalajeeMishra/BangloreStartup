@@ -1,12 +1,13 @@
 const express = require("express");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const User = require("../models/user");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
-const passport = require("passport");
 const { isVerified } = require("../helper/middleware");
-const jwt = require("jsonwebtoken");
 const { mailForVerify } = require("../helper/mailsendingfunction");
+
 router.get(
   "/register",
   wrapAsync(async (req, res, next) => {
@@ -59,7 +60,7 @@ router.post(
       });
 
       const registeredUser = await User.register(user, password).catch((e) =>
-        console.log("unexpected Problem", e)
+        next(e)
       );
       console.log("balajee mishra");
       console.log("register", registeredUser);
@@ -67,8 +68,6 @@ router.post(
       if (typeof registeredUser != "undefined") {
         const result = await mailForVerify(email, req.session.token);
         if (result) {
-          console.log(result);
-          // return res.render("mail_verification", { mail_verify: true });
           return res.json({ mail_sent: true });
         }
       } else {
@@ -80,6 +79,7 @@ router.post(
     }
   })
 );
+
 router.get("/login", async (req, res) => {
   res.render("login");
 });
@@ -94,11 +94,8 @@ router.post(
     successRedirect: "/",
   })
 );
-//token se ham find kar rahe hai .. yaha mail se bhi find kar sakte hai us case me agar token
-//ko session me store karte hai to kya ye 20 minute ke ander me delete hoga thats question bro...
-//okayyy.
 
-// mujhe sikhna hoga how to delete session within 20 minutes or any specific time...
+// Token verification route...
 router.get("/login/:id", async (req, res) => {
   const id = req.params.id;
   if (id === req.session.token) {
@@ -122,10 +119,10 @@ router.get("/login/:id", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
-  req.logout();
-  req.flash("success", "You have Logged out successfully!");
-  res.redirect("/login");
+router.get("/logout", async (req, res) => {
+  req.logout((e) => console.log(e));
+  req.flash("success", "You have logged out successfully!");
+  res.redirect("/user/login");
 });
 
 module.exports = router;

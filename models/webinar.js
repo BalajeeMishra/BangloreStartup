@@ -58,6 +58,10 @@ const WebinarSchema = new mongoose.Schema(
     status: {
       type: String,
     },
+    pdf_path: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

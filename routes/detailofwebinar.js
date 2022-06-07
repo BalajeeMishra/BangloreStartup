@@ -10,8 +10,6 @@ router.get("/", async (req, res) => {
 });
 router.post("/", upload.single("image"), async (req, res) => {
   const newWebinar = new Webinar(req.body);
-  // console.log(newWebinar);
-  // console.log(req.body);
   id = Math.floor(1000 + Math.random() * 9000);
   newWebinar.image = req.file.filename;
   newWebinar.id = id;

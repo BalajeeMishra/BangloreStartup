@@ -8,13 +8,11 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongo");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
-const cloudinary = require("cloudinary");
-const multer = require("multer");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const fs = require("fs");
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/new_project";
-const { upload, uploadVideo } = require("./cloudinary/index");
+const { uploadVideo } = require("./cloudinary/index");
 const Webinar = require("./routes/detailofwebinar");
 const Portfolio = require("./routes/portfolio");
 const AdminDashboard = require("./routes/admin_dashboard");
@@ -24,6 +22,8 @@ const Cart = require("./routes/cart");
 const UserRoute = require("./routes/user");
 const User = require("./models/user");
 const Payment = require("./routes/payment");
+const PaymentWithPaypal = require("./routes/paymentwithpaypal");
+const Pdf_page = require("./routes/dummy");
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,
@@ -35,8 +35,7 @@ mongoose
   .catch((err) => {
     console.error(err);
   });
-// const collections = Object.keys(mongoose.connection.collections);
-// console.log(collections[0]);
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -48,7 +47,9 @@ app.use(
   "/tinymce",
   express.static(path.join(__dirname, "node_modules", "tinymce"))
 );
+
 app.use(express.json());
+
 const store = new MongoDBStore({
   mongoUrl: dbUrl,
   secret: "thisshouldbeabettersecret!",
@@ -58,6 +59,7 @@ const store = new MongoDBStore({
 store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e);
 });
+
 const sessionConfig = {
   store,
   secret: "thisshouldbeabettersecret!",
@@ -105,6 +107,8 @@ app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
 app.use("/payment", Payment);
+app.use("/paymentWithPaypal", PaymentWithPaypal);
+app.use("/pdf", Pdf_page);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);
 };
@@ -128,8 +132,7 @@ app.get("/", async (req, res) => {
       dateB = new Date(b.webinartiming);
     return dateA - dateB;
   });
-  // console.log(webinar.reverse()); //array is now sorted by date
-  res.render("home");
+  return res.render("home");
 });
 
 app.post("/video/upload", async (req, res) => {
@@ -140,9 +143,7 @@ app.post("/video/upload", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("APP IS LISTENING ON PORT");
-});
+app.listen(PORT, () => console.log("APP IS LISTENING ON PORT " + PORT));
 
 // const storage = multer.diskStorage({
 //   filename: (req, file, cb) => {
