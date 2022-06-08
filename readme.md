@@ -69,3 +69,10 @@ all listed product edit page.
 ** _);_**
 
 image selecteddddd
+
+```javascript
+if (Date.now() >= exp * 1000) {
+  return false;
+}
+check the more code on app.js file.
+```

@@ -48,7 +48,7 @@ router.post(
       req.session.token = jwt.sign(
         { firstname, email, password },
         process.env.JWT_ACC_ACTIVATE,
-        { expiresIn: "10m" }
+        { expiresIn: "2m" }
       );
       const user = new User({
         firstname,
@@ -65,9 +65,8 @@ router.post(
       req.session.ids = registeredUser._id || null;
       if (typeof registeredUser != "undefined") {
         const result = await mailForVerify(email, req.session.token);
-        console.log(result);
         // result ko bhi check karna hai.
-        if (result) {
+        if (result.accepted[0]) {
           return res.render("mail_verification");
         }
       }
@@ -87,7 +86,19 @@ router.get(
 
 router.post(
   "/login",
-  isVerified,
+  async (req, res, next) => {
+    const { email } = req.body;
+    var user = await User.findOne({ email });
+    if (!user) {
+      return new AppError("user not found,please enter the detail carefully");
+    }
+    if (user.verify) {
+      next();
+    } else if (!user.verify) {
+      req.flash("error", "Please first verify yourself");
+      return res.redirect("/user/login");
+    }
+  },
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/user/login",
@@ -119,7 +130,7 @@ router.get(
       //iske thora check karna hai....
       // delete req.session.token;
       req.flash("success", "YOU ARE VERIFIED NOW");
-      return res.redirect("/");
+      return res.redirect("/user/login");
     }
   })
 );

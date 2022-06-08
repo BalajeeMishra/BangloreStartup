@@ -141,7 +141,21 @@ app.get("/", async (req, res) => {
     process.env.JWT_ACC_ACTIVATE,
     { expiresIn: "1m" }
   );
-  console.log(token);
+  var decoded = jwt.decode(token, { complete: true });
+  // console.log(decoded.payload.exp);
+  // console.log("balajee", decoded);
+  // console.log("hello", Date.now());
+  // console.log(Math.floor(Date.now() / 1000) + 10 * 60);
+  // console.log(token);
+  // const date = new Date();
+  // console.log(
+  //   `Token Generated at:- ${date.getHours()} :${date.getMinutes()} :${date.getSeconds()}`
+  // );
+  // console.log(
+  //   `Token Generated at:- ${date.getHours()} :${
+  //     date.getMinutes() + 1
+  //   } :${date.getSeconds()}`
+  // );
   return res.render("home");
 });
 
