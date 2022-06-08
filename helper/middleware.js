@@ -12,12 +12,13 @@ module.exports.isLoggedIn = (req, res, next) => {
 module.exports.isVerified = async (req, res, next) => {
   const { token } = req.session;
   var user = await User.find({ token });
-  console.log(token, user);
+  console.log("balajee", user[0]);
+  console.log("mrityunjay", token);
+  console.log("mrityunjay mishra", user[0].verify);
+
   if (user[0].verify) {
-    // req.flash("success", "welcome back!");
     delete req.session.returnTo;
     next();
-    // res.redirect(redirectUrl);
   } else {
     res.render("mail_verification", { mail_verify: false });
   }

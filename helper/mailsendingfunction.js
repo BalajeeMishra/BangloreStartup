@@ -18,3 +18,21 @@ module.exports.mailForVerify = async (email, token) => {
   });
   return hello;
 };
+module.exports.mailForForgetpassword = async (email, token) => {
+  const smtp = nodemailer.createTransport({
+    host: "smtp-relay.sendinblue.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "balajee.lorihealth@gmail.com",
+      pass: "OnyAc3UvThPjxRpV",
+    },
+  });
+  const hello = await smtp.sendMail({
+    to: email,
+    from: "balajee.lorihealth@gmail.com",
+    subject: "Mail Verification",
+    html: `Click here to verify it's you:  <br> <a href="${verify}/detailforchange/${token}">${token}</a>`,
+  });
+  return hello;
+};
