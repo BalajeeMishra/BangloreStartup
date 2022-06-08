@@ -24,6 +24,7 @@ const User = require("./models/user");
 const Payment = require("./routes/payment");
 const PaymentWithPaypal = require("./routes/paymentwithpaypal");
 const Pdf_page = require("./routes/dummy");
+const jwt = require("jsonwebtoken");
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,
@@ -132,6 +133,15 @@ app.get("/", async (req, res) => {
       dateB = new Date(b.webinartiming);
     return dateA - dateB;
   });
+  const name = "balajee";
+  const email = "bala.44472@gmail.com";
+  const password = "balajeemishra";
+  const token = jwt.sign(
+    { name, email, password },
+    process.env.JWT_ACC_ACTIVATE,
+    { expiresIn: "1m" }
+  );
+  console.log(token);
   return res.render("home");
 });
 
@@ -217,4 +227,4 @@ app.listen(PORT, () => console.log("APP IS LISTENING ON PORT " + PORT));
 //   function (error, result) {
 //     console.log(result, error);
 //   }
-// );
+// );-

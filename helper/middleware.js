@@ -11,18 +11,15 @@ module.exports.isLoggedIn = (req, res, next) => {
 // req.session.token yaha problem create kar raha hai check karo iska documentation.
 module.exports.isVerified = async (req, res, next) => {
   const { token } = req.session;
-  var user = await User.find({ token });
-  console.log("balajee", user[0]);
-  console.log("mrityunjay", token);
-  console.log("mrityunjay mishra", user[0].verify);
-
-  if (user[0].verify) {
-    delete req.session.returnTo;
+  var user = await User.findOne({ token });
+  if (user.verify) {
+    // delete req.session.returnTo;
     next();
   } else {
     res.render("mail_verification", { mail_verify: false });
   }
 };
+
 module.exports.isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.admin == true) {
     next();
