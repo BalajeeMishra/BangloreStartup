@@ -35,6 +35,10 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    agenda: {
+      type: String,
+    },
+
     //   userId: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: "User",

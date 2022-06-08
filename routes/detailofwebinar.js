@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
 });
 router.post("/", upload.single("image"), async (req, res) => {
   const newWebinar = new Webinar(req.body);
+
   id = Math.floor(1000 + Math.random() * 9000);
   if (typeof req.file != "undefined") {
     newWebinar.image = req.file.filename;
@@ -23,10 +24,11 @@ router.get("/moredetail", async (req, res) => {
   res.render("admin/webinar_detail_two");
 });
 router.post("/moredetail", async (req, res) => {
-  const { advantageous, abouttopic, bestfor } = req.body;
+  const { advantageous, abouttopic, bestfor, agenda } = req.body;
+  // console.log(agenda);
   const newEnteredDetail = await Webinar.findOneAndUpdate(
     { id },
-    { advantageous, abouttopic, bestfor },
+    { advantageous, abouttopic, bestfor, agenda },
     {
       new: true,
     }
