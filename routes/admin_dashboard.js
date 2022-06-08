@@ -3,33 +3,47 @@ const Webinar = require("../models/webinar.js");
 const Category = require("../models/department");
 const router = express.Router();
 const { upload } = require("../helper/multer");
-
+//its admin dashboard
 router.get("/", async (req, res) => {
   const webinar = await Webinar.find({});
   res.render("admin/dashboard");
 });
+// all listed webinar
 router.get("/allproduct", async (req, res) => {
   const webinar = await Webinar.find({});
   res.render("admin/listedproduct", { webinar });
 });
+//getting edit form for webinar
 router.get("/edit_product/:id", async (req, res) => {
   const { id } = req.params;
   const webinar = await Webinar.findById(id);
+  // var time=moment(detail[0].birthday).utc().format('YYYY/MM/DD');
+  var date = new Date(webinar.webinartiming);
+  var year = date.getFullYear();
+  var month = String(date.getMonth() + 1).padStart(2, "0");
+  var todayDate = String(date.getDate()).padStart(2, "0");
+  var datePattern = year + "-" + month + "-" + todayDate;
+  console.log(datePattern);
   const categories = await Category.find({});
-  res.render("admin/editlistedproduct", { webinar, categories });
+  res.render("admin/editlistedproduct", { webinar, categories, datePattern });
 });
-
+// editing webinar
 router.put("/edit_product/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
+  console.log(req.body);
   const webinar = await Webinar.findByIdAndUpdate(id, req.body, {
     runValidators: true,
     new: true,
   });
-  webinar.image = req.file.filename;
+  if (typeof req.file != "undefined") {
+    webinar.image = req.file.filename;
+  }
+  webinar.category = req.body.nameofdepartment;
   await webinar.save();
+  console.log(webinar);
   res.redirect("/admin/allproduct");
 });
-
+//deleting webinar
 router.get("/delete_product/:id", async (req, res, next) => {
   const { id } = req.params;
   const deletedProduct = await Webinar.findByIdAndDelete(id);

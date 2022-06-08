@@ -11,7 +11,9 @@ router.get("/", async (req, res) => {
 router.post("/", upload.single("image"), async (req, res) => {
   const newWebinar = new Webinar(req.body);
   id = Math.floor(1000 + Math.random() * 9000);
-  newWebinar.image = req.file.filename;
+  if (typeof req.file != "undefined") {
+    newWebinar.image = req.file.filename;
+  }
   newWebinar.id = id;
   await newWebinar.save();
   res.redirect("webinar/moredetail");
@@ -41,6 +43,7 @@ router.get("/allnext", async (req, res) => {
   const allWebinar = await Webinar.find({});
   res.render("nextdetailofwebinar", { allWebinar });
 });
+//searching on the basis of market category
 router.post("/onthebasisofCategory", async (req, res) => {
   if (typeof req.body.category == "string") {
     const department = await Department.find({});

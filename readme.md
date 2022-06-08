@@ -67,3 +67,5 @@ all listed product edit page.
 ** _}_**
 
 ** _);_**
+
+image selecteddddd

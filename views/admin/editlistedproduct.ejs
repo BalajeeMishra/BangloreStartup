@@ -1,6 +1,6 @@
 <%- include("../layouts/header"); -%>
     <div class="edited_card">
-        <form method="post" action="/admin/product/<%=webinar._id%>?_method=PUT" class="needs-validation"
+        <form method="post" action="/admin/edit_product/<%=webinar._id%>?_method=PUT" class="needs-validation"
             enctype="multipart/form-data" nonvalidate>
             <!-- <select name="types" id="cars">
             <option value="webinar">webinar</option>
@@ -11,15 +11,25 @@
                     <div class="form-group mb-3 mx-3">
                         <label for="types">Types of</label>
                         <select name="types" id="types">
-                            <option value="<%=webinar.types %>">webinar</option>
-                            <option value="<%=webinar.types %>">seminar</option>
+                            <% if(webinar.types=="webinar" ) {%>
+                                <option value="webinar" selected>webinar</option>
+                                <option value="seminar">seminar</option>
+                                <% } else{ %>
+                                    <option value="webinar">webinar</option>
+                                    <option value="seminar" selected>seminar</option>
+                                    <% } %>
                         </select>
                     </div>
                     <div class="form-group mb-3 mx-3">
                         <label for="types">Status</label>
                         <select name="status" id="status">
-                            <option value="live">Live</option>
-                            <option value="recorded">Recorded</option>
+                            <% if(webinar.status=="live" ){ %>
+                                <option value="live" selected>Live</option>
+                                <option value="recorded">recorded</option>
+                                <% } else{%>
+                                    <option value="recorded" selected>Recorded</option>
+                                    <option value="live">live</option>
+                                    <% } %>
                         </select>
                     </div>
 
@@ -27,10 +37,16 @@
                         <label for="nameofdepartment">Category</label>
                         <select name="nameofdepartment" id="nameofdepartment">
                             <% categories.forEach(function(cat){ %>
-                                <option value="<%=cat.nameofdepartment %>">
-                                    <%=cat.nameofdepartment %>
-                                </option>
-                                <% }); %>
+                                <% if(webinar.category==cat.nameofdepartment){ %>
+                                    <option value="<%=webinar.category %>" selected>
+                                        <%=cat.nameofdepartment %>
+                                    </option>
+                                    <% } else{%>
+                                        <option value="<%=cat.nameofdepartment %>">
+                                            <%=cat.nameofdepartment %>
+                                        </option>
+                                        <% } %>
+                                            <% }); %>
                         </select>
                     </div>
 
@@ -54,7 +70,7 @@
                     <div class="form-group mb-3 mx-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                            placeholder="Description"> value="<%=webinar.title %>"</textarea>
+                            placeholder="Description"> value="<%=webinar.description %>"</textarea>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
@@ -63,23 +79,23 @@
                     <div class="form-group mb-3 mx-3">
                         <label for="webinartiming" class="form-label">Date</label>
                         <input type="date" class="form-control" id="webinartiming" name="webinartiming"
-                            value="<%=webinar.webinartiming %>" required>
+                            value="<%=datePattern%>" required>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                     </div>
                     <div class="form-group mb-3 mx-3">
                         <label for="time" class="form-label">Time</label>
-                        <input type="time" name="time" id="time" placeholder="Time" class="form-control" min="09:00"
-                            max="18:00" value="<%=webinar.time %>" required>
+                        <input type="time" name="time" id="time" placeholder="Time" class="form-control" min="00:00"
+                            max="24:00" value="<%=webinar.time %>" required>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                     </div>
                     <div class="form-group mb-3 mx-3">
                         <label for="duration" class="form-label">Duration</label>
-                        <input type="Number" name="duration" id="duration" placeholder="Time" class="form-control"
-                            min="09:00" max="18:00" value="<%=webinar.duration %>" required>
+                        <input type="Number" name="duration" id="duration" placeholder="Duration of webinar"
+                            class="form-control" value="<%=webinar.duration %>" required>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
