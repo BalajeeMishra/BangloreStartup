@@ -6,19 +6,24 @@ const CartSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    products: [
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Webinar",
+    },
+    categoryofprice: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Webinar",
+        quantity: Number,
+        price: {
+          type: Number,
+        },
+        totalPrice: {
+          type: Number,
+        },
+        name: {
+          type: String,
+        },
       },
     ],
-    quantity: Number,
-    price: {
-      type: Number,
-    },
-    totalPrice: {
-      type: Number,
-    },
     active: {
       type: Boolean,
       default: true,

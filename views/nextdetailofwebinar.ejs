@@ -49,9 +49,9 @@
             <form method="post" action="/cart/<%=e._id %>">
                 <div class="form-group mb-3 mx-3">
                     <label for="types">pricing</label>
-                    <select name="nameofpurchase" id="types">
+                    <select name="purchasecategory" id="price">
                         <% purchase.forEach(p=>{%>
-                            <option value="<%=p.price%>">
+                            <option value="<%=p.nameofpurchase%>">
                                 <%=p.nameofpurchase%>
                             </option>
                             <% }) %>
