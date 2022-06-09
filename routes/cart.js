@@ -11,6 +11,7 @@ router.post("/:id", async (req, res) => {
   const price = purchase.price;
   const product = await Webinar.findById(id);
   const cart = await Cart.findOne({ product: id });
+
   //cart existing and product selected is also existing in that case.
   if (cart && cart.product == id) {
     const hi = cart.categoryofprice.filter(function (e) {
@@ -70,18 +71,18 @@ router.post("/:id", async (req, res) => {
   return res.redirect("/cart/all");
 });
 router.get("/all", async (req, res) => {
-  const cart = await Cart.find({ userId: req.user._id });
-  const products = await Webinar.find({});
-  var product = [];
-  cart.forEach((e) => {
-    products.forEach((p) => {
-      if (p._id.equals(e.product)) {
-        product = product + [p];
-      }
-    });
-  });
-  console.log(product);
-  res.status(200).json({ product });
-  // res.render("cart", { cart });
+  const Total = 0;
+  const cart = await Cart.find({ userId: req.user._id }).populate("product");
+  // const products = await Webinar.find({});
+  // var product = [];
+  // cart.forEach((e) => {
+  //   products.forEach((p) => {
+  //     if (p._id.equals(e.product)) {
+  //       product = product + [p];
+  //     }
+  //   });
+  // });
+  res.render("cart", { cart, Total });
+  // res.send("hello worldd");
 });
 module.exports = router;

@@ -1,5 +1,4 @@
 <%- include("./layouts/header");-%>
-
     <div class="container mt-5 table-style table-responsive-sm  table-responsive-md table-responsive-lg">
         <table class="table table-striped alignmiddle  table-success table-hover">
             <thead>
@@ -12,32 +11,30 @@
                 </tr>
             </thead>
             <tbody>
-
-                <tr style="text-align:center;">
-                    <td>
-                        <%=product.title%>
-                    </td>
-                    <td>Training access details will be available in My CO section</td>
-                    <td class="goodalign">
-                        $ <%=newCart.price%>
-                    </td>
-                    <td>
-                        <%=newCart.quantity %>
-                    </td>
-                    <td>
-                        $ <%=newCart.price%>
-                    </td>
-                </tr>
+                <% cart.forEach((c,i)=> { %>
+                    <% c.categoryofprice.forEach((e)=>{ %>
+                        <% Total=Total+(e.price)*(e.quantity); %>
+                            <tr style="text-align:center;">
+                                <td>
+                                    <%=c.product.title%>
+                                </td>
+                                <td>Training access details will be available in My CO section</td>
+                                <td class="goodalign">
+                                    $ <%=e.price%>
+                                </td>
+                                <td>
+                                    <%=e.quantity %>
+                                </td>
+                                <td>
+                                    $<%=Total %>
+                                </td>
+                            </tr>
+                            <% Total=0%>
+                                <% }); %>
+                                    <% }); %>
             </tbody>
         </table>
-
-
     </div>
-
-
-
-
-
 
 
     <%- include("./layouts/footer");-%>
