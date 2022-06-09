@@ -76,3 +76,13 @@ if (Date.now() >= exp * 1000) {
 }
 check the more code on app.js file.
 ```
+
+<% carts.forEach((cart)=>{%>
+
+    <% Total=Total+cart.totalPrice;%>
+
+    <%qty=qty+cart.quantity %>
+
+    <% products.forEach((pro)=>{%>
+
+    <%if(cart.products[0].toString()===pro._id.toString() ){%>

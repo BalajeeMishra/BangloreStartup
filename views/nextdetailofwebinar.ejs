@@ -45,6 +45,20 @@
                 <%-e.bestfor %>
             </p>
         </div>
-
+        <div class="card">
+            <form method="post" action="/cart/<%=e._id %>">
+                <div class="form-group mb-3 mx-3">
+                    <label for="types">pricing</label>
+                    <select name="nameofpurchase" id="types">
+                        <% purchase.forEach(p=>{%>
+                            <option value="<%=p.price%>">
+                                <%=p.nameofpurchase%>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mt-5 text-center">Buy Now</button>
+            </form>
+        </div>
         <%}); %>
             <%- include("./layouts/footer"); -%>

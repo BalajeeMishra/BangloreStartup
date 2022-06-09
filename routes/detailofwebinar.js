@@ -1,5 +1,6 @@
 const express = require("express");
 const Webinar = require("../models/webinar.js");
+const Purchase = require("../models/purchase");
 const router = express.Router();
 const { upload } = require("../helper/multer");
 var id;
@@ -43,7 +44,9 @@ router.get("/all", async (req, res) => {
 });
 router.get("/allnext", async (req, res) => {
   const allWebinar = await Webinar.find({});
-  res.render("nextdetailofwebinar", { allWebinar });
+  const purchase = await Purchase.find({});
+  // order ka shorting idhar hi karna hai.
+  res.render("nextdetailofwebinar", { allWebinar, purchase });
 });
 //searching on the basis of market category
 router.post("/onthebasisofCategory", async (req, res) => {

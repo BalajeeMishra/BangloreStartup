@@ -112,16 +112,26 @@ router.get(
   "/login/:id",
   wrapAsync(async (req, res, next) => {
     console.log(req.session.token);
+    console.log(await User.findOne({ token: req.session.token }));
     const id = req.params.id;
     if (id === req.session.token) {
-      User.findOneAndUpdate(
-        req.session.token,
+      console.log("balajee mishra");
+      const user = await User.findOneAndUpdate(
+        { token: req.session.token },
         { verify: true },
-        { upsert: true },
-        function (err, doc) {
-          if (err) return res.send(500, { error: err });
+        {
+          new: true,
         }
-      ).then((doc) => console.log(doc));
+      );
+      console.log(user);
+      // User.findOneAndUpdate(
+      //   req.session.token,
+      //   { verify: true },
+      //   { upsert: true },
+      //   function (err, doc) {
+      //     if (err) return res.send(500, { error: err });
+      //   }
+      // ).then((doc) => console.log(doc));
       // await User.findOneAndUpdate(
       //   id,
       //   { //$unset: { token: 1 } },
