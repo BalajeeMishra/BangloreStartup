@@ -139,7 +139,7 @@ router.post(
       },
       redirect_urls: {
         return_url: "http://localhost:3000/payment/successtransaction",
-        cancel_url: "http://localhost:3000/paymentWithPaypal/canceltransaction",
+        cancel_url: "http://localhost:3000/payment/canceltransaction",
       },
       transactions: [
         {

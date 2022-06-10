@@ -12,10 +12,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // username is basically email of user.
   username: {
     type: String,
     unique: [true, "Username should be unique."],
   },
+  // token for verification purpose.
   token: {
     type: String,
   },

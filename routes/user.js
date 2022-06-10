@@ -10,6 +10,7 @@ const {
   mailForForgetpassword,
 } = require("../helper/mailsendingfunction");
 
+// register form route
 router.get(
   "/register",
   wrapAsync(async (req, res, next) => {
@@ -17,6 +18,7 @@ router.get(
   })
 );
 
+// registering the user.
 router.post(
   "/register",
   wrapAsync(async (req, res, next) => {
@@ -76,13 +78,14 @@ router.post(
   })
 );
 
+//login form route.
 router.get(
   "/login",
   wrapAsync(async (req, res, next) => {
     res.render("login");
   })
 );
-
+//logging the user.
 router.post(
   "/login",
   async (req, res, next) => {
@@ -106,11 +109,10 @@ router.post(
   })
 );
 
-// Token verification route...
+// Token verification route after user registeration for verify to be true...
 router.get(
   "/login/:id",
   wrapAsync(async (req, res, next) => {
-    console.log(req.session.token);
     console.log(await User.findOne({ token: req.session.token }));
     const id = req.params.id;
     if (id === req.session.token) {
@@ -143,7 +145,7 @@ router.get(
     }
   })
 );
-// forget password route.
+// forget password route page taking user email.
 router.get(
   "/forgetpassword",
   wrapAsync(async (req, res, next) => {
@@ -175,10 +177,11 @@ router.post(
         return new AppError("Something going wrong,Please try again later.");
       }
     } else {
-      return new AppError("user not matched,please enter you mail carefully.");
+      return new AppError("user not matched,please enter your mail carefully.");
     }
   })
 );
+// taking user input as password and confirm password for the user who will  forget their password.
 router.get(
   "/detailforchange/:id",
   wrapAsync(async (req, res, next) => {
@@ -188,6 +191,8 @@ router.get(
     }
   })
 );
+
+//posting the entered password and changing the password for user.
 router.post(
   "/detailforchange",
   wrapAsync(async (req, res, next) => {
@@ -218,6 +223,7 @@ router.post(
   })
 );
 
+//logging out route for user.
 router.get(
   "/logout",
   wrapAsync(async (req, res, next) => {

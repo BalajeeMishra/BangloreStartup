@@ -12,6 +12,7 @@ const WebinarSchema = new mongoose.Schema(
     title: {
       type: String,
     },
+    // category is basically type of Industry.
     category: {
       type: String,
     },
@@ -25,9 +26,11 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
       // required: [true, "Uploaded file must have a name"],
     },
+    // duration of webinar or seminar.
     duration: {
       type: Number,
     },
+    // timing of webinar.
     time: {
       type: String,
     },
@@ -35,33 +38,34 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // Agenda,In case of seminar only
     agenda: {
       type: String,
     },
-
-    //   userId: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User",
-    //   },
-    //required timestamp thing,
     types: {
       type: String,
     },
+    // date of webinar.
     webinartiming: {
       type: Date,
     },
+    // Why Should You Attend
     advantageous: {
       type: String,
     },
+    // Areas Covered in the Webinar
     abouttopic: {
       type: String,
     },
+    // Who Will Benefit
     bestfor: {
       type: String,
     },
+    // statust is just live and recording thing.
     status: {
       type: String,
     },
+    // just the name of pdf.
     pdf_path: {
       type: String,
       default: "",
@@ -69,5 +73,7 @@ const WebinarSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 WebinarSchema.index({ title: "text", name: "text", description: "text" });
+
 module.exports = mongoose.model("Webinar", WebinarSchema);
