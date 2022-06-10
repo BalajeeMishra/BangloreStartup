@@ -37,7 +37,6 @@ router.get(
         total = total + cat.totalPrice;
       });
     });
-    console.log(total);
     res.render("checkout", { cart, total });
   })
 );
@@ -75,27 +74,29 @@ router.get(
 // });
 
 // payment with stripe processing
-router.post("/paymentwithstripe/create-checkout-session", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "your selected product",
+router.post(
+  "/paymentwithstripe/create-checkout-session",
+  wrapasync(async (req, res) => {
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "your selected product",
+            },
+            unit_amount: req.body.totalprice * 100,
           },
-          unit_amount: req.body.totalprice * 100,
+          quantity: 1,
         },
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    success_url: `${YOUR_DOMAIN}/success`,
-    cancel_url: `${YOUR_DOMAIN}/cancel`,
-  });
-  console.log(session);
-  res.redirect(303, session.url);
-});
+      ],
+      mode: "payment",
+      success_url: `${YOUR_DOMAIN}/success`,
+      cancel_url: `${YOUR_DOMAIN}/cancel`,
+    });
+    res.redirect(303, session.url);
+  })
+);
 
 // success route of payment with stripe processing
 router.get("/success", (req, res) => {
@@ -108,105 +109,116 @@ router.get("/cancel", (req, res) => {
 
 // paypal integration.
 //paymentwithpaypal page.
-router.get("/paymentwithpaypal", async (req, res) => {
-  let cart = await Cart.find({ userId: req.user._id }).populate("product");
-  let total = 0;
-  cart.forEach((c) => {
-    c.categoryofprice.forEach((cat) => {
-      total = total + cat.totalPrice;
+router.get(
+  "/paymentwithpaypal",
+  wrapasync(async (req, res) => {
+    let cart = await Cart.find({ userId: req.user._id }).populate("product");
+    let total = 0;
+    cart.forEach((c) => {
+      c.categoryofprice.forEach((cat) => {
+        total = total + cat.totalPrice;
+      });
     });
-  });
-  res.render("paypal_payment", { total });
-});
+    res.render("paypal_payment", { total });
+  })
+);
 //paymentprocessingwithpaypal post route.
-router.post("/paymentwithpaypal", (req, res) => {
-  const priced = parseInt(req.body.totalpayment);
-  const { totalpayment } = req.body;
-  console.log(totalpayment);
-  console.log(priced);
-  const create_payment_json = {
-    intent: "sale",
-    payer: {
-      payment_method: "paypal",
-    },
-    redirect_urls: {
-      return_url: "http://localhost:3000/payment/successtransaction",
-      cancel_url: "http://localhost:3000/paymentWithPaypal/canceltransaction",
-    },
-    transactions: [
-      {
-        item_list: {
-          items: [
-            // {
-            //   name: "Redhock Bar Soap",
-            //   sku: "001",
-            //   price: "25.00",
-            //   currency: "USD",
-            //   quantity: 1,
-            // },
-            // {
-            //   name: "All your product",
-            //   sku: "001",
-            //   price: "25.00",
-            //   currency: "USD",
-            //   quantity: 1,
-            // },
-          ],
-        },
-        amount: {
-          currency: "USD",
-          total: priced,
-        },
-        description: "Washing Bar soap",
+router.post(
+  "/paymentwithpaypal",
+  wrapasync(async (req, res, next) => {
+    console.log(req.body.totalpayment);
+    const priced = parseInt(req.body.totalpayment);
+    req.session.price = priced;
+    // const { totalpayment } = req.body;
+    // console.log(totalpayment);
+    // console.log(priced);
+    const create_payment_json = {
+      intent: "sale",
+      payer: {
+        payment_method: "paypal",
       },
-    ],
-  };
-
-  paypal.payment.create(create_payment_json, function (error, payment) {
-    if (error) {
-      throw error;
-    } else {
-      for (let i = 0; i < payment.links.length; i++) {
-        if (payment.links[i].rel === "approval_url") {
-          res.redirect(payment.links[i].href);
-        }
-      }
-    }
-  });
-});
-// success route of payment with paypal processing
-router.get("/successtransaction", (req, res) => {
-  const payerId = req.query.PayerID;
-  const paymentId = req.query.paymentId;
-
-  const execute_payment_json = {
-    payer_id: payerId,
-    transactions: [
-      {
-        amount: {
-          currency: "USD",
-          total: "25.00",
-        },
+      redirect_urls: {
+        return_url: "http://localhost:3000/payment/successtransaction",
+        cancel_url: "http://localhost:3000/paymentWithPaypal/canceltransaction",
       },
-    ],
-  };
+      transactions: [
+        {
+          item_list: {
+            items: [
+              // {
+              //   name: "Redhock Bar Soap",
+              //   sku: "001",
+              //   price: "25.00",
+              //   currency: "USD",
+              //   quantity: 1,
+              // },
+              // {
+              //   name: "All your product",
+              //   sku: "001",
+              //   price: "25.00",
+              //   currency: "USD",
+              //   quantity: 1,
+              // },
+            ],
+          },
+          amount: {
+            currency: "USD",
+            total: priced,
+          },
+          description: "Washing Bar soap",
+        },
+      ],
+    };
 
-  // Obtains the transaction details from paypal
-  paypal.payment.execute(
-    paymentId,
-    execute_payment_json,
-    function (error, payment) {
-      //When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
+    paypal.payment.create(create_payment_json, async function (error, payment) {
       if (error) {
-        console.log(error.response);
         throw error;
       } else {
-        console.log(JSON.stringify(payment));
-        res.send("Success");
+        for (let i = 0; i < payment.links.length; i++) {
+          if (payment.links[i].rel === "approval_url") {
+            res.redirect(payment.links[i].href);
+          }
+        }
       }
-    }
-  );
-});
+    });
+  })
+);
+// success route of payment with paypal processing
+router.get(
+  "/successtransaction",
+  wrapasync(async (req, res) => {
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+
+    const execute_payment_json = {
+      payer_id: payerId,
+      transactions: [
+        {
+          amount: {
+            currency: "USD",
+            total: req.session.price,
+          },
+        },
+      ],
+    };
+
+    // Obtains the transaction details from paypal
+    paypal.payment.execute(
+      paymentId,
+      execute_payment_json,
+      function (error, payment) {
+        //When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
+        if (error) {
+          throw error;
+        } else {
+          delete req.session.price;
+          // res.json({ payment });
+          res.send("Success");
+        }
+      }
+    );
+  })
+);
 // cancel route of payment with paypal processing
 router.get("/canceltransaction", (req, res) => res.send("Cancelled"));
 

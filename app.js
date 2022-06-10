@@ -118,6 +118,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   const { statusCode = 500, message = "Something went wrong" } = err;
   if (err) {
     res.status(statusCode).render("error", { err });
