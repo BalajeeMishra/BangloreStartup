@@ -9,9 +9,11 @@
 
 <body>
     <h1>Nike shoes </h1>
-    <h2>Buy For $25</h2>
-    <form action="/paymentWithPaypal" method="post">
-        <input type="submit" value="Buy">
+    <h2>Buy For $<%=total%>
+    </h2>
+    <form action="/payment/paymentwithpaypal" method="post">
+        <input type="hidden" name="totalpayment" value="<%=total%>">
+        <button type="submit">Buy</button>
     </form>
 </body>
 

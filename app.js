@@ -22,7 +22,6 @@ const Cart = require("./routes/cart");
 const UserRoute = require("./routes/user");
 const User = require("./models/user");
 const Payment = require("./routes/payment");
-const PaymentWithPaypal = require("./routes/paymentwithpaypal");
 const Pdf_page = require("./routes/dummy");
 const jwt = require("jsonwebtoken");
 mongoose
@@ -108,7 +107,6 @@ app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
 app.use("/payment", Payment);
-app.use("/paymentWithPaypal", PaymentWithPaypal);
 app.use("/pdf", Pdf_page);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);

@@ -5,7 +5,7 @@ const Cart = require("../models/cart.js");
 const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
-// adding cart for a user in the database.
+// adding cart for a user in the database........
 router.post(
   "/:id",
   wrapAsync(async (req, res) => {
@@ -18,7 +18,6 @@ router.post(
     const price = purchase.price;
     // const product = await Webinar.findById(id);
     const cart = await Cart.findOne({ product: id });
-
     //cart existing and product selected is also existing in that case.
     if (cart && cart.product == id) {
       const hi = cart.categoryofprice.filter(function (e) {
@@ -85,12 +84,13 @@ router.get(
   wrapAsync(async (req, res) => {
     const { clear } = req.query;
     const Total = 0;
+    const TotalPrice = 0;
     let cart = await Cart.find({ userId: req.user._id }).populate("product");
     if (clear) {
       await Cart.findOneAndDelete({ userId: req.user._id });
       cart = [];
     }
-    res.render("cart", { cart, Total });
+    res.render("cart", { cart, Total, TotalPrice });
     // res.send("hello worldd");
   })
 );
@@ -146,5 +146,4 @@ router.get(
     return res.status(200).redirect("/cart/all");
   })
 );
-
 module.exports = router;
