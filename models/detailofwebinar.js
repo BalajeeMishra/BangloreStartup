@@ -10,6 +10,10 @@ const DetailOfWebinarSchema = new mongoose.Schema({
   bestfor: {
     type: String,
   },
+  pdf_path: {
+    type: String,
+    default: "",
+  },
   //   userId: {
   //     type: mongoose.Schema.Types.ObjectId,
   //     ref: "User",

@@ -1,0 +1,20 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PayPal Node App</title>
+</head>
+
+<body>
+    <h1>Nike shoes </h1>
+    <h2>Buy For $<%=total%>
+    </h2>
+    <form action="/payment/paymentwithpaypal" method="post">
+        <input type="hidden" name="totalpayment" value="<%=total%>">
+        <button type="submit">Buy</button>
+    </form>
+</body>
+
+</html>

@@ -1,119 +1,60 @@
 <%- include("./layouts/header");-%>
-
     <div class="container mt-5 table-style table-responsive-sm  table-responsive-md table-responsive-lg">
-        <table class="table table-striped alignmiddle  table-success table-hover">
-            <thead>
-                <tr style="text-align:center;">
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th></th>
-                    <th></th>
-                    <th>Subtotal</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <% carts.forEach((cart)=>{%>
-                    <% Total=Total+cart.totalPrice; %>
-                        <%qty=qty+cart.quantity %>
-                            <% products.forEach((pro)=>{%>
-
-
-                                <% if(cart.products[0].toString()===pro._id.toString() ){%>
-
+        <% if (cart.length) { %>
+            <a href="/cart/all?clear=true">Clear All</a>
+            <table class="table table-striped alignmiddle  table-success table-hover">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th>product</th>
+                        <th>deleivery</th>
+                        <th>price</th>
+                        <th>quantity</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cart.forEach((c,i)=> { %>
+                        <% c.categoryofprice.forEach((e)=>{ %>
+                            <% Total=Total+(e.price)*(e.quantity); %>
+                                <% TotalPrice=TotalPrice+Total; %>
                                     <tr style="text-align:center;">
                                         <td>
-                                            <%=pro.title%>
+                                            <%=c.product.title%>
                                         </td>
+                                        <td>Training access details will be available in My CO section</td>
                                         <td class="goodalign">
-                                            $ <%=pro.price%>
+                                            $ <%=e.price%>
                                         </td>
                                         <td>
-                                            <div style=" margin-left: 100px;">
-                                                <% pro.images.forEach((img,i)=>{%>
-                                                    <div class="carousel-item <%= i===0?" active":"" %> ">
-                                                        <img src="<%=img.thumbnail%>" class="d-block w-30" alt="">
-                                                    </div>
-                                                    <% }) %>
-                                            </div>
-
+                                            <a href="/cart/<%=c._id %>/<%=e._id%>?action=-1"
+                                                style="text-decoration: none;">-</a>
+                                            <%=e.quantity %>
+                                                <a href="/cart/<%=c._id %>/<%=e._id%>?action=1"
+                                                    style="text-decoration: none;">+</a>
                                         </td>
                                         <td>
-                                            <%=cart.quantity %>
-                                        </td>
-                                        <td>
-
-                                            <a href="/cart/<%=pro._id %> " class="btn btn-info">add</a>
-
-
-                                        </td>
-                                        <td>
-                                            <% if(cart.quantity==1){%>
-                                                <a href="/carts/<%=cart._id %> " class="btn btn-info">less</a>
-                                                <% } else{%>
-                                                    <a href="/carts/<%=pro._id %> " class="btn btn-info">less</a>
-                                                    <% } %>
-
-                                        </td>
-                                        <td>
-                                            $ <%=cart.totalPrice %>
-                                        </td>
-
-                                        <td>
-                                            <a href="/mycart/<%=cart._id %>" class="btn btn-info"> clear</a>
+                                            $<%=Total %>
                                         </td>
                                     </tr>
+                                    <% Total=0%>
+                                        <% }); %>
+                                            <% }); %>
 
+                                                <h1>
+                                                    <span>Total::--></span>
+                                                    <%=TotalPrice%>
+                                                </h1>
 
-                                    <% }%>
-
-                                        <% }) %>
-                                            <%}) %>
-
-                                                <tr class="mycart-totalprice">
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>Total</td>
-                                                    <td> </td>
-                                                    <td class="goodalign">$ <%=Total %>
-                                                    </td>
-                                                    <td class="goodalign">
-                                                        <form method="post" action="/pay">
-                                                            <input type="hidden" name="quantity" value="1">
-                                                            <input type="hidden" name="price" value="<%=Total %> ">
-                                                            <button class="btn btn-info" type="submit">Buy Now</button>
-                                                        </form>
-
-                                                    </td>
-                                                </tr>
-
-
-
-            </tbody>
-
-        </table>
-    </div>
-    <!-- <div class="container">
-        <div class="card" style=" text-align: center; width: 30%; float: right; margin-bottom: 2em; padding: 2px 0;
-    box-shadow: 2px 2px 2px 2px rgb(231, 216, 216);">
-            <div class=" card-body">
-
-                <h4 class=" my-3">Total: $ <%//=Total %>
-                </h4>
-
-                <form method="post" action="/pay">
-                    <input type="hidden" name="quantity" value="1">
-                    <input type="hidden" name="price" value="<%=//Total %> ">
-                    <button class="btn btn-info" type="submit">Buy Now</button>
-                </form>
-
-
-            </div>
-        </div>
+                </tbody>
+            </table>
+            <a href="/payment/paymentwithpaypal">pay with paypal</a>
+            <hr>
+            <a href="/payment/paymentwithstripe">pay with stripe</a>
+            <% } else { %>
+                <h4>Nothing in cart.</h4>
+                <h3>Explore our collection... <a href="/" class="nav-link">click here</a> </h3>
+                <% } %>
     </div>
 
-    </div> -->
+
     <%- include("./layouts/footer");-%>
