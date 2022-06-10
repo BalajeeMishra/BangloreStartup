@@ -1,9 +1,8 @@
 const express = require("express");
-const wrapasync = require("../controlError/wrapasync");
 const router = express.Router();
 const Cart = require("../models/cart");
 const AppError = require("../controlError/AppError");
-const wrapAsync = require("../controlError/wrapasync");
+const wrapAsync = require("../controlError/wrapAsync");
 const paypal = require("paypal-rest-sdk");
 //stripe credential.
 const PUBLISHABLE_KEY =
@@ -22,14 +21,12 @@ paypal.configure({
 });
 
 //payment option route either paypal or stripe.
-router.get("/paymentoption", async (req, res) => {
-  res.render("paymentoption");
-});
+router.get("/paymentoption", (req, res) => res.render("paymentoption"));
 
 // payment with stripe input form.
 router.get(
   "/paymentwithstripe",
-  wrapasync(async (req, res) => {
+  wrapAsync(async (req, res) => {
     let cart = await Cart.find({ userId: req.user._id }).populate("product");
     let total = 0;
     cart.forEach((c) => {
@@ -76,7 +73,7 @@ router.get(
 // payment with stripe processing
 router.post(
   "/paymentwithstripe/create-checkout-session",
-  wrapasync(async (req, res) => {
+  wrapAsync(async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -99,19 +96,16 @@ router.post(
 );
 
 // success route of payment with stripe processing
-router.get("/success", (req, res) => {
-  res.render("success");
-});
+router.get("/success", (req, res) => res.render("success"));
+
 // cancel route of payment with stripe processing
-router.get("/cancel", (req, res) => {
-  res.render("cancel");
-});
+router.get("/cancel", (req, res) => res.render("cancel"));
 
 // paypal integration.
 //paymentwithpaypal page.
 router.get(
   "/paymentwithpaypal",
-  wrapasync(async (req, res) => {
+  wrapAsync(async (req, res) => {
     let cart = await Cart.find({ userId: req.user._id }).populate("product");
     let total = 0;
     cart.forEach((c) => {
@@ -125,13 +119,10 @@ router.get(
 //paymentprocessingwithpaypal post route.
 router.post(
   "/paymentwithpaypal",
-  wrapasync(async (req, res, next) => {
+  wrapAsync(async (req, res, next) => {
     console.log(req.body.totalpayment);
     const priced = parseInt(req.body.totalpayment);
     req.session.price = priced;
-    // const { totalpayment } = req.body;
-    // console.log(totalpayment);
-    // console.log(priced);
     const create_payment_json = {
       intent: "sale",
       payer: {
@@ -170,23 +161,26 @@ router.post(
       ],
     };
 
-    paypal.payment.create(create_payment_json, async function (error, payment) {
-      if (error) {
-        throw error;
-      } else {
-        for (let i = 0; i < payment.links.length; i++) {
-          if (payment.links[i].rel === "approval_url") {
-            res.redirect(payment.links[i].href);
+    paypal.payment.create(
+      create_payment_json,
+      wrapAsync(async (error, payment) => {
+        if (error) {
+          throw error;
+        } else {
+          for (let i = 0; i < payment.links.length; i++) {
+            if (payment.links[i].rel === "approval_url") {
+              res.redirect(payment.links[i].href);
+            }
           }
         }
-      }
-    });
+      })
+    );
   })
 );
 // success route of payment with paypal processing
 router.get(
   "/successtransaction",
-  wrapasync(async (req, res) => {
+  wrapAsync(async (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
 
@@ -205,7 +199,7 @@ router.get(
     paypal.payment.execute(
       paymentId,
       execute_payment_json,
-      function (error, payment) {
+      (error, payment) => {
         //When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
         if (error) {
           throw error;

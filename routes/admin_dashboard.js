@@ -4,7 +4,7 @@ const Category = require("../models/department");
 const router = express.Router();
 const { upload } = require("../helper/multer");
 const AppError = require("../controlError/AppError");
-const wrapAsync = require("../controlError/wrapasync");
+const wrapAsync = require("../controlError/wrapAsync");
 //its admin dashboard
 
 router.get(
