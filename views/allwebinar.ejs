@@ -35,36 +35,25 @@
                         <a href="/webinar/allnext">
                             <button class="btn btn-primary mt-5">More detail</button>
                         </a>
-
-
-
-
                     </div>
                 </div>
             </div>
         </div>
 
         <%}); %>
-            <!-- <form method="post" action="/webinar/onthebasisofCategory">
-                <!-- <div class="rightcategory">  -->
             <% department.forEach((e,i)=>{%>
                 <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment %> "
                     onclick="onthebasisofCategory()">
                 <%=e.nameofdepartment %> <br>
                     <% }) %>
-
-                        <!-- <button type="submit" class="btn btn-success">Submit to find</button> -->
-                        <!-- </div> -->
-                        <!-- </form> -->
-
                         <%- include("./layouts/footer"); -%>
-
                             <script>
                                 async function onthebasisofCategory() {
 
                                     var category = document.querySelector('.messageCheckbox:checked').value;
+                                    // var categoryS = document.querySelector('.messageCheckbox:unchecked').value;
+                                    // console.log(categoryS);
                                     var checkedValue = document.querySelector('.messageCheckbox:checked')
-                                    console.log(checkedValue.value);
                                     const response = await fetch("/webinar/onthebasisofCategory", {
                                         method: "post",
                                         headers: {
@@ -72,10 +61,7 @@
                                         },
                                         body: JSON.stringify({ category })
                                     });
-                                    console.log(response);
-                                    // JSON.stringify(checkedValue.value)
                                     checkedValue.classList.remove("messageCheckbox");
-                                    console.log("balajee mishra")
                                     window.location.href = "http://localhost:3000/webinar/searched";
                                 }
                             </script>

@@ -70,26 +70,53 @@ router.get(
   })
 );
 //searching on the basis of market category
+// kam ye karna hai na ki agar kuch dobara se click karta hai to usko basically remove vi karna hai jo dikha rahe hai usme se. ok
+// filter ka use karna hai idhar.
+//selected rakhna hai.
+// iske liye last me socho.
+// apan ko na basically check karna hai agar kisi category ko phir se select karte hai to usko remove karna hai from
+//req.session.selectedSort as well as from databases.
 router.post(
   "/onthebasisofCategory",
   wrapAsync(async (req, res) => {
+    if (!req.session.selectedSort) {
+      req.session.selectedSort = [];
+    }
+    if (!req.session.allWebinar) {
+      req.session.allWebinar = [];
+    }
+
     if (typeof req.body.category == "string") {
+      if (!req.session.times) {
+        console.log("hello word");
+        req.session.times = 0;
+      }
+      if (req.session.times >= 0) {
+        req.session.times = req.session.times + 1;
+      }
       const department = await Department.find({});
       const trimmedCategory = req.body.category.trim();
-      console.log(trimmedCategory);
-      const allWebinar = await Webinar.find({ category: trimmedCategory });
-      req.session.allWebinar = allWebinar;
+      req.session.selectedSort.push(trimmedCategory);
+      const selectedSort = req.session.selectedSort;
+      console.log("hey", selectedSort);
+      const allWebinar = await Webinar.find({
+        category: selectedSort[req.session.times - 1],
+      });
+      console.log("hiii", ...allWebinar);
+      req.session.allWebinar.push(...allWebinar);
+      console.log("before", req.session.allWebinar);
+      console.log("after", req.session.allWebinar);
       req.session.department = department;
       return res.json(req.body);
-      // return res.render("allwebinar", { allWebinar, department });
-      // return res.redirect("/webinar/mrityunjay");
     }
-    // const allWebinar = await Webinar.find({});
-    // res.render("nextdetailofwebinar", { allWebinar });
   })
 );
 
 router.get("/searched", (req, res) => {
+  // delete req.session.times;
+  // delete req.session.selectedSort;
+  // delete req.session.allWebinar;
+  console.log("balajee mishra", req.session.times);
   const allWebinar = req.session.allWebinar;
   const department = req.session.department;
   return res.render("allwebinar", { allWebinar, department });
