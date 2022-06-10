@@ -1,9 +1,4 @@
 const mongoose = require("mongoose");
-
-// const ImageSchema = new mongoose.Schema({
-//   url: String,
-//   filename: String,
-// });
 const WebinarSchema = new mongoose.Schema(
   {
     name: {

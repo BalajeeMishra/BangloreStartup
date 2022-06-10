@@ -201,7 +201,6 @@ router.get(
         },
       ],
     };
-
     // Obtains the transaction details from paypal
     paypal.payment.execute(
       paymentId,
