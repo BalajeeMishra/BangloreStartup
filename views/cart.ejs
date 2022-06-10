@@ -1,41 +1,55 @@
 <%- include("./layouts/header");-%>
     <div class="container mt-5 table-style table-responsive-sm  table-responsive-md table-responsive-lg">
-        <table class="table table-striped alignmiddle  table-success table-hover">
-            <thead>
-                <tr style="text-align:center;">
-                    <th>product</th>
-                    <th>deleivery</th>
-                    <th>price</th>
-                    <th>quantity</th>
-                    <th>total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% cart.forEach((c,i)=> { %>
-                    <% c.categoryofprice.forEach((e)=>{ %>
-                        <% Total=Total+(e.price)*(e.quantity); %>
-                            <tr style="text-align:center;">
-                                <td>
-                                    <%=c.product.title%>
-                                </td>
-                                <td>Training access details will be available in My CO section</td>
-                                <td class="goodalign">
-                                    $ <%=e.price%>
-                                </td>
-                                <td>
-                                    <a href="/cart/<%=c._id %>/<%=e._id%>?action=-1">-</a>
-                                    <%=e.quantity %>
-                                        <a href="/cart/<%=c._id %>/<%=e._id%>?action=1">+</a>
-                                </td>
-                                <td>
-                                    $<%=Total %>
-                                </td>
-                            </tr>
-                            <% Total=0%>
-                                <% }); %>
+        <% if (cart.length) { %>
+            <a href="/cart/all?clear=true">Clear All</a>
+            <table class="table table-striped alignmiddle  table-success table-hover">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th>product</th>
+                        <th>deleivery</th>
+                        <th>price</th>
+                        <th>quantity</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+
+                    <% cart.forEach((c,i)=> { %>
+                        <% c.categoryofprice.forEach((e)=>{ %>
+                            <% Total=Total+(e.price)*(e.quantity); %>
+                                <tr style="text-align:center;">
+                                    <td>
+                                        <%=c.product.title%>
+                                    </td>
+                                    <td>Training access details will be available in My CO section</td>
+                                    <td class="goodalign">
+                                        $ <%=e.price%>
+                                    </td>
+                                    <td>
+                                        <a href="/cart/<%=c._id %>/<%=e._id%>?action=-1"
+                                            style="text-decoration: none;">-</a>
+                                        <%=e.quantity %>
+                                            <a href="/cart/<%=c._id %>/<%=e._id%>?action=1"
+                                                style="text-decoration: none;">+</a>
+                                    </td>
+                                    <td>
+                                        $<%=Total %>
+                                    </td>
+                                </tr>
+                                <% Total=0%>
                                     <% }); %>
-            </tbody>
-        </table>
+                                        <% }); %>
+
+                </tbody>
+            </table>
+            <% } else { %>
+                <h4>Nothing in cart.</h4>
+                <h3>Explore our collection... <a href="/" class="nav-link">click here</a> </h3>
+                <% } %>
+
     </div>
 
 

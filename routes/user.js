@@ -5,7 +5,6 @@ const router = express.Router();
 const User = require("../models/user");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
-const { isVerified } = require("../helper/middleware");
 const {
   mailForVerify,
   mailForForgetpassword,
