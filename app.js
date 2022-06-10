@@ -24,6 +24,8 @@ const User = require("./models/user");
 const Payment = require("./routes/payment");
 const Pdf_page = require("./routes/dummy");
 const jwt = require("jsonwebtoken");
+const UserDashboard = require("./routes/user_dashboard");
+const AppError = require("./controlError/AppError");
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,
@@ -106,6 +108,7 @@ app.use("/admin", AdminDashboard);
 app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
+app.use("/user/dashboard", UserDashboard);
 app.use("/payment", Payment);
 app.use("/pdf", Pdf_page);
 const handleValidationErr = (err) => {
@@ -161,8 +164,8 @@ app.get("/", async (req, res) => {
 app.post("/video/upload", async (req, res) => {
   // Get the file name and extension with multer
   const response = await uploadVideo("testing.mp4");
-  console.log("balajee", response);
-  return res.json(response);
+  // console.log("balajee", response);
+  // return res.json(response);
 });
 
 const PORT = process.env.PORT || 3000;

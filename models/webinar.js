@@ -29,10 +29,6 @@ const WebinarSchema = new mongoose.Schema(
     time: {
       type: String,
     },
-    id: {
-      type: String,
-      required: true,
-    },
     // Agenda,In case of seminar only
     agenda: {
       type: String,
