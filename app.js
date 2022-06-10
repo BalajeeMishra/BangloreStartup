@@ -160,7 +160,7 @@ app.get("/", async (req, res) => {
 
 app.post("/video/upload", async (req, res) => {
   // Get the file name and extension with multer
-  const response = await uploadVideo("NOW.mp4");
+  const response = await uploadVideo("testing.mp4");
   console.log("balajee", response);
   return res.json(response);
 });
