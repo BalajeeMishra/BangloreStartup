@@ -96,69 +96,69 @@ router.get(
 // iske liye last me socho.
 // apan ko na basically check karna hai agar kisi category ko phir se select karte hai to usko remove karna hai from
 //req.session.selectedSort as well as from databases.
-router.get(
-  "/onthebasisofCategory",
-  wrapAsync(async (req, res) => {
-    const { category } = req.query;
-    console.log(category, req.query);
-    if (!req.session.selectedSort) {
-      req.session.selectedSort = [];
-    }
-    if (!req.session.allWebinar) {
-      req.session.allWebinar = [];
-    }
+// router.get(
+//   "/onthebasisofCategory",
+//   wrapAsync(async (req, res) => {
+//     const { category } = req.query;
+//     console.log(category, req.query);
+//     if (!req.session.selectedSort) {
+//       req.session.selectedSort = [];
+//     }
+//     if (!req.session.allWebinar) {
+//       req.session.allWebinar = [];
+//     }
 
-    if (typeof req.body.category == "string") {
-      if (!req.session.times) {
-        req.session.times = 0;
-      }
-      if (req.session.times >= 0) {
-        req.session.times = req.session.times + 1;
-      }
-      const department = await Department.find({});
-      const trimmedCategory = req.body.category.trim();
-      req.session.selectedSort.push(trimmedCategory);
-      const selectedSort = req.session.selectedSort;
-      const allWebinar = await Webinar.find({
-        category,
-        // category: selectedSort[req.session.times - 1],
-      });
-      // console.log("hiii", ...allWebinar);
-      req.session.allWebinar.push(...allWebinar);
-      // console.log("before", req.session.allWebinar);
-      // console.log("after", req.session.allWebinar);
-      req.session.department = department;
-      return res.json({ ...req.body });
-      // return res.redirect("/webinar/searched");
-    }
-  })
-);
+//     if (typeof req.body.category == "string") {
+//       if (!req.session.times) {
+//         req.session.times = 0;
+//       }
+//       if (req.session.times >= 0) {
+//         req.session.times = req.session.times + 1;
+//       }
+//       const department = await Department.find({});
+//       const trimmedCategory = req.body.category.trim();
+//       req.session.selectedSort.push(trimmedCategory);
+//       const selectedSort = req.session.selectedSort;
+//       const allWebinar = await Webinar.find({
+//         category,
+//         // category: selectedSort[req.session.times - 1],
+//       });
+//       // console.log("hiii", ...allWebinar);
+//       req.session.allWebinar.push(...allWebinar);
+//       // console.log("before", req.session.allWebinar);
+//       // console.log("after", req.session.allWebinar);
+//       req.session.department = department;
+//       return res.json({ ...req.body });
+//       // return res.redirect("/webinar/searched");
+//     }
+//   })
+// );
 
-router.get("/searched", (req, res) => {
-  // delete req.session.times;
-  // delete req.session.selectedSort;
-  // delete req.session.allWebinar;
-  const allWebinar = req.session.allWebinar;
-  const department = req.session.department;
-  if (!req.session.selectedSort) {
-    req.session.selectedSort = [];
-  }
-  var bool = false;
-  var selectedSort = req.session.selectedSort;
-  if (selectedSort.length > 0) {
-    console.log("mmmmishhhhhhhh", selectedSort);
-    bool = true;
-  }
+// router.get("/searched", (req, res) => {
+//   // delete req.session.times;
+//   // delete req.session.selectedSort;
+//   // delete req.session.allWebinar;
+//   const allWebinar = req.session.allWebinar;
+//   const department = req.session.department;
+//   if (!req.session.selectedSort) {
+//     req.session.selectedSort = [];
+//   }
+//   var bool = false;
+//   var selectedSort = req.session.selectedSort;
+//   if (selectedSort.length > 0) {
+//     console.log("mmmmishhhhhhhh", selectedSort);
+//     bool = true;
+//   }
 
-  let counter = 0;
-  return res.render("allwebinar", {
-    allWebinar,
-    department,
-    selectedSort,
-    bool,
-    counter,
-  });
-});
+//   let counter = 0;
+//   return res.render("allwebinar", {
+//     allWebinar,
+//     department,
+//     selectedSort,
+//     bool,
+//     counter,
+//   });
+// });
 
 router.post(
   "/search",
