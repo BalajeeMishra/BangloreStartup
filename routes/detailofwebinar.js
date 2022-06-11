@@ -58,23 +58,15 @@ router.get(
     const { category = "" } = req.query;
     let categoryList = category.split("_");
     let query = { category: { $in: [...categoryList] } };
-    console.log(categoryList);
     const department = await Department.find({});
     const allWebinar = await Webinar.find(category.length ? query : {});
-
-    if (!req.session.selectedSort) {
-      req.session.selectedSort = [];
+    if (!allWebinar.length) {
+      req.flash("error", "No match found");
+      return res.redirect("/webinar/all");
     }
-
-    let counter = 0;
-    var bool = false;
-    const selectedSort = req.session.selectedSort;
-    res.render("allwebinar", {
+    return res.render("allwebinar", {
       allWebinar,
       department,
-      selectedSort,
-      bool,
-      counter,
       categoryList,
     });
   })
@@ -89,76 +81,6 @@ router.get(
     res.render("nextdetailofwebinar", { allWebinar, purchase });
   })
 );
-//searching on the basis of market category
-// kam ye karna hai na ki agar kuch dobara se click karta hai to usko basically remove vi karna hai jo dikha rahe hai usme se. ok
-// filter ka use karna hai idhar.
-//selected rakhna hai.
-// iske liye last me socho.
-// apan ko na basically check karna hai agar kisi category ko phir se select karte hai to usko remove karna hai from
-//req.session.selectedSort as well as from databases.
-// router.get(
-//   "/onthebasisofCategory",
-//   wrapAsync(async (req, res) => {
-//     const { category } = req.query;
-//     console.log(category, req.query);
-//     if (!req.session.selectedSort) {
-//       req.session.selectedSort = [];
-//     }
-//     if (!req.session.allWebinar) {
-//       req.session.allWebinar = [];
-//     }
-
-//     if (typeof req.body.category == "string") {
-//       if (!req.session.times) {
-//         req.session.times = 0;
-//       }
-//       if (req.session.times >= 0) {
-//         req.session.times = req.session.times + 1;
-//       }
-//       const department = await Department.find({});
-//       const trimmedCategory = req.body.category.trim();
-//       req.session.selectedSort.push(trimmedCategory);
-//       const selectedSort = req.session.selectedSort;
-//       const allWebinar = await Webinar.find({
-//         category,
-//         // category: selectedSort[req.session.times - 1],
-//       });
-//       // console.log("hiii", ...allWebinar);
-//       req.session.allWebinar.push(...allWebinar);
-//       // console.log("before", req.session.allWebinar);
-//       // console.log("after", req.session.allWebinar);
-//       req.session.department = department;
-//       return res.json({ ...req.body });
-//       // return res.redirect("/webinar/searched");
-//     }
-//   })
-// );
-
-// router.get("/searched", (req, res) => {
-//   // delete req.session.times;
-//   // delete req.session.selectedSort;
-//   // delete req.session.allWebinar;
-//   const allWebinar = req.session.allWebinar;
-//   const department = req.session.department;
-//   if (!req.session.selectedSort) {
-//     req.session.selectedSort = [];
-//   }
-//   var bool = false;
-//   var selectedSort = req.session.selectedSort;
-//   if (selectedSort.length > 0) {
-//     console.log("mmmmishhhhhhhh", selectedSort);
-//     bool = true;
-//   }
-
-//   let counter = 0;
-//   return res.render("allwebinar", {
-//     allWebinar,
-//     department,
-//     selectedSort,
-//     bool,
-//     counter,
-//   });
-// });
 
 router.post(
   "/search",

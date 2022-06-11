@@ -34,7 +34,6 @@ router.get(
     var month = String(date.getMonth() + 1).padStart(2, "0");
     var todayDate = String(date.getDate()).padStart(2, "0");
     var datePattern = year + "-" + month + "-" + todayDate;
-    console.log(datePattern);
     const categories = await Category.find({});
     res.render("admin/editlistedproduct", { webinar, categories, datePattern });
   })
@@ -45,7 +44,7 @@ router.put(
   upload.single("image"),
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
+
     const webinar = await Webinar.findByIdAndUpdate(id, req.body, {
       runValidators: true,
       new: true,
@@ -55,7 +54,6 @@ router.put(
     }
     webinar.category = req.body.nameofdepartment;
     await webinar.save();
-    console.log(webinar);
     res.redirect("/admin/allproduct");
   })
 );
@@ -89,7 +87,7 @@ router.post(
 router.get(
   "/allcategories",
   wrapAsync(async (req, res) => {
-    const category = await Category.find({});
+    const category = await Category.find({}).sort("order");
     res.render("admin/allcategory", { category });
   })
 );
@@ -104,14 +102,16 @@ router.get(
   })
 );
 // this will add edited category in database.
+
 router.put(
-  "/edit_category/:id",
+  "/category/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const category = await Category.findByIdAndUpdate(id, req.body, {
       runValidators: true,
       new: true,
     });
+
     req.flash("success", "category updated");
     res.redirect("/admin/allcategories");
   })
@@ -124,6 +124,52 @@ router.get(
     await Category.findByIdAndDelete(id);
     req.flash("success", "category deleted");
     res.redirect("/admin/allcategories");
+  })
+);
+// for ups and down.
+router.get(
+  "/upanddownthe_category/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    let { action, position } = req.query;
+    position = parseInt(position);
+    const categories = await Category.find({}).sort("order");
+    let [selectedCategory] = categories.filter((doc) => doc._id.equals(id));
+    const index = categories.indexOf(selectedCategory);
+    console.log(index);
+    if (action == 1 && categories[0].order == position) {
+      req.flash(
+        "error",
+        "you can't up the category which is on topmost position."
+      );
+      return res.redirect("/admin/allcategories");
+    }
+    if (action == -1 && position == categories[categories.length - 1].order) {
+      req.flash(
+        "error",
+        "you can't down the category that is on last position."
+      );
+      return res.redirect("/admin/allcategories");
+    }
+    if (action == 1) {
+      var lastindexorder = categories[index - 1].order;
+    }
+    if (action == -1) {
+      var nextindexorder = categories[index + 1].order;
+    }
+    var query =
+      action == 1
+        ? { $or: [{ order: position }, { order: lastindexorder }] }
+        : { $or: [{ order: position }, { order: nextindexorder }] };
+    const categoryList = await Category.find(query);
+    [categoryList[0].order, categoryList[1].order] = [
+      categoryList[1].order,
+      categoryList[0].order,
+    ];
+    await categoryList[0].save();
+    await categoryList[1].save();
+
+    return res.redirect("/admin/allcategories");
   })
 );
 module.exports = router;

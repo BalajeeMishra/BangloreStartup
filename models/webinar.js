@@ -61,6 +61,13 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    slug: {
+      type: String,
+    },
+    seotitle: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
