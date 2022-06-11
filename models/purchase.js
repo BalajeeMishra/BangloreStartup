@@ -8,6 +8,8 @@ const PurchaseSchema = new mongoose.Schema({
   },
   order: {
     type: Number,
+    unique: true,
+    required: true,
   },
 });
 module.exports = mongoose.model("Purchase", PurchaseSchema);

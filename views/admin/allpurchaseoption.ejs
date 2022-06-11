@@ -8,6 +8,7 @@
                 <th scope="col">price</th>
                 <th scope="col">order</th>
                 <th scope="col">Action</th>
+                <th scope="col">More Action...</th>
             </tr>
         </thead>
         <tbody>
@@ -26,8 +27,12 @@
                         <%=p.order%>
                     </td>
                     <td>
-                        <a href="/price/edit_purchase/<%=p._id %> ">Edit</a>
-                        <a href="/price/delete_purchase/<%=p._id %> ">Delete</a>
+                        <a href="/price/edit_purchase/<%=p._id %>">Edit</a>
+                        <a href="/price/delete_purchase/<%=p._id %>">Delete</a>
+                    </td>
+                    <td>
+                        <a href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=1">Up</a>
+                        <a href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=-1">Down</a>
                     </td>
                 </tr>
                 <%}); %>
