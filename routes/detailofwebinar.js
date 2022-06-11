@@ -6,6 +6,7 @@ const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
+const { query } = require("express");
 
 router.get(
   "/",
@@ -54,14 +55,28 @@ router.post(
 router.get(
   "/all",
   wrapAsync(async (req, res) => {
-    const allWebinar = await Webinar.find({});
+    const { category = "" } = req.query;
+    let categoryList = category.split("_");
+    let query = { category: { $in: [...categoryList] } };
+    console.log(categoryList);
     const department = await Department.find({});
+    const allWebinar = await Webinar.find(category.length ? query : {});
+
     if (!req.session.selectedSort) {
       req.session.selectedSort = [];
     }
+
+    let counter = 0;
     var bool = false;
     const selectedSort = req.session.selectedSort;
-    res.render("allwebinar", { allWebinar, department, selectedSort, bool });
+    res.render("allwebinar", {
+      allWebinar,
+      department,
+      selectedSort,
+      bool,
+      counter,
+      categoryList,
+    });
   })
 );
 
@@ -81,10 +96,11 @@ router.get(
 // iske liye last me socho.
 // apan ko na basically check karna hai agar kisi category ko phir se select karte hai to usko remove karna hai from
 //req.session.selectedSort as well as from databases.
-router.post(
+router.get(
   "/onthebasisofCategory",
   wrapAsync(async (req, res) => {
-    console.log("banglore", req.body.category);
+    const { category } = req.query;
+    console.log(category, req.query);
     if (!req.session.selectedSort) {
       req.session.selectedSort = [];
     }
@@ -94,7 +110,6 @@ router.post(
 
     if (typeof req.body.category == "string") {
       if (!req.session.times) {
-        console.log("hello word");
         req.session.times = 0;
       }
       if (req.session.times >= 0) {
@@ -104,40 +119,44 @@ router.post(
       const trimmedCategory = req.body.category.trim();
       req.session.selectedSort.push(trimmedCategory);
       const selectedSort = req.session.selectedSort;
-      console.log("hey", selectedSort);
       const allWebinar = await Webinar.find({
-        category: selectedSort[req.session.times - 1],
+        category,
+        // category: selectedSort[req.session.times - 1],
       });
-      console.log("hiii", ...allWebinar);
+      // console.log("hiii", ...allWebinar);
       req.session.allWebinar.push(...allWebinar);
-      console.log("before", req.session.allWebinar);
-      console.log("after", req.session.allWebinar);
+      // console.log("before", req.session.allWebinar);
+      // console.log("after", req.session.allWebinar);
       req.session.department = department;
-      return res.json(req.body);
+      return res.json({ ...req.body });
+      // return res.redirect("/webinar/searched");
     }
   })
 );
+
 router.get("/searched", (req, res) => {
   // delete req.session.times;
   // delete req.session.selectedSort;
   // delete req.session.allWebinar;
-  console.log("balajee mishra", req.session.times);
   const allWebinar = req.session.allWebinar;
   const department = req.session.department;
-  console.log("before", req.session.selectedSort);
   if (!req.session.selectedSort) {
     req.session.selectedSort = [];
   }
   var bool = false;
-  var selectedSort = req.session.selectedSort[req.session.times - 1];
-  if (selectedSort) {
+  var selectedSort = req.session.selectedSort;
+  if (selectedSort.length > 0) {
+    console.log("mmmmishhhhhhhh", selectedSort);
     bool = true;
   }
+
+  let counter = 0;
   return res.render("allwebinar", {
     allWebinar,
     department,
     selectedSort,
     bool,
+    counter,
   });
 });
 

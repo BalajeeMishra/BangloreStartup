@@ -1,0 +1,41 @@
+<% department.forEach((e,i)=>{%>
+    <% if(bool){ %>
+        <% selectedSort.forEach((s)=>{ %>
+            <% if(e.nameofdepartment==s) {%>
+                <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment%>"
+                    onclick="onthebasisofCategory()" checked>
+                <%=e.nameofdepartment %> <br>
+                    <% } else{%>
+                        <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment%>"
+                            onclick="onthebasisofCategory()">
+                        <%=e.nameofdepartment %> <br>
+                            <% } %>
+                                <% }) %>
+                                    <% } %>
+                                        <% if(!bool) {%>
+                                            <input type="Checkbox" class='messageCheckbox' name="category"
+                                                value="<%=e.nameofdepartment%>" onclick="onthebasisofCategory()">
+                                            <%=e.nameofdepartment %> <br>
+                                                <% } %>
+                                                    <% }) %>
+
+                                                        <script>
+                                                            // const c = '<%- counter %>'
+                                                            async function onthebasisofCategory() {
+                                                                var checkedValue = document.querySelectorAll('.messageCheckbox:checked')
+                                                                // var category = document.querySelector('.messageCheckbox:checked').value;
+                                                                // console.log(checkedValue);
+                                                                let index = 1
+                                                                var category = checkedValue[index].value;
+                                                                const response = await fetch("/webinar/onthebasisofCategory", {
+                                                                    method: "post",
+                                                                    headers: {
+                                                                        'Content-Type': 'application/json'
+                                                                    },
+                                                                    body: JSON.stringify({ category })
+                                                                });
+                                                                console.log(response);
+                                                                checkedValue[index].classList.remove("messageCheckbox");
+                                                                window.location.href = "http://localhost:3000/webinar/searched";
+                                                            }
+                                                        </script>

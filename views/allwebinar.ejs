@@ -1,78 +1,74 @@
 <%- include("./layouts/header"); -%>
-    <%allWebinar.forEach(e=> { %>
-        <div class="card_one">
-            <div class="content">
-                <div class="image">
-                    <img src="/<%=e.image%> " width="100px" height="100px">
-                </div>
-                <div class="title">
-                    <h5 class="mr-4">
-                        <%=e.title %>
-                    </h5>
-                    <h5 class="mr-4">
-                        <%=e.category %>
-                    </h5>
-                    <div class="inside_data">
-                        <p>
-                            <%=e.name %>
-                        </p>
-                        <p>
-                            <%=e.duration %> minutes
-                        </p>
-                        <p>Product id:<%=e.id %>
-                        </p>
-                        <p>Product status:<%=e.status %>
-                        </p>
-                        <p>Product status:<%=e.status %>
-                        </p>
-                        <p>Product status:<%=e.agenda %>
-                        </p>
-                    </div>
-                    <div class="description">
-                        <%- e.description %>
-                    </div>
-                    <div class="button">
-                        <a href="/webinar/allnext">
-                            <button class="btn btn-primary mt-5">More detail</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+
+    <%department.forEach(e=>{%>
+        <div>
+            <input type="checkbox" name="category" id="category" value="<%=e.nameofdepartment%>"
+                <%=(categoryList.includes(e.nameofdepartment))? 'checked' :'' %> >
+            <%=e.nameofdepartment%>
         </div>
+        <% }) %>
+            <%allWebinar.forEach(e=> { %>
+                <div class="card_one">
+                    <div class="content">
+                        <div class="image">
+                            <img src="/<%=e.image%> " width="100px" height="100px">
+                        </div>
+                        <div class="title">
+                            <h5 class="mr-4">
+                                <%=e.title %>
+                            </h5>
+                            <h5 class="mr-4">
+                                <%=e.category %>
+                            </h5>
+                            <div class="inside_data">
+                                <p>
+                                    <%=e.name %>
+                                </p>
+                                <p>
+                                    <%=e.duration %> minutes
+                                </p>
+                                <p>Product id:<%=e.id %>
+                                </p>
+                                <p>Product status:<%=e.status %>
+                                </p>
+                                <p>Product status:<%=e.status %>
+                                </p>
+                                <p>Product status:<%=e.agenda %>
+                                </p>
+                            </div>
+                            <div class="description">
+                                <%- e.description %>
+                            </div>
+                            <div class="button">
+                                <a href="/webinar/allnext">
+                                    <button class="btn btn-primary mt-5">More detail</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}); %>
+                    <script async="false">
+                        const sortInp = document.querySelectorAll('#category');
+                        const route = window.location.href;
+                        let queryStr, selectedCategory, unchecked;
+                        // const queryStr = route.split("=");
+                        sortInp.forEach((element, i) => {
+                            element.addEventListener('click',
+                                () => {
+                                    if (route.includes('?category=')) {
+                                        queryStr = route.split("=");
+                                        selectedCategory = queryStr[queryStr.length - 1].split("_");
+                                        if (selectedCategory.includes(element.value)) {
+                                            unchecked = selectedCategory.filter(value => value !== element.value)
+                                            if (selectedCategory.length == 1) return window.location.href = route.split('?')[0]
+                                            return window.location.href = (queryStr[0] + '=').concat(unchecked.join('_'))
+                                        }
+                                        return window.location.href = `${route}${selectedCategory[0].length ? "_" : ""}${element.value}`
+                                    };
+                                    return window.location.href = `?category=${element.value}`
+                                })
+                        });
+                    </script>
 
-        <%}); %>
-            <% department.forEach((e,i)=>{%>
-                <% if(bool){ %>
-                    <% if(e.nameofdepartment==selectedSort) {%>
-                        <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment%>"
-                            onclick="onthebasisofCategory()" checked>
-                        <%=e.nameofdepartment %> <br>
-                            <% } else{%>
-                                <input type="Checkbox" class='messageCheckbox' name="category"
-                                    value="<%=e.nameofdepartment%>" onclick="onthebasisofCategory()">
-                                <%=e.nameofdepartment %> <br>
-                                    <% } %>
-                                        <% } %>
-                                            <% if(!bool) {%>
-                                                <input type="Checkbox" class='messageCheckbox' name="category"
-                                                    value="<%=e.nameofdepartment%>" onclick="onthebasisofCategory()">
-                                                <%=e.nameofdepartment %> <br>
-                                                    <% } %>
-                                                        <% }) %>
-                                                            <%- include("./layouts/footer"); -%>
-                                                                <script>
-                                                                    async function onthebasisofCategory() {
-                                                                        var category = document.querySelector('.messageCheckbox:checked').value;
-                                                                        var checkedValue = document.querySelector('.messageCheckbox:checked')
-                                                                        const response = await fetch("/webinar/onthebasisofCategory", {
-                                                                            method: "post",
-                                                                            headers: {
-                                                                                'Content-Type': 'application/json'
-                                                                            },
-                                                                            body: JSON.stringify({ category })
-                                                                        });
-
-                                                                        checkedValue.classList.remove("messageCheckbox");
-                                                                        window.location.href = "http://localhost:3000/webinar/searched";
-                                                                    }
-                                                                </script>
+                    <%- include("./layouts/footer"); -%>
