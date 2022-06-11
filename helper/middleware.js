@@ -1,4 +1,5 @@
 const User = require("../models/user");
+
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl;
@@ -7,6 +8,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   }
   next();
 };
+
 module.exports.isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.admin == true) {
     next();

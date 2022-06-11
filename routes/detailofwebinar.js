@@ -56,7 +56,12 @@ router.get(
   wrapAsync(async (req, res) => {
     const allWebinar = await Webinar.find({});
     const department = await Department.find({});
-    res.render("allwebinar", { allWebinar, department });
+    if (!req.session.selectedSort) {
+      req.session.selectedSort = [];
+    }
+    var bool = false;
+    const selectedSort = req.session.selectedSort;
+    res.render("allwebinar", { allWebinar, department, selectedSort, bool });
   })
 );
 
@@ -79,6 +84,7 @@ router.get(
 router.post(
   "/onthebasisofCategory",
   wrapAsync(async (req, res) => {
+    console.log("banglore", req.body.category);
     if (!req.session.selectedSort) {
       req.session.selectedSort = [];
     }
@@ -111,7 +117,6 @@ router.post(
     }
   })
 );
-
 router.get("/searched", (req, res) => {
   // delete req.session.times;
   // delete req.session.selectedSort;
@@ -119,7 +124,21 @@ router.get("/searched", (req, res) => {
   console.log("balajee mishra", req.session.times);
   const allWebinar = req.session.allWebinar;
   const department = req.session.department;
-  return res.render("allwebinar", { allWebinar, department });
+  console.log("before", req.session.selectedSort);
+  if (!req.session.selectedSort) {
+    req.session.selectedSort = [];
+  }
+  var bool = false;
+  var selectedSort = req.session.selectedSort[req.session.times - 1];
+  if (selectedSort) {
+    bool = true;
+  }
+  return res.render("allwebinar", {
+    allWebinar,
+    department,
+    selectedSort,
+    bool,
+  });
 });
 
 router.post(

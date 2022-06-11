@@ -42,50 +42,37 @@
 
         <%}); %>
             <% department.forEach((e,i)=>{%>
-                <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment %> "
-                    onclick="onthebasisofCategory()">
-                <%=e.nameofdepartment %> <br>
-                    <% }) %>
-                        <%- include("./layouts/footer"); -%>
-                            <script>
-                                async function onthebasisofCategory() {
+                <% if(bool){ %>
+                    <% if(e.nameofdepartment==selectedSort) {%>
+                        <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment%>"
+                            onclick="onthebasisofCategory()" checked>
+                        <%=e.nameofdepartment %> <br>
+                            <% } else{%>
+                                <input type="Checkbox" class='messageCheckbox' name="category"
+                                    value="<%=e.nameofdepartment%>" onclick="onthebasisofCategory()">
+                                <%=e.nameofdepartment %> <br>
+                                    <% } %>
+                                        <% } %>
+                                            <% if(!bool) {%>
+                                                <input type="Checkbox" class='messageCheckbox' name="category"
+                                                    value="<%=e.nameofdepartment%>" onclick="onthebasisofCategory()">
+                                                <%=e.nameofdepartment %> <br>
+                                                    <% } %>
+                                                        <% }) %>
+                                                            <%- include("./layouts/footer"); -%>
+                                                                <script>
+                                                                    async function onthebasisofCategory() {
+                                                                        var category = document.querySelector('.messageCheckbox:checked').value;
+                                                                        var checkedValue = document.querySelector('.messageCheckbox:checked')
+                                                                        const response = await fetch("/webinar/onthebasisofCategory", {
+                                                                            method: "post",
+                                                                            headers: {
+                                                                                'Content-Type': 'application/json'
+                                                                            },
+                                                                            body: JSON.stringify({ category })
+                                                                        });
 
-                                    var category = document.querySelector('.messageCheckbox:checked').value;
-                                    // var categoryS = document.querySelector('.messageCheckbox:unchecked').value;
-                                    // console.log(categoryS);
-                                    var checkedValue = document.querySelector('.messageCheckbox:checked')
-                                    const response = await fetch("/webinar/onthebasisofCategory", {
-                                        method: "post",
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ category })
-                                    });
-                                    checkedValue.classList.remove("messageCheckbox");
-                                    window.location.href = "http://localhost:3000/webinar/searched";
-                                }
-                            </script>
-                            <!-- <div class="card_one">
-                <div class="content">
-                    <div class="image">
-                        <img src="/home_page.jpg" width="100px" height="100px">
-                    </div>
-                    <div class="title">
-                        <h5 class="mr-4">Principles for the Management of Operational Risk</h5>
-                        <div class="inside_data">
-                            <p>Stanley Epstein</p>
-                            <p>90 min</p>
-                            <p>Product id:702286</p>
-                        </div>
-                        <div class="description">
-                            This webinar highlights the evolution of operational risk management. The principles outlined in
-                            the
-                            Bank for International Settlements (BIS) report are based on best industry practice, supervisory
-                            experience and cover three overarching themes: governance, risk
-                        </div>
-                        <div class="button">
-                            <button class="btn btn-primary mt-5">More detail</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+                                                                        checkedValue.classList.remove("messageCheckbox");
+                                                                        window.location.href = "http://localhost:3000/webinar/searched";
+                                                                    }
+                                                                </script>
