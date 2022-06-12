@@ -6,7 +6,8 @@ const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
-const { query } = require("express");
+const { timingFormat } = require("../helper/date");
+
 // add the detail of webinar.
 router.get(
   "/",
@@ -25,9 +26,15 @@ router.post(
   "/",
   upload.single("image"),
   wrapAsync(async (req, res) => {
+    const { webinartiming } = req.body;
     const newWebinar = new Webinar(req.body);
     if (typeof req.file != "undefined") {
       newWebinar.image = req.file.filename;
+    }
+    if (webinartiming) {
+      const dateformat = timingFormat(webinartiming);
+      const datePattern = dateformat.givenDateShowpage;
+      newWebinar.showingDate = datePattern;
     }
     const newWebinarcollected = await newWebinar.save();
     req.session.newWebinarData = newWebinarcollected;

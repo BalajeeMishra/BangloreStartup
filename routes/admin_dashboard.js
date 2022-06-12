@@ -5,6 +5,7 @@ const router = express.Router();
 const { upload } = require("../helper/multer");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
+const { timingFormat } = require("../helper/date");
 //its admin dashboard route.
 router.get(
   "/",
@@ -30,17 +31,13 @@ router.get(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const webinar = await Webinar.findById(id);
-    // var time=moment(detail[0].birthday).utc().format('YYYY/MM/DD');
-    var date = new Date(webinar.webinartiming);
-    var year = date.getFullYear();
-    var month = String(date.getMonth() + 1).padStart(2, "0");
-    var todayDate = String(date.getDate()).padStart(2, "0");
-    var datePattern = year + "-" + month + "-" + todayDate;
-    const categories = await Category.find({});
+    const dateformat = timingFormat(webinar.webinartiming);
+    const datePattern = dateformat.datePattern;
+    const categories = await Category.find({}).sort("order");
     res.render("admin/editlistedproduct", { webinar, categories, datePattern });
   })
 );
-// editing webinar or say seminar.
+// webinar or seminar get updated with this route..
 router.put(
   "/edit_product/:id",
   upload.single("image"),
@@ -59,7 +56,7 @@ router.put(
     res.redirect("/admin/allproduct");
   })
 );
-//deleting webinar
+//deleting or archiving webinar page;
 router.get(
   "/delete_product/:id",
   wrapAsync(async (req, res, next) => {
