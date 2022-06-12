@@ -76,11 +76,22 @@ router.get(
     const allWebinar = await Webinar.find(category.length ? query : {}).sort(
       "time"
     );
+    // added by me.
+    const listedwebinar = await Webinar.find({});
+    if (!listedwebinar.length) {
+      req.flash(
+        "error",
+        "We haven't added product,explore other section for now"
+      );
+      return res.redirect("/");
+    }
+    // just for handling something.
 
     if (!allWebinar.length) {
       req.flash("error", "No match found");
       return res.redirect("/webinar/all");
     }
+
     return res.render("allwebinar", {
       allWebinar,
       department,
