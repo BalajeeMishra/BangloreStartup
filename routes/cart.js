@@ -5,6 +5,7 @@ const Cart = require("../models/cart.js");
 const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
+const user = require("../models/user.js");
 // adding cart for a user in the database........
 router.post(
   "/:id",
@@ -86,6 +87,9 @@ router.get(
     const Total = 0;
     const TotalPrice = 0;
     let cart = await Cart.find({ userId: req.user._id }).populate("product");
+    cart = cart.filter((e) => {
+      return e.status == false;
+    });
     if (clear) {
       await Cart.findOneAndDelete({ userId: req.user._id });
       cart = [];

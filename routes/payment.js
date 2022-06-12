@@ -96,7 +96,15 @@ router.post(
 );
 
 // success route of payment with stripe processing
-router.get("/success", (req, res) => res.render("success"));
+router.get("/success", async (req, res) => {
+  //  basically we pass true to status once we purchase it so that we can't see it on cart page
+  //  once we will purchase it and show them in purchase history.
+  const cart = await Cart.find({ userId: req.user._id }).updateMany(
+    {},
+    { status: true }
+  );
+  return res.render("success");
+});
 
 // cancel route of payment with stripe processing
 router.get("/cancel", (req, res) => res.render("cancel"));

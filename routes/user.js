@@ -82,6 +82,8 @@ router.post(
 router.get(
   "/login",
   wrapAsync(async (req, res, next) => {
+    // const users = await User.find({}).updateMany({}, { verify: true });
+    // console.log(users);
     res.render("login");
   })
 );
@@ -95,6 +97,7 @@ router.post(
       return new AppError("user not found,please enter the detail carefully");
     }
     if (user.verify) {
+      // req.flash("success", "welcome back");
       next();
     } else if (!user.verify) {
       req.flash("error", "Please first verify yourself");
@@ -124,7 +127,6 @@ router.get(
           new: true,
         }
       );
-      console.log(user);
       // User.findOneAndUpdate(
       //   req.session.token,
       //   { verify: true },
@@ -259,7 +261,7 @@ router.get(
   "/logout",
   wrapAsync(async (req, res, next) => {
     req.logout();
-    req.flash("success", "Logged out!");
+    req.flash("success", "GoodBye!");
     return res.redirect("/user/login");
   })
 );
