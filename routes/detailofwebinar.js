@@ -94,10 +94,11 @@ router.get(
 );
 
 // serching of product.
+// searching wale ka bhi sorting karna hai.
 router.post(
   "/search",
   wrapAsync(async (req, res) => {
-    const department = await Department.find({});
+    const department = await Department.find({}).sort("order");
     str = '"' + req.body.courses + '"';
     str1 = "'" + str + "'";
     let searchedWebinar = [];
@@ -111,7 +112,7 @@ router.post(
       }
     }
     if (!searchedWebinar.length) {
-      //create indexes
+      //create searching
       const allWebinar = await Webinar.find(
         { $text: { $search: req.body.courses } },
         { score: { $meta: "textScore" } }

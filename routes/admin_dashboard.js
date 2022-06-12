@@ -5,12 +5,10 @@ const router = express.Router();
 const { upload } = require("../helper/multer");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
-//its admin dashboard
-
+//its admin dashboard route.
 router.get(
   "/",
   wrapAsync(async (req, res) => {
-    const webinar = await Webinar.find({});
     res.render("admin/dashboard");
   })
 );
@@ -19,7 +17,11 @@ router.get(
   "/allproduct",
   wrapAsync(async (req, res) => {
     const webinar = await Webinar.find({});
-    res.render("admin/listedproduct", { webinar });
+    if (!webinar) {
+      req.flash("error", "First Enter the detail of webinar.");
+      return res.redirect("/webinar");
+    }
+    return res.render("admin/listedproduct", { webinar });
   })
 );
 //getting edit form for webinar
@@ -38,7 +40,7 @@ router.get(
     res.render("admin/editlistedproduct", { webinar, categories, datePattern });
   })
 );
-// editing webinar
+// editing webinar or say seminar.
 router.put(
   "/edit_product/:id",
   upload.single("image"),
