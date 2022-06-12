@@ -59,7 +59,10 @@ router.get(
     let categoryList = category.split("_");
     let query = { category: { $in: [...categoryList] } };
     const department = await Department.find({});
-    const allWebinar = await Webinar.find(category.length ? query : {});
+    const allWebinar = await Webinar.find(category.length ? query : {}).sort(
+      "time"
+    );
+
     if (!allWebinar.length) {
       req.flash("error", "No match found");
       return res.redirect("/webinar/all");

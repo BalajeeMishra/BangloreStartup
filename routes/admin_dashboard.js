@@ -62,11 +62,31 @@ router.get(
   "/delete_product/:id",
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
+    const { archive } = req.query;
+    if (archive) {
+      const archiveProduct = await Webinar.findByIdAndUpdate(
+        id,
+        {
+          archive: true,
+        },
+        {
+          runValidators: true,
+          new: true,
+        }
+      );
+      return res.redirect("/admin/allproduct");
+    }
     const deletedProduct = await Webinar.findByIdAndDelete(id);
     req.flash("success", "webinar  deleted");
     res.redirect("/admin/allproduct");
   })
 );
+// archive product
+router.get("/archive", async (req, res) => {
+  const archive = await Webinar.find({ archive: true });
+  res.render("admin/archive", { archive });
+});
+
 // category or say industry adding page.
 router.get(
   "/category",

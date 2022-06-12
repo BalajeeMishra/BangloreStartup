@@ -68,6 +68,10 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    archive: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

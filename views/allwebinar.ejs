@@ -1,12 +1,19 @@
 <%- include("./layouts/header"); -%>
 
     <%department.forEach(e=>{%>
-        <div>
+        <div class="me-5">
             <input type="checkbox" name="category" id="category" value="<%=e.nameofdepartment%>"
                 <%=(categoryList.includes(e.nameofdepartment))? 'checked' :'' %> >
             <%=e.nameofdepartment%>
         </div>
         <% }) %>
+
+            <div class="me-5">
+                <input type="checkbox" name="status" id="status" value="live" />
+                Live
+                <input type="checkbox" name="status" id="status" value="recorded" />
+                Recorded
+            </div>
             <%allWebinar.forEach(e=> { %>
                 <div class="card_one">
                     <div class="content">
@@ -19,6 +26,9 @@
                             </h5>
                             <h5 class="mr-4">
                                 <%=e.category %>
+                            </h5>
+                            <h5 class="me-4">
+                                <%= e.time %>
                             </h5>
                             <div class="inside_data">
                                 <p>
@@ -49,11 +59,11 @@
                 </div>
                 <%}); %>
                     <script async="false">
-                        const sortInp = document.querySelectorAll('#category');
+                        const checkedCategories = document.querySelectorAll('#category');
+                        const checkedStatus = document.querySelectorAll('#status');
                         const route = window.location.href;
                         let queryStr, selectedCategory, unchecked;
-                        // const queryStr = route.split("=");
-                        sortInp.forEach((element, i) => {
+                        checkedCategories.forEach((element, i) =>
                             element.addEventListener('click',
                                 () => {
                                     if (route.includes('?category=')) {
@@ -68,7 +78,23 @@
                                     };
                                     return window.location.href = `?category=${element.value}`
                                 })
-                        });
+                        );
+
+                        // sorting --> status [live, recorded]
+                        checkedStatus.forEach(element => {
+                            element.addEventListener('change', () => {
+                                // check if same query is being raise...
+                                if (route.includes(element.value)) {
+                                    let indexOfCheckedValue = route.indexOf(element.value);
+                                    let redirectRoute = route.split(`${element.value}=${element.checked}`);
+                                    // console.log(redirectRoute)
+                                    return window.location.href = `${redirectRoute.join('')}`;
+                                }
+                                // check if something is already queried...
+                                if (route.includes('?')) return window.location.href = `${route}+${element.value}=${element.checked}`
+                                return window.location.href = `${route}?${element.value}=${element.checked}`
+                            })
+                        })
                     </script>
 
                     <%- include("./layouts/footer"); -%>

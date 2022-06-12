@@ -1,0 +1,9 @@
+<%- include("../layouts/header"); -%>
+    <div class="card">
+        <% archive.forEach(e=>{ %>
+            <div>
+                <%=e.title %>
+            </div>
+            <% }) %>
+    </div>
+    <%- include("../layouts/footer"); -%>
