@@ -38,6 +38,8 @@ router.post(
     }
     if (time) {
       const timeinFormat = addtimeinAmPmFormat(time);
+      newWebinar.addtimingineastern = timeinFormat.eastern;
+      newWebinar.addtiminginpacific = timeinFormat.pacific;
     }
     const newWebinarcollected = await newWebinar.save();
     req.session.newWebinarData = newWebinarcollected;

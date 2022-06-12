@@ -39,18 +39,46 @@ module.exports.timingFormat = (webinartiming) => {
 module.exports.addtimeinAmPmFormat = (timing) => {
   var [a, b] = timing.split(":");
   console.log(timing);
-  var str = 0;
+  var eastern = 0; // apna wala hai.
+  var pacific = 0;
   if (a == 00) {
-    str = 12 + ":" + b + " AM";
+    pacific = 9 + ":" + b + " PM";
+    eastern = 12 + ":" + b + " AM";
   }
+  if (a == 3) {
+    pacific = 12 + ":" + b + " AM";
+  }
+
+  if (a < 12 && a > 3) {
+    pacific = a - 3 + ":" + b + " AM";
+  }
+  if (a > 00 && a < 3) {
+    pacific = 21 + a + ":" + b + " PM";
+  }
+
   if (a < 12 && a != 00) {
-    str = a + ":" + b + " AM";
+    eastern = a + ":" + b + " AM";
   }
   if (a == 12) {
-    str = a + ":" + b + " PM";
+    eastern = a + ":" + b + " PM";
+    pacific = 9 + ":" + b + " AM";
   }
-  if (a > 12 && a != 12) {
-    str = a - 12 + ":" + b + " PM";
+  if (a == 15) {
+    pacific = 12 + ":" + b + " PM";
   }
-  console.log(str);
+  if (a > 12 && a < 15) {
+    pacific = a - 3 + ":" + b + " AM";
+  }
+  if (a > 15) {
+    pacific = a - 3 + ":" + b + " PM";
+  }
+  if (a > 12) {
+    eastern = a - 12 + ":" + b + " PM";
+  }
+  const eastern_pacific = {
+    eastern,
+    pacific,
+  };
+  console.log("check it now", eastern_pacific);
+  return eastern_pacific;
 };

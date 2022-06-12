@@ -75,7 +75,10 @@ const WebinarSchema = new mongoose.Schema(
     showingDate: {
       type: String,
     },
-    addtiminginAmPm: {
+    addtimingineastern: {
+      type: String,
+    },
+    addtiminginpacific: {
       type: String,
     },
   },
