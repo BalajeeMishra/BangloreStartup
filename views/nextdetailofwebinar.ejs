@@ -1,64 +1,57 @@
 <%- include("./layouts/header"); -%>
-    <%allWebinar.forEach(e=> { %>
-        <div class="card_one">
-            <div class="content">
-                <div class="image">
-                    <img src="/<%=e.image%> " width="100px" height="100px">
+    <div class="card_one">
+        <div class="content">
+            <div class="image">
+                <img src="/<%=detailedWebinar.image%>" width="100px" height="100px">
+            </div>
+            <div class="title">
+                <h5 class="mr-4">
+                    <%=detailedWebinar.title%>
+                </h5>
+                <div class="inside_data">
+                    <p>
+                        <%=detailedWebinar.name%>
+                    </p>
+                    <p>
+                        <%=detailedWebinar.duration%> minutes
+                    </p>
+                    <p>Product id:<%=detailedWebinar.id %>
+                    </p>
                 </div>
-                <div class="title">
-                    <h5 class="mr-4">
-                        <%=e.title %>
-                    </h5>
-                    <div class="inside_data">
-                        <p>
-                            <%=e.name %>
-                        </p>
-                        <p>
-                            <%=e.duration %> minutes
-                        </p>
-                        <p>Product id:<%=e.id %>
-                        </p>
-                    </div>
-                    <div class="description">
-                        <%=e.description %>
-                    </div>
-                    <div class="button">
-                        <a href="/webinar/allnext">
-                            <button class="btn btn-primary mt-5">More detail</button>
-                        </a>
+                <div class="description">
+                    <%=detailedWebinar.description%>
+                </div>
+            </div>
+        </div>
+        <div class="content2">
+            <h4> Why should you attend?</h4>
+            <p>
+                <%-detailedWebinar.advantageous%>
+            </p>
+        </div>
+        <h4>Area covered in the webinar</h4>
+        <p>
+            <%-detailedWebinar.abouttopic %>
+        </p>
+        <h4>who will benefit</h4>
+        <p>
+            <%-detailedWebinar.bestfor %>
+        </p>
+    </div>
+    <div class="card">
+        <form method="post" action="/cart/<%=detailedWebinar._id %>">
+            <div class="form-group mb-3 mx-3">
+                <label for="types">pricing</label>
+                <select name="purchasecategory" id="price">
+                    <% purchase.forEach(p=>{%>
+                        <option value="<%=p.nameofpurchase%>">
+                            <%=p.nameofpurchase%>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-5 text-center">Buy Now</button>
+        </form>
+    </div>
 
-                    </div>
-                </div>
-            </div>
-            <div class="content2">
-                <h4> Why should you attend?</h4>
-                <p>
-                    <%- e.advantageous %>
-                </p>
-            </div>
-            <h4>Area covered in the webinar</h4>
-            <p>
-                <%-e.abouttopic %>
-            </p>
-            <h4>who will benefit</h4>
-            <p>
-                <%-e.bestfor %>
-            </p>
-        </div>
-        <div class="card">
-            <form method="post" action="/cart/<%=e._id %>">
-                <div class="form-group mb-3 mx-3">
-                    <label for="types">pricing</label>
-                    <select name="purchasecategory" id="price">
-                        <% purchase.forEach(p=>{%>
-                            <option value="<%=p.nameofpurchase%>">
-                                <%=p.nameofpurchase%>
-                            </option>
-                            <% }) %>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary mt-5 text-center">Buy Now</button>
-            </form>
-        </div>
-        <%}); %>
-            <%- include("./layouts/footer"); -%>
+    <%- include("./layouts/footer"); -%>

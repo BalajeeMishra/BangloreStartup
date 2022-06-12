@@ -7,15 +7,20 @@ const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
 const { query } = require("express");
-
+// add the detail of webinar.
 router.get(
   "/",
   wrapAsync(async (req, res) => {
-    const categories = await Department.find({});
-    res.render("admin/webinar_detail_one", { categories });
+    const categories = await Department.find({}).sort("order");
+    if (!categories) {
+      req.flash("error", "First enter the field of market categories");
+      return res.redirect("/admin/category");
+    }
+    return res.render("admin/webinar_detail_one", { categories });
   })
 );
 
+// adding the first page of webinar form here in database.
 router.post(
   "/",
   upload.single("image"),
@@ -30,6 +35,7 @@ router.post(
   })
 );
 //moredetail pe koi ja hi nhi sakta if piche ka detail add nhi kiya hai..
+// rendering the form of 2nd page of webinar.
 router.get(
   "/moredetail",
   wrapAsync(async (req, res) => {
@@ -38,12 +44,13 @@ router.get(
   })
 );
 
+// adding the 2nd page detail in databases.
 router.post(
   "/moredetail/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const { advantageous, abouttopic, bestfor, agenda } = req.body;
-    const webinar = await Webinar.findOneAndUpdate(
+    await Webinar.findOneAndUpdate(
       { id },
       { advantageous, abouttopic, bestfor, agenda }
     );
@@ -51,14 +58,14 @@ router.post(
     res.redirect("/");
   })
 );
-
+// all webinar and seminar route for user.
 router.get(
   "/all",
   wrapAsync(async (req, res) => {
     const { category = "" } = req.query;
     let categoryList = category.split("_");
     let query = { category: { $in: [...categoryList] } };
-    const department = await Department.find({});
+    const department = await Department.find({}).sort("order");
     const allWebinar = await Webinar.find(category.length ? query : {}).sort(
       "time"
     );
@@ -75,21 +82,21 @@ router.get(
   })
 );
 
+// just view the detail route of any webinar or seminar.
 router.get(
-  "/allnext",
+  "/allnext/:id",
   wrapAsync(async (req, res) => {
-    const allWebinar = await Webinar.find({});
-    const purchase = await Purchase.find({});
-    // order ka shorting idhar hi karna hai.
-    res.render("nextdetailofwebinar", { allWebinar, purchase });
+    const { id } = req.params;
+    const detailedWebinar = await Webinar.findById(id);
+    const purchase = await Purchase.find({}).sort("order");
+    res.render("nextdetailofwebinar", { detailedWebinar, purchase });
   })
 );
 
+// serching of product.
 router.post(
   "/search",
   wrapAsync(async (req, res) => {
-    //department wale pe dhyan dena hai sayad alag s allwebinar.ejs jaisa file banana hoga.
-    //SAYAD EK CHIJ HANDLE KARNA PAREGA AGAR KOI USER AAYA AUR SEARCH KARTA HAI WEBINAR THEN I THINK WE HAVE TO SHOW ALL WEBINAR
     const department = await Department.find({});
     str = '"' + req.body.courses + '"';
     str1 = "'" + str + "'";
