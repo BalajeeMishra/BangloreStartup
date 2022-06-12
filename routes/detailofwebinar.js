@@ -6,7 +6,7 @@ const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
-const { timingFormat } = require("../helper/date");
+const { timingFormat, addtimeinAmPmFormat } = require("../helper/date");
 
 // add the detail of webinar.
 router.get(
@@ -26,7 +26,7 @@ router.post(
   "/",
   upload.single("image"),
   wrapAsync(async (req, res) => {
-    const { webinartiming } = req.body;
+    const { webinartiming, time } = req.body;
     const newWebinar = new Webinar(req.body);
     if (typeof req.file != "undefined") {
       newWebinar.image = req.file.filename;
@@ -35,6 +35,9 @@ router.post(
       const dateformat = timingFormat(webinartiming);
       const datePattern = dateformat.givenDateShowpage;
       newWebinar.showingDate = datePattern;
+    }
+    if (time) {
+      const timeinFormat = addtimeinAmPmFormat(time);
     }
     const newWebinarcollected = await newWebinar.save();
     req.session.newWebinarData = newWebinarcollected;
@@ -73,9 +76,13 @@ router.get(
     let categoryList = category.split("_");
     let query = { category: { $in: [...categoryList] } };
     const department = await Department.find({}).sort("order");
-    const allWebinar = await Webinar.find(category.length ? query : {}).sort(
-      "time"
-    );
+    // i want to ask ki what will be your order on the basis of sort.
+    const allWebinar = await Webinar.find(category.length ? query : {}).sort({
+      status: "1",
+      webinartiming: "-1",
+      time: "1",
+    });
+
     // added by me.
     const listedwebinar = await Webinar.find({});
     if (!listedwebinar.length) {

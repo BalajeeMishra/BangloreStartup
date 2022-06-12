@@ -75,6 +75,9 @@ const WebinarSchema = new mongoose.Schema(
     showingDate: {
       type: String,
     },
+    addtiminginAmPm: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -36,3 +36,21 @@ module.exports.timingFormat = (webinartiming) => {
   };
   return formats;
 };
+module.exports.addtimeinAmPmFormat = (timing) => {
+  var [a, b] = timing.split(":");
+  console.log(timing);
+  var str = 0;
+  if (a == 00) {
+    str = 12 + ":" + b + " AM";
+  }
+  if (a < 12 && a != 00) {
+    str = a + ":" + b + " AM";
+  }
+  if (a == 12) {
+    str = a + ":" + b + " PM";
+  }
+  if (a > 12 && a != 12) {
+    str = a - 12 + ":" + b + " PM";
+  }
+  console.log(str);
+};
