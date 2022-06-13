@@ -33,6 +33,7 @@ router.get(
     const webinar = await Webinar.findById(id);
     const dateformat = timingFormat(webinar.webinartiming);
     const datePattern = dateformat.datePattern;
+    console.log("mishra jeeeeee", datePattern);
     const categories = await Category.find({}).sort("order");
     res.render("admin/editlistedproduct", { webinar, categories, datePattern });
   })
@@ -43,7 +44,6 @@ router.put(
   upload.single("image"),
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-
     const webinar = await Webinar.findByIdAndUpdate(id, req.body, {
       runValidators: true,
       new: true,

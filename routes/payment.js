@@ -4,7 +4,7 @@ const Cart = require("../models/cart");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const paypal = require("paypal-rest-sdk");
-const PurchaseOfUser = require("../models/purchase_Schema");
+const { isSuccess } = require("../helper/successtransaction_middleware");
 //stripe credential.
 const PUBLISHABLE_KEY =
   "pk_test_51KTsAkSCz6YD7QQyTrES0nTpBH1THPy0tkcQyqmsunOkdyzTaFYlO3cySz8tisvKxF588bZXzA5OqOn6NhOMH72h0080OZDqHh";
@@ -75,6 +75,8 @@ router.get(
 router.post(
   "/paymentwithstripe/create-checkout-session",
   wrapAsync(async (req, res) => {
+    // storing session here so that we can store the amount in success route.
+    req.session.amount = req.body.totalprice;
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -97,46 +99,19 @@ router.post(
 );
 
 // success route of payment with stripe processing
-router.get("/success", async (req, res) => {
-  // const cart = await Cart.find({ userId: req.user._id }).updateMany(
-  //   {},
-  //   { status: true }
-  // );
-  const purchaseid = Date.now();
-  const allCartofuser = await Cart.find({ userId: req.user._id });
-  for (let i = 0; i < allCartofuser.length; i++) {
-    var purchaseOfUser = new PurchaseOfUser({
-      userId: req.user._id,
-      product: allCartofuser[i].product,
-      purchaseId: purchaseid,
-    });
-    for (let j = 0; j < allCartofuser[i].categoryofprice.length; j++) {
-      purchaseOfUser.purchaseOrder = [
-        ...purchaseOfUser.purchaseOrder,
-        {
-          quantity: allCartofuser[i].categoryofprice[j].quantity,
-          price: allCartofuser[i].categoryofprice[j].price,
-          totalPrice: allCartofuser[i].categoryofprice[j].totalPrice,
-          name: allCartofuser[i].categoryofprice[j].name,
-        },
-      ];
-    }
-    await purchaseOfUser.save();
-  }
-
-  await Cart.findOneAndDelete({ userId: req.user._id });
-
-  // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
-  //   {},
-  //   { purchaseId: Date.now() }
-  // );
-
-  return res.render("success");
-});
+router.get(
+  "/success",
+  wrapAsync(async (req, res, next) => {
+    isSuccess(req, res, next);
+    return res.render("success");
+  })
+);
 
 // cancel route of payment with stripe processing
-router.get("/cancel", (req, res) => res.render("cancel"));
-
+router.get("/cancel", (req, res) => {
+  delete req.session.amount;
+  return res.render("cancel");
+});
 // paypal integration.
 //paymentwithpaypal page.
 router.get(

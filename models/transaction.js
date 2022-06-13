@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// this is the schema specially for transaction storation for admin purpse.
 const TransactionSchema = new mongoose.Schema(
   {
     amount: {
@@ -8,6 +9,17 @@ const TransactionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    date: {
+      type: String,
+    },
+    monthIndex: {
+      type: Number,
+    },
+    year: {
+      type: Number,
+    },
+    // weekly:{
+    // }
   },
   { timestamps: true }
 );

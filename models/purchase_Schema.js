@@ -10,6 +10,7 @@ const PurchaseOfUser = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Webinar",
     },
+    // this is basically order id.
     purchaseId: {
       type: String,
     },

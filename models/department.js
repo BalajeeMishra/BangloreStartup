@@ -6,7 +6,6 @@ const DetailOfWebinarSchema = new mongoose.Schema({
   order: {
     type: Number,
     required: true,
-    unique: true,
   },
 });
 module.exports = mongoose.model("Department", DetailOfWebinarSchema);

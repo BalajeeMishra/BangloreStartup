@@ -69,7 +69,9 @@
                                     if (route.includes('?category=')) {
                                         queryStr = route.split("=");
                                         selectedCategory = queryStr[queryStr.length - 1].split("_");
+                                        console.log(element.value, selectedCategory)
                                         if (selectedCategory.includes(element.value)) {
+                                            console.log(element.value, 2)
                                             unchecked = selectedCategory.filter(value => value !== element.value)
                                             if (selectedCategory.length == 1) return window.location.href = route.split('?')[0]
                                             return window.location.href = (queryStr[0] + '=').concat(unchecked.join('_'))
@@ -81,20 +83,20 @@
                         );
 
                         // sorting --> status [live, recorded]
-                        checkedStatus.forEach(element => {
-                            element.addEventListener('change', () => {
-                                // check if same query is being raise...
-                                if (route.includes(element.value)) {
-                                    let indexOfCheckedValue = route.indexOf(element.value);
-                                    let redirectRoute = route.split(`${element.value}=${element.checked}`);
-                                    // console.log(redirectRoute)
-                                    return window.location.href = `${redirectRoute.join('')}`;
-                                }
-                                // check if something is already queried...
-                                if (route.includes('?')) return window.location.href = `${route}+${element.value}=${element.checked}`
-                                return window.location.href = `${route}?${element.value}=${element.checked}`
-                            })
-                        })
+                        // checkedStatus.forEach(element => {
+                        //     element.addEventListener('change', () => {
+                        //         // check if same query is being raise...
+                        //         if (route.includes(element.value)) {
+                        //             let indexOfCheckedValue = route.indexOf(element.value);
+                        //             let redirectRoute = route.split(`${element.value}=${element.checked}`);
+                        //             // console.log(redirectRoute)
+                        //             return window.location.href = `${redirectRoute.join('')}`;
+                        //         }
+                        //         // check if something is already queried...
+                        //         if (route.includes('?')) return window.location.href = `${route}+${element.value}=${element.checked}`
+                        //         return window.location.href = `${route}?${element.value}=${element.checked}`
+                        //     })
+                        // })
                     </script>
 
                     <%- include("./layouts/footer"); -%>
