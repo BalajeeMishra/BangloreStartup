@@ -18,8 +18,6 @@ const TransactionSchema = new mongoose.Schema(
     year: {
       type: Number,
     },
-    // weekly:{
-    // }
   },
   { timestamps: true }
 );

@@ -22,7 +22,6 @@ module.exports.timingFormat = (webinartiming) => {
     "Friday",
     "Saturday",
   ];
-
   var date = new Date(webinartiming);
   var year = date.getFullYear();
   const monthname = monthNames[date.getMonth()];
@@ -36,9 +35,13 @@ module.exports.timingFormat = (webinartiming) => {
     givenDateShowpage,
     datePattern,
     dateformattransaction,
+    givenDate,
+    month,
   };
+  console.log("balajee", datePattern);
   return formats;
 };
+
 module.exports.addtimeinAmPmFormat = (timing) => {
   var [a, b] = timing.split(":");
   var eastern = 0; // apna wala hai.
@@ -84,17 +87,24 @@ module.exports.addtimeinAmPmFormat = (timing) => {
   // console.log("check it now", eastern_pacific);
   return eastern_pacific;
 };
+module.exports.transactionWeekFormat = (date) => {
+  // If no date object supplied, use current date
+  // Copy date so don't modify supplied date
+  var now = date ? new Date(date) : new Date();
 
-module.exports.transactionWeekFormat = (req, res, next) => {
-  const weekday = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  // set time to some convenient value
+  now.setHours(0, 0, 0, 0);
+
+  // Get the previous Monday
+  var monday = new Date(now);
+  monday.setDate(monday.getDate() - monday.getDay() + 1);
+
+  // Get next Sunday
+  var sunday = new Date(now);
+  sunday.setDate(sunday.getDate() - sunday.getDay() + 7);
+  // var [a, b, c] = String(monday).split("-");
+  // console.log("balajee", a, b, c);
+  // Return array of date objects
+  return [monday, sunday]; // but isko shi lane ke liye jo sabse upar me hai usko call krna
+  // console.log("balajee mishra", sundayNumber, sunday, monday);
 };
-// tarik dekho then uska day  find karo then dekho ki uska indexing kya hai weekday me..
-// jo bhi date hai na uske tarik me se  indexing hataonnn aur tab jo date aata hai waha se lekar
-//now tak ka find karke dekho whi week hoga.....

@@ -153,7 +153,8 @@ app.get("/", async (req, res) => {
   // console.log("hello", Date.now());
   // console.log(Math.floor(Date.now() / 1000) + 10 * 60);
   // console.log(token);
-  // const date = new Date();
+  const date = new Date();
+  // console.log("balajee mishra", date);
   // console.log(
   //   `Token Generated at:- ${date.getHours()} :${date.getMinutes()} :${date.getSeconds()}`
   // );
