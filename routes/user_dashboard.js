@@ -2,10 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const Cart = require("../models/cart");
 const router = express.Router();
-const { upload } = require("../helper/multer");
 const wrapAsync = require("../controlError/wrapAsync.js");
-
-//user dashboard
 router.get(
   "/",
   wrapAsync(async (req, res) => {

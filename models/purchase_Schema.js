@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const CartSchema = new mongoose.Schema(
+
+const PurchaseOfUser = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -9,7 +10,7 @@ const CartSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Webinar",
     },
-    categoryofprice: [
+    purchaseOrder: [
       {
         quantity: Number,
         price: {
@@ -23,10 +24,6 @@ const CartSchema = new mongoose.Schema(
         },
       },
     ],
-    active: {
-      type: Boolean,
-      default: true,
-    },
     modifiedOn: {
       type: Date,
       default: Date.now,
@@ -39,4 +36,4 @@ const CartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Cart", CartSchema);
+module.exports = mongoose.model("PurchaseOfUser", PurchaseOfUser);

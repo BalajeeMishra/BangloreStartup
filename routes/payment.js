@@ -4,6 +4,7 @@ const Cart = require("../models/cart");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const paypal = require("paypal-rest-sdk");
+const PurchaseOfUser = require("../models/purchase_Schema");
 //stripe credential.
 const PUBLISHABLE_KEY =
   "pk_test_51KTsAkSCz6YD7QQyTrES0nTpBH1THPy0tkcQyqmsunOkdyzTaFYlO3cySz8tisvKxF588bZXzA5OqOn6NhOMH72h0080OZDqHh";
@@ -99,10 +100,30 @@ router.post(
 router.get("/success", async (req, res) => {
   //  basically we pass true to status once we purchase it so that we can't see it on cart page
   //  once we will purchase it and show them in purchase history.
-  const cart = await Cart.find({ userId: req.user._id }).updateMany(
-    {},
-    { status: true }
-  );
+  // const cart = await Cart.find({ userId: req.user._id }).updateMany(
+  //   {},
+  //   { status: true }
+  // );
+  const allCartofuser = await Cart.find({ userId: req.user._id });
+  console.log(allCartofuser.length);
+  for (let i = 0; i < allCartofuser.length; i++) {
+    var purchaseOfUser = new PurchaseOfUser({
+      userId: req.user._id,
+      product: allCartofuser[i].product,
+    });
+    for (let j = 0; j < allCartofuser[i].categoryofprice.length; j++) {
+      purchaseOfUser.purchaseOrder = [
+        ...purchaseOfUser.purchaseOrder,
+        {
+          quantity: allCartofuser[i].categoryofprice[j].quantity,
+          price: allCartofuser[i].categoryofprice[j].price,
+          totalPrice: allCartofuser[i].categoryofprice[j].totalPrice,
+          name: allCartofuser[i].categoryofprice[j].name,
+        },
+      ];
+    }
+    await purchaseOfUser.save();
+  }
   return res.render("success");
 });
 
