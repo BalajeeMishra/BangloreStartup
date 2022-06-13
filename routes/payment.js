@@ -98,18 +98,17 @@ router.post(
 
 // success route of payment with stripe processing
 router.get("/success", async (req, res) => {
-  //  basically we pass true to status once we purchase it so that we can't see it on cart page
-  //  once we will purchase it and show them in purchase history.
   // const cart = await Cart.find({ userId: req.user._id }).updateMany(
   //   {},
   //   { status: true }
   // );
+  const purchaseid = Date.now();
   const allCartofuser = await Cart.find({ userId: req.user._id });
-  console.log(allCartofuser.length);
   for (let i = 0; i < allCartofuser.length; i++) {
     var purchaseOfUser = new PurchaseOfUser({
       userId: req.user._id,
       product: allCartofuser[i].product,
+      purchaseId: purchaseid,
     });
     for (let j = 0; j < allCartofuser[i].categoryofprice.length; j++) {
       purchaseOfUser.purchaseOrder = [
@@ -124,6 +123,14 @@ router.get("/success", async (req, res) => {
     }
     await purchaseOfUser.save();
   }
+
+  await Cart.findOneAndDelete({ userId: req.user._id });
+
+  // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
+  //   {},
+  //   { purchaseId: Date.now() }
+  // );
+
   return res.render("success");
 });
 
