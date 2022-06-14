@@ -216,4 +216,26 @@ router.get(
     return res.redirect("/admin/allcategories");
   })
 );
+
+//updating the visibility of Category or say type of market.
+router.get("/update_the_visibility_of_category/:id", async (req, res) => {
+  const { id } = req.params;
+  const categorytoupdate = await Category.findById(id);
+  // updating the category.
+  await Category.findByIdAndUpdate(
+    id,
+    {
+      visibility: !categorytoupdate.visibility,
+    },
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
+  //once the category is updating we have to update all the product with that category with the visibility thing
+  await Webinar.find({
+    category: categorytoupdate.nameofdepartment,
+  }).updateMany({}, { visibility: !categorytoupdate.visibility });
+  return res.redirect("/admin/allcategories");
+});
 module.exports = router;

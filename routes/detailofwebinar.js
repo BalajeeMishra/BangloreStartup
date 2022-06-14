@@ -96,8 +96,7 @@ router.get(
     });
 
     // added by me.
-    const listedwebinar = await Webinar.find({});
-    if (!listedwebinar.length) {
+    if (!allWebinar.length) {
       req.flash(
         "error",
         "We haven't added product,explore other section for now"

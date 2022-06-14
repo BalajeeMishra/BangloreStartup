@@ -7,5 +7,9 @@ const DetailOfWebinarSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  visibility: {
+    type: Boolean,
+    default: false,
+  },
 });
 module.exports = mongoose.model("Department", DetailOfWebinarSchema);

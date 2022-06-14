@@ -6,6 +6,7 @@
                 <th scope="col">Name of category</th>
                 <th scope="col">action</th>
                 <th scope="col">More action</th>
+                <th scope="col">Visibility.</th>
             </tr>
         </thead>
         <tbody>
@@ -22,13 +23,19 @@
                     <td>
                         <a href="/admin/edit_category/<%=e._id %> ">Edit</a>
                         <hr>
-                        <a href="/admin/delete_category/<%=e._id %> ">Delete</a>
+                        <!-- <a href="/admin/delete_category/<%=//e._id %> ">Delete</a> -->
                     </td>
 
                     <td>
                         <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1">up</a>
                         <hr>
                         <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">Down</a>
+                    </td>
+                    <td>
+                        <span>
+                            <%=e.visibility%>
+                        </span>
+                        <a href="/admin/update_the_visibility_of_category/<%=e._id %>">update now</a>
                     </td>
 
 
