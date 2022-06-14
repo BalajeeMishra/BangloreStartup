@@ -7,10 +7,9 @@
                 <th scope="col">Product Name</th>
                 <th scope="col">code</th>
                 <th scope="col">Instructor</th>
-                <th scope="col">display</th>
                 <th scope="col">Action</th>
                 <th scope="col">Archive.</th>
-                <th>Archive</th>
+                <th scope="col">Visibility.</th>
             </tr>
         </thead>
         <tbody>
@@ -29,17 +28,17 @@
                         <%=e.name%>
                     </td>
                     <td>
-                        yes
-                    </td>
-                    <td>
                         <a href="/admin/edit_product/<%=e._id %> ">Edit</a>
                         <a href="/admin/delete_product/<%=e._id %> ">Delete</a>
                     </td>
                     <td>
-                        <button class="btn btn-success">Add price</button>
+                        <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
                     </td>
                     <td>
-                        <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
+                        <span>
+                            <%=e.visibility%>
+                        </span>
+                        <a href="/admin/update_the_visibility/<%=e._id %>">update now</a>
                     </td>
                 </tr>
                 <%}); %>

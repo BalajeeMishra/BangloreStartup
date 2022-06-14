@@ -87,6 +87,7 @@ router.get(
     const Total = 0;
     const TotalPrice = 0;
     let cart = await Cart.find({ userId: req.user._id }).populate("product");
+    console.log(cart);
     if (clear) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id });
