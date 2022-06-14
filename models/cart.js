@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const CartSchema = new mongoose.Schema(
   {
     userId: {
@@ -31,6 +30,10 @@ const CartSchema = new mongoose.Schema(
     modifiedOn: {
       type: Date,
       default: Date.now,
+    },
+    status: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   // username is basically email of user.
   username: {
     type: String,
@@ -44,5 +45,4 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
-
 module.exports = mongoose.model("User", UserSchema);

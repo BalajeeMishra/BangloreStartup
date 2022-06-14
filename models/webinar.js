@@ -29,10 +29,6 @@ const WebinarSchema = new mongoose.Schema(
     time: {
       type: String,
     },
-    id: {
-      type: String,
-      required: true,
-    },
     // Agenda,In case of seminar only
     agenda: {
       type: String,
@@ -64,6 +60,26 @@ const WebinarSchema = new mongoose.Schema(
     pdf_path: {
       type: String,
       default: "",
+    },
+    slug: {
+      type: String,
+    },
+    seotitle: {
+      type: String,
+      required: true,
+    },
+    archive: {
+      type: Boolean,
+      default: false,
+    },
+    showingDate: {
+      type: String,
+    },
+    addtimingineastern: {
+      type: String,
+    },
+    addtiminginpacific: {
+      type: String,
     },
   },
   { timestamps: true }

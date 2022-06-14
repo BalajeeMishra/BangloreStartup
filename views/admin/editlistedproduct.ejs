@@ -19,12 +19,12 @@
                     <div class="form-group mb-3 mx-3">
                         <label for="types">Status</label>
                         <select name="status" id="status">
-                            <% if(webinar.status=="live" ){ %>
-                                <option value="live" selected>Live</option>
-                                <option value="recorded">recorded</option>
+                            <% if(webinar.status=="Live" ){ %>
+                                <option value="Live" selected>Live</option>
+                                <option value="Recorded">recorded</option>
                                 <% } else{%>
-                                    <option value="recorded" selected>Recorded</option>
-                                    <option value="live">live</option>
+                                    <option value="Recorded" selected>Recorded</option>
+                                    <option value="Live">live</option>
                                     <% } %>
                         </select>
                     </div>

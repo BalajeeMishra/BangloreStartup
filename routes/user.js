@@ -82,6 +82,8 @@ router.post(
 router.get(
   "/login",
   wrapAsync(async (req, res, next) => {
+    // const users = await User.find({}).updateMany({}, { verify: true });
+    // console.log(users);
     res.render("login");
   })
 );
@@ -95,6 +97,7 @@ router.post(
       return new AppError("user not found,please enter the detail carefully");
     }
     if (user.verify) {
+      // req.flash("success", "welcome back");
       next();
     } else if (!user.verify) {
       req.flash("error", "Please first verify yourself");
@@ -124,7 +127,6 @@ router.get(
           new: true,
         }
       );
-      console.log(user);
       // User.findOneAndUpdate(
       //   req.session.token,
       //   { verify: true },
@@ -170,7 +172,6 @@ router.post(
       );
       //idhar result kuch unexpected bhi aa sakta hai kya.
       const result = await mailForForgetpassword(email, req.session.token1);
-      console.log(result);
       if (result.accepted[0]) {
         return res.render("mail_verification", { mail_verify: true });
       } else {
@@ -196,7 +197,9 @@ router.get(
 router.post(
   "/detailforchange",
   wrapAsync(async (req, res, next) => {
-    const { email } = req.session.foremail;
+    if (req.session.foremail) {
+      var { email } = req.session.foremail;
+    }
     const user = await User.findOne({ email });
     const { password, password2 } = req.body;
     const userData = req.body;
@@ -222,13 +225,43 @@ router.post(
     res.redirect("/user/login");
   })
 );
-
+// for changing the password rendering the form.
+router.get("/changepassword", async (req, res) => {
+  res.render("pass_for_sec");
+});
+// changing user password.
+router.post("/changepassword", async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const { password, password2, currentpassword } = req.body;
+  const userData = req.body;
+  if (password != password2) {
+    return res.render("pass_for_sec", {
+      userData,
+      match: true,
+    });
+  }
+  if (password.length < 8) {
+    return res.render("pass_for_sec", {
+      userData,
+    });
+  }
+  user.changePassword(currentpassword, password, async (err, user) => {
+    if (err) {
+      throw new AppError(
+        "Something going wrong,please try again or fill your last credential carefully"
+      );
+    }
+    await user.save();
+  });
+  req.flash("success", "your password changed successfully");
+  res.redirect("/user/login");
+});
 //logging out route for user.
 router.get(
   "/logout",
   wrapAsync(async (req, res, next) => {
     req.logout();
-    req.flash("success", "Logged out!");
+    req.flash("success", "GoodBye!");
     return res.redirect("/user/login");
   })
 );

@@ -23,7 +23,11 @@ const UserRoute = require("./routes/user");
 const User = require("./models/user");
 const Payment = require("./routes/payment");
 const Pdf_page = require("./routes/dummy");
+const SubscribedUser = require("./routes/subscribed_user");
 const jwt = require("jsonwebtoken");
+const UserDashboard = require("./routes/user_dashboard");
+const TransactionDetail = require("./routes/transation_control_admin");
+const AppError = require("./controlError/AppError");
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,
@@ -106,8 +110,11 @@ app.use("/admin", AdminDashboard);
 app.use("/price", AddPrice);
 app.use("/cart", Cart);
 app.use("/user", UserRoute);
+app.use("/user/dashboard", UserDashboard);
 app.use("/payment", Payment);
 app.use("/pdf", Pdf_page);
+app.use("/subscribeduser", SubscribedUser);
+app.use("/transactiondetail", TransactionDetail);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);
 };
@@ -146,7 +153,8 @@ app.get("/", async (req, res) => {
   // console.log("hello", Date.now());
   // console.log(Math.floor(Date.now() / 1000) + 10 * 60);
   // console.log(token);
-  // const date = new Date();
+  const date = new Date();
+  // console.log("balajee mishra", date);
   // console.log(
   //   `Token Generated at:- ${date.getHours()} :${date.getMinutes()} :${date.getSeconds()}`
   // );
@@ -159,85 +167,8 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/video/upload", async (req, res) => {
-  // Get the file name and extension with multer
-  const response = await uploadVideo("NOW.mp4");
-  console.log("balajee", response);
-  return res.json(response);
+  const response = await uploadVideo("testing.mp4");
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("APP IS LISTENING ON PORT " + PORT));
-
-// const storage = multer.diskStorage({
-//   filename: (req, file, cb) => {
-//     const fileExt = file.originalname.split(".").pop();
-//     const filename = `${new Date().getTime()}.${fileExt}`;
-//     cb(null, filename);
-//   },
-// });
-
-// // Filter the file to validate if it meets the required video extension
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype === "video/mp4") {
-//     cb(null, true);
-//   } else {
-//     cb(
-//       {
-//         message: "Unsupported File Format",
-//       },
-//       false
-//     );
-//   }
-// };
-
-// // Set the storage, file filter and file size with multer
-// const upload = multer({
-//   storage,
-//   limits: {
-//     fieldNameSize: 200,
-//     fileSize: 30 * 1024 * 1024,
-//   },
-//   fileFilter,
-// }).single("video");
-
-// cloudinary.v2.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_KEY,
-//   api_secret: process.env.CLOUDINARY_SECRET,
-// });
-// cloudinary.v2.uploader.upload(
-//   "now.mp4",
-//   {
-//     resource_type: "video",
-//     public_id: "myfolder/mysubfolder/my_dog",
-//     overwrite: true,
-//     notification_url: "https://mysite.example.com/notify_endpoint",
-//   },
-//   function (error, result) {
-//     console.log(result, error);
-//   }
-// );
-
-// cloudinary.v2.uploader.upload_large(
-//   "now.mp4",
-//   {
-//     resource_type: "video",
-//     public_id: "myfolder/mysubfolder/dog_closeup",
-//     chunk_size: 6000000,
-//     eager: [
-//       { width: 300, height: 300, crop: "pad", audio_codec: "none" },
-//       {
-//         width: 160,
-//         height: 100,
-//         crop: "crop",
-//         gravity: "south",
-//         audio_codec: "none",
-//       },
-//     ],
-//     eager_async: true,s
-//     eager_notification_url: "https://mysite.example.com/notify_endpoint",
-//   },
-//   function (error, result) {
-//     console.log(result, error);
-//   }
-// );-

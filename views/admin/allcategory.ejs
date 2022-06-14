@@ -2,24 +2,35 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Name of category</th>
+                <th scope="col">Order of industry Category</th>
                 <th scope="col">Name of category</th>
                 <th scope="col">action</th>
+                <th scope="col">More action</th>
             </tr>
         </thead>
         <tbody>
             <%category.forEach((e,i)=> { %>
                 <tr>
                     <th scope="row">
-                        <%=i %>
+                        <%=e.order %>
                     </th>
                     <td>
                         <%=e.nameofdepartment%>
                     </td>
+
+
                     <td>
-                        <a href="/admin/edit_category/<%=e.id %> ">Edit</a>
-                        <a href="/admin/delete_category/<%=e.id %> ">Delete</a>
+                        <a href="/admin/edit_category/<%=e._id %> ">Edit</a>
+                        <hr>
+                        <a href="/admin/delete_category/<%=e._id %> ">Delete</a>
                     </td>
+
+                    <td>
+                        <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1">up</a>
+                        <hr>
+                        <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">Down</a>
+                    </td>
+
 
                 </tr>
                 <%}); %>

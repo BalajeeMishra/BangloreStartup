@@ -5,98 +5,128 @@ const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
-var id;
 const Department = require("../models/department");
+const { timingFormat, addtimeinAmPmFormat } = require("../helper/date");
 
+// add the detail of webinar.
 router.get(
   "/",
   wrapAsync(async (req, res) => {
-    const categories = await Department.find({});
-    res.render("admin/webinar_detail_one", { categories });
+    const categories = await Department.find({}).sort("order");
+    if (!categories) {
+      req.flash("error", "First enter the field of market categories");
+      return res.redirect("/admin/category");
+    }
+    return res.render("admin/webinar_detail_one", { categories });
   })
 );
 
+// adding the first page of webinar form here in database.
 router.post(
   "/",
   upload.single("image"),
   wrapAsync(async (req, res) => {
+    const { webinartiming, time } = req.body;
     const newWebinar = new Webinar(req.body);
-    id = Math.floor(1000 + Math.random() * 9000);
     if (typeof req.file != "undefined") {
       newWebinar.image = req.file.filename;
     }
-    newWebinar.id = id;
-    await newWebinar.save();
-    res.redirect("webinar/moredetail");
+    if (webinartiming) {
+      const dateformat = timingFormat(webinartiming);
+      const datePattern = dateformat.givenDateShowpage;
+      newWebinar.showingDate = datePattern;
+    }
+    if (time) {
+      const timeinFormat = addtimeinAmPmFormat(time);
+      newWebinar.addtimingineastern = timeinFormat.eastern;
+      newWebinar.addtiminginpacific = timeinFormat.pacific;
+    }
+    const newWebinarcollected = await newWebinar.save();
+    req.session.newWebinarData = newWebinarcollected;
+    res.redirect("/webinar/moredetail");
   })
 );
 //moredetail pe koi ja hi nhi sakta if piche ka detail add nhi kiya hai..
-router.get("/moredetail", (req, res) => res.render("admin/webinar_detail_two"));
-
-router.post(
+// rendering the form of 2nd page of webinar.
+router.get(
   "/moredetail",
   wrapAsync(async (req, res) => {
+    const detailOfNew = req.session.newWebinarData;
+    res.render("admin/webinar_detail_two", { detailOfNew });
+  })
+);
+
+// adding the 2nd page detail in databases.
+router.post(
+  "/moredetail/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
     const { advantageous, abouttopic, bestfor, agenda } = req.body;
     await Webinar.findOneAndUpdate(
       { id },
       { advantageous, abouttopic, bestfor, agenda }
     );
+    delete req.session.newWebinarData;
     res.redirect("/");
   })
 );
-
+// all webinar and seminar route for user.
 router.get(
   "/all",
   wrapAsync(async (req, res) => {
-    const allWebinar = await Webinar.find({});
-    const department = await Department.find({});
-    res.render("allwebinar", { allWebinar, department });
-  })
-);
+    const { category = "" } = req.query;
+    let categoryList = category.split("_");
+    // console.log(categoryList);
+    let query = { category: { $in: [...categoryList] } };
+    const department = await Department.find({}).sort("order");
+    // i want to ask ki what will be your order on the basis of sort.
+    const allWebinar = await Webinar.find(category.length ? query : {}).sort({
+      status: "1",
+      time: "1",
+      webinartiming: "-1",
+    });
 
-router.get(
-  "/allnext",
-  wrapAsync(async (req, res) => {
-    const allWebinar = await Webinar.find({});
-    const purchase = await Purchase.find({});
-    // order ka shorting idhar hi karna hai.
-    res.render("nextdetailofwebinar", { allWebinar, purchase });
-  })
-);
-//searching on the basis of market category
-router.post(
-  "/onthebasisofCategory",
-  wrapAsync(async (req, res) => {
-    if (typeof req.body.category == "string") {
-      const department = await Department.find({});
-      const trimmedCategory = req.body.category.trim();
-      console.log(trimmedCategory);
-      const allWebinar = await Webinar.find({ category: trimmedCategory });
-      // console.log(allWebinar);
-      req.session.allWebinar = allWebinar;
-      req.session.department = department;
-      return res.json(req.body);
-      // return res.render("allwebinar", { allWebinar, department });
-      // return res.redirect("/webinar/mrityunjay");
+    // added by me.
+    const listedwebinar = await Webinar.find({});
+    if (!listedwebinar.length) {
+      req.flash(
+        "error",
+        "We haven't added product,explore other section for now"
+      );
+      return res.redirect("/");
     }
-    // const allWebinar = await Webinar.find({});
-    // res.render("nextdetailofwebinar", { allWebinar });
+    // just for handling something.
+
+    if (!allWebinar.length) {
+      req.flash("error", "No match found");
+      return res.redirect("/webinar/all");
+    }
+
+    return res.render("allwebinar", {
+      allWebinar,
+      department,
+      categoryList,
+    });
   })
 );
 
-router.get("/searched", (req, res) => {
-  const allWebinar = req.session.allWebinar;
-  const department = req.session.department;
-  return res.render("allwebinar", { allWebinar, department });
-  // console.log(req.body);
-});
+// just view the detail route of any webinar or seminar.
+router.get(
+  "/allnext/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const detailedWebinar = await Webinar.findById(id);
+    const purchase = await Purchase.find({}).sort("order");
+    res.render("nextdetailofwebinar", { detailedWebinar, purchase });
+  })
+);
 
+// serching of product.
+// searching wale ka bhi sorting karna hai.
 router.post(
   "/search",
   wrapAsync(async (req, res) => {
-    //department wale pe dhyan dena hai sayad alag s allwebinar.ejs jaisa file banana hoga.
-    //SAYAD EK CHIJ HANDLE KARNA PAREGA AGAR KOI USER AAYA AUR SEARCH KARTA HAI WEBINAR THEN I THINK WE HAVE TO SHOW ALL WEBINAR
-    const department = await Department.find({});
+    const department = await Department.find({}).sort("order");
     str = '"' + req.body.courses + '"';
     str1 = "'" + str + "'";
     let searchedWebinar = [];
@@ -110,7 +140,7 @@ router.post(
       }
     }
     if (!searchedWebinar.length) {
-      //create indexes
+      //create searching
       const allWebinar = await Webinar.find(
         { $text: { $search: req.body.courses } },
         { score: { $meta: "textScore" } }

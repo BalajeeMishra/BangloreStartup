@@ -9,7 +9,8 @@
                 <th scope="col">Instructor</th>
                 <th scope="col">display</th>
                 <th scope="col">Action</th>
-                <th scope="col">Add price</th>
+                <th scope="col">Archive.</th>
+                <th>Archive</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,9 @@
                     </td>
                     <td>
                         <button class="btn btn-success">Add price</button>
+                    </td>
+                    <td>
+                        <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
                     </td>
                 </tr>
                 <%}); %>

@@ -1,105 +1,102 @@
 <%- include("./layouts/header"); -%>
-    <%allWebinar.forEach(e=> { %>
-        <div class="card_one">
-            <div class="content">
-                <div class="image">
-                    <img src="/<%=e.image%> " width="100px" height="100px">
-                </div>
-                <div class="title">
-                    <h5 class="mr-4">
-                        <%=e.title %>
-                    </h5>
-                    <h5 class="mr-4">
-                        <%=e.category %>
-                    </h5>
-                    <div class="inside_data">
-                        <p>
-                            <%=e.name %>
-                        </p>
-                        <p>
-                            <%=e.duration %> minutes
-                        </p>
-                        <p>Product id:<%=e.id %>
-                        </p>
-                        <p>Product status:<%=e.status %>
-                        </p>
-                        <p>Product status:<%=e.status %>
-                        </p>
-                        <p>Product status:<%=e.agenda %>
-                        </p>
-                    </div>
-                    <div class="description">
-                        <%- e.description %>
-                    </div>
-                    <div class="button">
-                        <a href="/webinar/allnext">
-                            <button class="btn btn-primary mt-5">More detail</button>
-                        </a>
 
-
-
-
-                    </div>
-                </div>
-            </div>
+    <%department.forEach(e=>{%>
+        <div class="me-5">
+            <input type="checkbox" name="category" id="category" value="<%=e.nameofdepartment%>"
+                <%=(categoryList.includes(e.nameofdepartment))? 'checked' :'' %> >
+            <%=e.nameofdepartment%>
         </div>
+        <% }) %>
 
-        <%}); %>
-            <!-- <form method="post" action="/webinar/onthebasisofCategory">
-                <!-- <div class="rightcategory">  -->
-            <% department.forEach((e,i)=>{%>
-                <input type="Checkbox" class='messageCheckbox' name="category" value="<%=e.nameofdepartment %> "
-                    onclick="onthebasisofCategory()">
-                <%=e.nameofdepartment %> <br>
-                    <% }) %>
-
-                        <!-- <button type="submit" class="btn btn-success">Submit to find</button> -->
-                        <!-- </div> -->
-                        <!-- </form> -->
-
-                        <%- include("./layouts/footer"); -%>
-
-                            <script>
-                                async function onthebasisofCategory() {
-
-                                    var category = document.querySelector('.messageCheckbox:checked').value;
-                                    var checkedValue = document.querySelector('.messageCheckbox:checked')
-                                    console.log(checkedValue.value);
-                                    const response = await fetch("/webinar/onthebasisofCategory", {
-                                        method: "post",
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ category })
-                                    });
-                                    console.log(response);
-                                    // JSON.stringify(checkedValue.value)
-                                    checkedValue.classList.remove("messageCheckbox");
-                                    console.log("balajee mishra")
-                                    window.location.href = "http://localhost:3000/webinar/searched";
-                                }
-                            </script>
-                            <!-- <div class="card_one">
-                <div class="content">
-                    <div class="image">
-                        <img src="/home_page.jpg" width="100px" height="100px">
-                    </div>
-                    <div class="title">
-                        <h5 class="mr-4">Principles for the Management of Operational Risk</h5>
-                        <div class="inside_data">
-                            <p>Stanley Epstein</p>
-                            <p>90 min</p>
-                            <p>Product id:702286</p>
+            <div class="me-5">
+                <input type="checkbox" name="status" id="status" value="live" />
+                Live
+                <input type="checkbox" name="status" id="status" value="recorded" />
+                Recorded
+            </div>
+            <%allWebinar.forEach(e=> { %>
+                <div class="card_one">
+                    <div class="content">
+                        <div class="image">
+                            <img src="/<%=e.image%> " width="100px" height="100px">
                         </div>
-                        <div class="description">
-                            This webinar highlights the evolution of operational risk management. The principles outlined in
-                            the
-                            Bank for International Settlements (BIS) report are based on best industry practice, supervisory
-                            experience and cover three overarching themes: governance, risk
-                        </div>
-                        <div class="button">
-                            <button class="btn btn-primary mt-5">More detail</button>
+                        <div class="title">
+                            <h5 class="mr-4">
+                                <%=e.title %>
+                            </h5>
+                            <h5 class="mr-4">
+                                <%=e.category %>
+                            </h5>
+                            <h5 class="me-4">
+                                <%= e.time %>
+                            </h5>
+                            <div class="inside_data">
+                                <p>
+                                    <%=e.name %>
+                                </p>
+                                <p>
+                                    <%=e.showingDate%>
+                                </p>
+                                <p>Product id:<%=e.id %>
+                                </p>
+                                <p>Product status:<%=e.status %>
+                                </p>
+                                <p>Product status:<%=e.status %>
+                                </p>
+                                <p>Product status:<%=e.agenda %>
+                                </p>
+                            </div>
+                            <div class="description">
+                                <%- e.description %>
+                            </div>
+                            <div class="button">
+                                <a href="/webinar/allnext/<%=e._id%>">
+                                    <button class="btn btn-primary mt-5">More detail</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+                <%}); %>
+                    <script async="false">
+                        const checkedCategories = document.querySelectorAll('#category');
+                        const checkedStatus = document.querySelectorAll('#status');
+                        const route = window.location.href;
+                        let queryStr, selectedCategory, unchecked;
+                        checkedCategories.forEach((element, i) =>
+                            element.addEventListener('click',
+                                () => {
+                                    if (route.includes('?category=')) {
+                                        queryStr = route.split("=");
+                                        selectedCategory = queryStr[queryStr.length - 1].split("_");
+                                        console.log(element.value, selectedCategory)
+                                        if (selectedCategory.includes(element.value)) {
+                                            console.log(element.value, 2)
+                                            unchecked = selectedCategory.filter(value => value !== element.value)
+                                            if (selectedCategory.length == 1) return window.location.href = route.split('?')[0]
+                                            return window.location.href = (queryStr[0] + '=').concat(unchecked.join('_'))
+                                        }
+                                        return window.location.href = `${route}${selectedCategory[0].length ? "_" : ""}${element.value}`
+                                    };
+                                    return window.location.href = `?category=${element.value}`
+                                })
+                        );
+
+                        // sorting --> status [live, recorded]
+                        // checkedStatus.forEach(element => {
+                        //     element.addEventListener('change', () => {
+                        //         // check if same query is being raise...
+                        //         if (route.includes(element.value)) {
+                        //             let indexOfCheckedValue = route.indexOf(element.value);
+                        //             let redirectRoute = route.split(`${element.value}=${element.checked}`);
+                        //             // console.log(redirectRoute)
+                        //             return window.location.href = `${redirectRoute.join('')}`;
+                        //         }
+                        //         // check if something is already queried...
+                        //         if (route.includes('?')) return window.location.href = `${route}+${element.value}=${element.checked}`
+                        //         return window.location.href = `${route}?${element.value}=${element.checked}`
+                        //     })
+                        // })
+                    </script>
+
+                    <%- include("./layouts/footer"); -%>

@@ -1,6 +1,6 @@
 <%- include("../layouts/header"); -%>
     <div class="card">
-        <form method="post" action="/webinar/moredetail" class="needs-validation" nonvalidate>
+        <form method="post" action="/webinar/moredetail/<%=detailOfNew._id%>" class="needs-validation" nonvalidate>
             <div class="form-group mb-3 mx-3">
                 <label for="advantageous" class="form-label">Why Should You Attend</label>
                 <textarea id="my-expressjs-tinymce-app" name="advantageous" class="form-control" cols="30" rows="10"

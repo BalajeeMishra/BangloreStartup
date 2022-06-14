@@ -4,6 +4,7 @@ const Cart = require("../models/cart");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const paypal = require("paypal-rest-sdk");
+const { isSuccess } = require("../helper/successtransaction_middleware");
 //stripe credential.
 const PUBLISHABLE_KEY =
   "pk_test_51KTsAkSCz6YD7QQyTrES0nTpBH1THPy0tkcQyqmsunOkdyzTaFYlO3cySz8tisvKxF588bZXzA5OqOn6NhOMH72h0080OZDqHh";
@@ -74,6 +75,8 @@ router.get(
 router.post(
   "/paymentwithstripe/create-checkout-session",
   wrapAsync(async (req, res) => {
+    // storing session here so that we can store the amount in success route.
+    req.session.amount = req.body.totalprice;
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -96,11 +99,19 @@ router.post(
 );
 
 // success route of payment with stripe processing
-router.get("/success", (req, res) => res.render("success"));
+router.get(
+  "/success",
+  wrapAsync(async (req, res, next) => {
+    isSuccess(req, res, next);
+    return res.render("success");
+  })
+);
 
 // cancel route of payment with stripe processing
-router.get("/cancel", (req, res) => res.render("cancel"));
-
+router.get("/cancel", (req, res) => {
+  delete req.session.amount;
+  return res.render("cancel");
+});
 // paypal integration.
 //paymentwithpaypal page.
 router.get(

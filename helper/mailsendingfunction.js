@@ -6,13 +6,13 @@ module.exports.mailForVerify = async (email, token) => {
     port: 587,
     secure: false,
     auth: {
-      user: "rashika.80020@gmail.com",
-      pass: "Nw17TIFRnB4br2OV",
+      user: "chhotu.93153@gmail.com",
+      pass: "mhSTbQwInD3t9FaK",
     },
   });
   const hello = await smtp.sendMail({
     to: email,
-    from: "rashika.80020@gmail.com",
+    from: "chhotu.93153@gmail.com",
     subject: "Mail Verification",
     html: `Click here to verify:  <br> <a href="${verify}/login/${token}">${token}</a>`,
   });
@@ -24,13 +24,13 @@ module.exports.mailForForgetpassword = async (email, token) => {
     port: 587,
     secure: false,
     auth: {
-      user: "rashika.80020@gmail.com",
-      pass: "Nw17TIFRnB4br2OV",
+      user: "chhotu.93153@gmail.com",
+      pass: "mhSTbQwInD3t9FaK",
     },
   });
   const hello = await smtp.sendMail({
     to: email,
-    from: "rashika.80020@gmail.com",
+    from: "chhotu.93153@gmail.com",
     subject: "Mail Verification",
     html: `Click here to verify it's you:  <br> <a href="${verify}/detailforchange/${token}">${token}</a>`,
   });
