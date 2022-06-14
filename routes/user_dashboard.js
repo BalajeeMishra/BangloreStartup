@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const router = express.Router();
 const wrapAsync = require("../controlError/wrapAsync.js");
+// user dashboard
 router.get(
   "/",
   wrapAsync(async (req, res) => {
