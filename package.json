@@ -7,7 +7,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "serve-global": "ngrok http 3000",
-    "git-publish":"git add -A && git commit -am \"done\" && git push origin master"
+    "git-publish": "git add -A && git commit -am \"done\" && git push origin master"
   },
   "author": "BalaJee Mishra",
   "license": "ISC",
