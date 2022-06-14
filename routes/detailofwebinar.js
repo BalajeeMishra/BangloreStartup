@@ -33,20 +33,29 @@ router.post(
   upload.single("image"),
   wrapAsync(async (req, res) => {
     const { webinartiming, time } = req.body;
+    const lastWebinar = await Webinar.find({});
+    if (lastWebinar.length) {
+      var id = lastWebinar[lastWebinar.length - 1].webinarId;
+    }
     const newWebinar = new Webinar(req.body);
     if (typeof req.file != "undefined") {
-      newWebinar.image = req.file.filename;
+      newWebinar.image.filename = req.file.filename;
     }
+
+    // now adding the webinar id,we will show that on user interface.
+    // below line is just for showing special type of date format on frontend(for user purpose).
     if (webinartiming) {
       const dateformat = timingFormat(webinartiming);
       const datePattern = dateformat.givenDateShowpage;
       newWebinar.showingDate = datePattern;
     }
+    // here I am basically entering the time of estern and western inside a webinar schema.
     if (time) {
       const timeinFormat = addtimeinAmPmFormat(time);
       newWebinar.addtimingineastern = timeinFormat.eastern;
       newWebinar.addtiminginpacific = timeinFormat.pacific;
     }
+    newWebinar.webinarId = id + 1;
     const newWebinarcollected = await newWebinar.save();
     req.session.newWebinarData = newWebinarcollected;
     res.redirect("/webinar/moredetail");
@@ -89,11 +98,13 @@ router.get(
 
     const department = await Department.find({}).sort("order");
     // i want to ask ki what will be your order on the basis of sort.
-    const allWebinar = await Webinar.find(query).sort({
-      status: "1",
-      time: "1",
-      webinartiming: "-1",
-    });
+    const allWebinar = await Webinar.find(query)
+      .sort({
+        status: "1",
+        time: "1",
+        webinartiming: "-1",
+      })
+      .populate("portfolio");
 
     // added by me.
     if (!allWebinar.length) {

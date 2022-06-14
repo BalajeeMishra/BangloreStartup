@@ -32,6 +32,12 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   }
   // for storing current date.
   const dateNow = timingFormat(new Date());
+
+  const lastPurchase = await TransactionDetail.find({});
+  if (lastPurchase.length) {
+    var id = lastPurchase[lastPurchase.length - 1].purchaseId;
+  }
+
   // storing it for admin purpose.
 
   const amount = new TransactionDetail({
@@ -39,6 +45,7 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
     amount: req.session.amount,
     date: dateNow.dateformattransaction,
   });
+  amount.purchaseId = id + 1;
   await amount.save();
   delete req.session.amount;
   // removing all the cart after successfully payment.

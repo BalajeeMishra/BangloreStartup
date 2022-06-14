@@ -20,9 +20,14 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
     },
     image: {
-      type: String,
-      // required: [true, "Uploaded file must have a name"],
+      url: {
+        type: String,
+        default:
+          "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+      },
+      filename: String,
     },
+
     // duration of webinar or seminar.
     duration: {
       type: Number,
@@ -86,6 +91,16 @@ const WebinarSchema = new mongoose.Schema(
     visibility: {
       type: Boolean,
       default: false,
+    },
+    // for refering a portfolio.
+    portfolio: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Portfolio",
+    },
+    // adding id for showing on user interface.
+    webinarId: {
+      type: Number,
+      default: 108,
     },
   },
   { timestamps: true }

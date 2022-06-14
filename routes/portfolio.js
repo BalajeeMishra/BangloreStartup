@@ -22,7 +22,8 @@ router.post(
   upload.single("image"),
   wrapAsync(async (req, res) => {
     const newPortfolio = new Portfolio(req.body);
-    if (typeof req.file != "undefined") newPortfolio.image = req.file.filename;
+    if (typeof req.file != "undefined")
+      newPortfolio.image.filename = req.file.filename;
 
     await newPortfolio.save();
     return res.redirect("/portfolio/all");
@@ -50,7 +51,7 @@ router.put(
       new: true,
     });
     if (typeof req.file != "undefined") {
-      portfolio.image = req.file.filename;
+      portfolio.image.filename = req.file.filename;
     }
     await portfolio.save();
     res.redirect("/portfolio/all");

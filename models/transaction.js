@@ -18,6 +18,11 @@ const TransactionSchema = new mongoose.Schema(
     year: {
       type: Number,
     },
+    // this is basically order id.
+    purchaseId: {
+      type: Number,
+      default: 1111,
+    },
   },
   { timestamps: true }
 );

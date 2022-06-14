@@ -59,7 +59,7 @@ router.put(
       new: true,
     });
     if (typeof req.file != "undefined") {
-      webinar.image = req.file.filename;
+      webinar.image.filename = req.file.filename;
     }
     webinar.category = req.body.nameofdepartment;
     await webinar.save();
