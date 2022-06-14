@@ -2,7 +2,7 @@ const PurchaseOfUser = require("../models/purchase_Schema");
 const TransactionDetail = require("../models/transaction");
 const Cart = require("../models/cart");
 const wrapAsync = require("../controlError/wrapAsync");
-
+const { transactionWeekFormat, timingFormat } = require("../helper/date");
 // this is the middleware that will execute after payment succession.
 module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   // taking purchaseid as datetime.now,
@@ -30,10 +30,14 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
     }
     await purchaseOfUser.save();
   }
+  // for storing current date.
+  const dateNow = timingFormat(new Date());
   // storing it for admin purpose.
+
   const amount = new TransactionDetail({
     userId: req.user._id,
     amount: req.session.amount,
+    date: dateNow.dateformattransaction,
   });
   await amount.save();
   delete req.session.amount;

@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const WebinarSchema = new mongoose.Schema(
   {
+    //name of instructor
     name: {
       type: String,
     },
+    //bascially name of webinar and seminar.
     title: {
       type: String,
     },
@@ -80,6 +82,10 @@ const WebinarSchema = new mongoose.Schema(
     },
     addtiminginpacific: {
       type: String,
+    },
+    visibility: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

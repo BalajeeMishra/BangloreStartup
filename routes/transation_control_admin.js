@@ -60,6 +60,36 @@ router.get("/weekly", async (req, res) => {
   res.send(transactionDetail);
 });
 
-router.get("/monthly", async (req, res) => {});
+// 2022-06-14
+router.get("/monthly", async (req, res) => {
+  const dateNow = timingFormat(new Date());
+  const { month, year } = dateNow;
+  const firstDayOfMonth = year + "-" + month + "-" + "01";
+  // bellow function will give the date between two date.
+  var getDaysArray = function (start, end) {
+    for (
+      var arr = [], dt = new Date(start);
+      dt <= new Date(end);
+      dt.setDate(dt.getDate() + 1)
+    ) {
+      arr.push(new Date(dt));
+    }
+    return arr;
+  };
+  // here as a parameter i am passing the date in datePattern of timingFormat function
+  var dayList = getDaysArray(new Date(firstDayOfMonth), new Date());
+  // again passing the found date inside map function for getting the date like 10-03-2022.
+  const newList = dayList.map((e) => {
+    return timingFormat(e).dateformattransaction;
+  });
+  // pushing last date inside newList(we have weekly data here).
+  newList.push(dateNow.dateformattransaction);
+
+  //finding TransactionDetail data with given date(we have monthly data here).
+  const transactionDetail = await TransactionDetail.find({
+    date: { $in: newList },
+  });
+  res.send(transactionDetail);
+});
 
 module.exports = router;

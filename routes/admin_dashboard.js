@@ -1,6 +1,7 @@
 const express = require("express");
 const Webinar = require("../models/webinar.js");
 const Category = require("../models/department");
+const Portfolio = require("../models/portfolio.js");
 const router = express.Router();
 const { upload } = require("../helper/multer");
 const AppError = require("../controlError/AppError");
@@ -31,10 +32,17 @@ router.get(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const webinar = await Webinar.findById(id);
+    //below line is to entering the date inside form basically we are extracting the date.
     const dateformat = timingFormat(webinar.webinartiming);
     const datePattern = dateformat.datePattern;
     const categories = await Category.find({}).sort("order");
-    res.render("admin/editlistedproduct", { webinar, categories, datePattern });
+    const portfolio = await Portfolio.find({}).sort("name");
+    res.render("admin/editlistedproduct", {
+      webinar,
+      categories,
+      portfolio,
+      datePattern,
+    });
   })
 );
 // webinar or seminar get updated with this route..
@@ -42,6 +50,7 @@ router.put(
   "/edit_product/:id",
   upload.single("image"),
   wrapAsync(async (req, res) => {
+    console.log("balajee", req.body);
     const { id } = req.params;
     const webinar = await Webinar.findByIdAndUpdate(id, req.body, {
       runValidators: true,
@@ -55,6 +64,7 @@ router.put(
     res.redirect("/admin/allproduct");
   })
 );
+
 //deleting or archiving webinar page;
 router.get(
   "/delete_product/:id",

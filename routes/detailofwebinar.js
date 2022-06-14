@@ -6,6 +6,7 @@ const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
+const Portfolio = require("../models/portfolio.js");
 const { timingFormat, addtimeinAmPmFormat } = require("../helper/date");
 
 // add the detail of webinar.
@@ -13,11 +14,16 @@ router.get(
   "/",
   wrapAsync(async (req, res) => {
     const categories = await Department.find({}).sort("order");
+    const portfolio = await Portfolio.find({}).sort("name");
+    if (!portfolio) {
+      req.flash("error", "First enter the detail of atleast one instructor");
+      return res.redirect("/portfolio");
+    }
     if (!categories) {
       req.flash("error", "First enter the field of market categories");
       return res.redirect("/admin/category");
     }
-    return res.render("admin/webinar_detail_one", { categories });
+    return res.render("admin/webinar_detail_one", { categories, portfolio });
   })
 );
 

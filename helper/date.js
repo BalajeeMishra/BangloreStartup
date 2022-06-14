@@ -37,8 +37,8 @@ module.exports.timingFormat = (webinartiming) => {
     dateformattransaction,
     givenDate,
     month,
+    year,
   };
-  console.log("balajee", datePattern);
   return formats;
 };
 
