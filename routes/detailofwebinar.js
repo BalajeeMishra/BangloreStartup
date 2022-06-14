@@ -9,7 +9,7 @@ const Department = require("../models/department");
 const Portfolio = require("../models/portfolio.js");
 const { timingFormat, addtimeinAmPmFormat } = require("../helper/date");
 
-// add the detail of webinar.
+// add the first page detail of webinar.
 router.get(
   "/",
   wrapAsync(async (req, res) => {
