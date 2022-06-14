@@ -82,6 +82,10 @@ const WebinarSchema = new mongoose.Schema(
     showingDate: {
       type: String,
     },
+    // storing in 12-02-2022 format.
+    dateforSort: {
+      type: String,
+    },
     addtimingineastern: {
       type: String,
     },

@@ -25,12 +25,14 @@ module.exports.timingFormat = (webinartiming) => {
   var date = new Date(webinartiming);
   var year = date.getFullYear();
   const monthname = monthNames[date.getMonth()];
+  //8 for this month...
   let day = weekday[date.getDay()];
   var month = String(date.getMonth() + 1).padStart(2, "0");
   var givenDate = String(date.getDate()).padStart(2, "0");
   var givenDateShowpage = givenDate + "/" + monthname + "/" + year + "-" + day;
   var datePattern = year + "-" + month + "-" + givenDate;
   var dateformattransaction = givenDate + "-" + month + "-" + year;
+  var monthandyear = month + "-" + year;
   const formats = {
     givenDateShowpage,
     datePattern,
@@ -38,6 +40,7 @@ module.exports.timingFormat = (webinartiming) => {
     givenDate,
     month,
     year,
+    monthandyear,
   };
   return formats;
 };
@@ -107,4 +110,20 @@ module.exports.transactionWeekFormat = (date) => {
   // Return array of date objects
   return [monday, sunday]; // but isko shi lane ke liye jo sabse upar me hai usko call krna
   // console.log("balajee mishra", sundayNumber, sunday, monday);
+};
+module.exports.firsttwomonthfromnow = () => {
+  var date = new Date();
+  var year = date.getFullYear();
+  var month = String(date.getMonth() + 1).padStart(2, "0");
+  var nextMonth = String(date.getMonth() + 2).padStart(2, "0");
+  var nexttonextMonth = String(date.getMonth() + 3).padStart(2, "0");
+  var currentMonth = month + "-" + year;
+  var firstmonthfromnow = nextMonth + "-" + year;
+  var secondmonthfromnow = nexttonextMonth + "-" + year;
+  const formats = {
+    currentMonth,
+    firstmonthfromnow,
+    secondmonthfromnow,
+  };
+  return formats;
 };

@@ -7,7 +7,11 @@ const wrapAsync = require("../controlError/wrapAsync");
 const { upload } = require("../helper/multer");
 const Department = require("../models/department");
 const Portfolio = require("../models/portfolio.js");
-const { timingFormat, addtimeinAmPmFormat } = require("../helper/date");
+const {
+  timingFormat,
+  addtimeinAmPmFormat,
+  firsttwomonthfromnow,
+} = require("../helper/date");
 
 // add the first page detail of webinar.
 router.get(
@@ -33,6 +37,7 @@ router.post(
   upload.single("image"),
   wrapAsync(async (req, res) => {
     const { webinartiming, time } = req.body;
+    // console.log({ ...req.body });
     const lastWebinar = await Webinar.find({});
     if (lastWebinar.length) {
       var id = lastWebinar[lastWebinar.length - 1].webinarId;
@@ -48,6 +53,7 @@ router.post(
       const dateformat = timingFormat(webinartiming);
       const datePattern = dateformat.givenDateShowpage;
       newWebinar.showingDate = datePattern;
+      newWebinar.dateforSort = dateformat.monthandyear;
     }
     // here I am basically entering the time of estern and western inside a webinar schema.
     if (time) {
@@ -55,7 +61,7 @@ router.post(
       newWebinar.addtimingineastern = timeinFormat.eastern;
       newWebinar.addtiminginpacific = timeinFormat.pacific;
     }
-    newWebinar.webinarId = id + 1;
+    newWebinar.webinarId = !id ? 108 : id + 1;
     const newWebinarcollected = await newWebinar.save();
     req.session.newWebinarData = newWebinarcollected;
     res.redirect("/webinar/moredetail");
@@ -120,7 +126,6 @@ router.get(
       req.flash("error", "No match found");
       return res.redirect("/webinar/all");
     }
-
     return res.render("allwebinar", {
       allWebinar,
       department,
@@ -128,6 +133,18 @@ router.get(
     });
   })
 );
+// for finding monthwise data for 2 month from this month.
+router.get("/monthwise", async (req, res) => {
+  // month + "-" + year;
+  // currentMonth,
+  // firstmonthfromnow,
+  // secondmonthfromnow,
+  const monthFormat = firsttwomonthfromnow();
+  const webinar = await Webinar.find({
+    dateforSort: monthFormat.secondmonthfromnow,
+  });
+  res.send(webinar);
+});
 
 // just view the detail route of any webinar or seminar.
 router.get(

@@ -32,7 +32,7 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   }
   // for storing current date.
   const dateNow = timingFormat(new Date());
-
+  // finding previous purchase id.
   const lastPurchase = await TransactionDetail.find({});
   if (lastPurchase.length) {
     var id = lastPurchase[lastPurchase.length - 1].purchaseId;
