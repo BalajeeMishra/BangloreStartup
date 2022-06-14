@@ -59,4 +59,7 @@ router.get("/weekly", async (req, res) => {
   // ]);
   res.send(transactionDetail);
 });
+
+router.get("/monthly", async (req, res) => {});
+
 module.exports = router;
