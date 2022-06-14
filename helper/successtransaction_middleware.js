@@ -1,6 +1,7 @@
 const PurchaseOfUser = require("../models/purchase_Schema");
 const TransactionDetail = require("../models/transaction");
 const Cart = require("../models/cart");
+const User = require("../models/user");
 const wrapAsync = require("../controlError/wrapAsync");
 const { transactionWeekFormat, timingFormat } = require("../helper/date");
 // this is the middleware that will execute after payment succession.
@@ -50,7 +51,10 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   delete req.session.amount;
   // removing all the cart after successfully payment.
   await Cart.deleteMany({ userId: req.user._id });
-
+  // basically here we will give null to cart of that user.
+  const user = await User.findById(req.user._id);
+  user.cart = null;
+  await user.save();
   // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
   //   {},
   //   { purchaseId: Date.now() }

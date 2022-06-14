@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cart",
+  },
 });
 
 UserSchema.plugin(passportLocalMongoose);

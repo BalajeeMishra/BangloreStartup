@@ -8,7 +8,7 @@ const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const { timingFormat } = require("../helper/date");
 const Cart = require("../models/cart");
-const user = require("../models/user.js");
+const User = require("../models/user.js");
 //its admin dashboard route.
 router.get(
   "/",
@@ -240,14 +240,11 @@ router.get("/update_the_visibility_of_category/:id", async (req, res) => {
   }).updateMany({}, { visibility: !categorytoupdate.visibility });
   return res.redirect("/admin/allcategories");
 });
-
 // finding all the data of cart with every users
 router.get("/cartdata_to_no_purchase", async (req, res) => {
   const cart = await Cart.find({}).populate(["product", "userId"]);
-  const user = await user.find({});
-  // here only those user will come who has a addtocart thing means cart id inside databases.
-  // console.log(cart);
-  // res.send(cart);
-  res.render("admin/cartAbandon", { cart });
+  const user = await User.find({}).populate("cart");
+  res.render("admin/cartAbandon", { cart, user });
 });
+
 module.exports = router;

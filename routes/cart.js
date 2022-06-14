@@ -5,7 +5,7 @@ const Cart = require("../models/cart.js");
 const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
-const user = require("../models/user.js");
+const User = require("../models/user.js");
 // adding cart for a user in the database........
 router.post(
   "/:id",
@@ -62,7 +62,7 @@ router.post(
 
     if (!cart) {
       var newCart = new Cart({
-        userId: req.user._id,
+        userId: req.user ? req.user._id : null,
         product: req.params.id,
         categoryofprice: [
           {
@@ -74,6 +74,15 @@ router.post(
         ],
       });
       await newCart.save();
+      if (!req.session.cartsofnonregisteruser) {
+        req.session.cartsofnonregisteruser = [];
+      }
+      req.session.cartsofnonregisteruser.push(newCart);
+      if (req.user) {
+        const user = await User.findById(req.user._id);
+        user.cart = newCart._id;
+        await user.save();
+      }
     }
     return res.redirect("/cart/all");
   })
@@ -83,11 +92,15 @@ router.post(
 router.get(
   "/all",
   wrapAsync(async (req, res) => {
-    const { clear } = req.query;
+    const { clear, id } = req.query;
     const Total = 0;
     const TotalPrice = 0;
-    let cart = await Cart.find({ userId: req.user._id }).populate("product");
-    console.log(cart);
+    if (id || req.user) {
+      var userid = id ? id : req.user._id;
+      var cart = await Cart.find({ userId: userid }).populate("product");
+    }
+    //cart = req.session.cartsofnonregisteruser;
+    console.log("balajee", await Webinar.findById(cart[0].product));
     if (clear) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id });
@@ -97,7 +110,6 @@ router.get(
     // res.send("hello worldd");
   })
 );
-
 // increasing decresing the product category inside cart.
 router.get(
   "/:cartId/:categoryId",
