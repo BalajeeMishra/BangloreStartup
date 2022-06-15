@@ -138,7 +138,6 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
   const { statusCode = 500, message = "Something went wrong" } = err;
   if (err) {
     res.status(statusCode).render("error", { err });
@@ -146,7 +145,6 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  const webinar = await WebinarModel.find({});
   const department = await Department.find({});
   return res.render("home", { department });
 });

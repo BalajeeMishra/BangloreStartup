@@ -39,38 +39,6 @@ router.get(
   })
 );
 
-// router.post("/", function (req, res) {
-//   // Moreover you can take more details from user
-//   // like Address, Name, etc from form
-//   stripe.customers
-//     .create({
-//       email: req.body.stripeEmail,
-//       source: req.body.stripeToken,
-//       name: "Gautam Sharma",
-//       address: {
-//         line1: "TC 9/4 Old MES colony",
-//         postal_code: "110092",
-//         city: "New Delhi",
-//         state: "Delhi",
-//         country: "India",
-//       },
-//     })
-//     .then((customer) => {
-//       return stripe.charges.create({
-//         amount: 7000, // Charing Rs 25
-//         description: "Web Development Product",
-//         currency: "USD",
-//         customer: customer.id,
-//       });
-//     })
-//     .then((charge) => {
-//       res.send("Success"); // If no error occurs
-//     })
-//     .catch((err) => {
-//       res.send(err); // If some error occurs
-//     });
-// });
-
 // payment with stripe processing
 router.post(
   "/paymentwithstripe/create-checkout-session",
@@ -102,6 +70,7 @@ router.post(
 router.get(
   "/success",
   wrapAsync(async (req, res, next) => {
+    req.session.method = "Stripe";
     isSuccess(req, res, next);
     return res.render("success");
   })
@@ -131,9 +100,8 @@ router.get(
 router.post(
   "/paymentwithpaypal",
   wrapAsync(async (req, res, next) => {
-    console.log(req.body.totalpayment);
     const priced = parseInt(req.body.totalpayment);
-    req.session.price = priced;
+    req.session.amount = priced;
     const create_payment_json = {
       intent: "sale",
       payer: {
@@ -146,28 +114,13 @@ router.post(
       transactions: [
         {
           item_list: {
-            items: [
-              // {
-              //   name: "Redhock Bar Soap",
-              //   sku: "001",
-              //   price: "25.00",
-              //   currency: "USD",
-              //   quantity: 1,
-              // },
-              // {
-              //   name: "All your product",
-              //   sku: "001",
-              //   price: "25.00",
-              //   currency: "USD",
-              //   quantity: 1,
-              // },
-            ],
+            items: [],
           },
           amount: {
             currency: "USD",
             total: priced,
           },
-          description: "Washing Bar soap",
+          description: "Thank you for purchasing",
         },
       ],
     };
@@ -191,7 +144,7 @@ router.post(
 // success route of payment with paypal processing
 router.get(
   "/successtransaction",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
 
@@ -201,7 +154,7 @@ router.get(
         {
           amount: {
             currency: "USD",
-            total: req.session.price,
+            total: req.session.amount,
           },
         },
       ],
@@ -211,11 +164,12 @@ router.get(
       paymentId,
       execute_payment_json,
       (error, payment) => {
-        //When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
+        //When error occurs when due to non-existent transaction, throw an error else logging the transaction details in the console then send a Success string reposponse to the user.
         if (error) {
           throw error;
         } else {
-          delete req.session.price;
+          req.session.method = "Paypal";
+          isSuccess(req, res, next);
           // res.json({ payment });
           res.send("Success");
         }
@@ -224,6 +178,9 @@ router.get(
   })
 );
 // cancel route of payment with paypal processing
-router.get("/canceltransaction", (req, res) => res.send("Cancelled"));
+router.get("/canceltransaction", (req, res) => {
+  delete req.session.amount;
+  res.send("Cancelled");
+});
 
 module.exports = router;

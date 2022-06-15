@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
-
 const PurchaseOfUser = new mongoose.Schema(
   {
+    method: {
+      type: String,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

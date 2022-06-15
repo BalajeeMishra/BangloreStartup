@@ -17,6 +17,7 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
       userId: req.user._id,
       product: allCartofuser[i].product,
       date: dateformat.dateformattransaction,
+      method: req.session.method,
     });
 
     for (let j = 0; j < allCartofuser[i].categoryofprice.length; j++) {
@@ -32,6 +33,8 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
     }
     await purchaseOfUser.save();
   }
+  // deleting the method from session.
+  delete req.session.method;
   // for storing current date.
   const dateNow = timingFormat(new Date());
   // finding previous purchase id.

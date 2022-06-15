@@ -49,7 +49,7 @@ router.post(
       req.session.token = jwt.sign(
         { firstname, email, password },
         process.env.JWT_ACC_ACTIVATE,
-        { expiresIn: "2m" }
+        { expiresIn: "24h" }
       );
       // below are the code for checking the expiry period of token
       var decoded = jwt.decode(req.session.token, { complete: true });
@@ -93,11 +93,16 @@ router.get(
 //logging the user.
 router.post(
   "/login",
-  async (req, res, next) => {
+  wrapAsync(async (req, res, next) => {
     const { email } = req.body;
     var user = await User.findOne({ email });
     if (!user) {
-      return new AppError("user not found,please enter the detail carefully");
+      req.flash("error", "Please enter the detail carefully");
+      return res.redirect("/user/login");
+      // throw new AppError(
+      //   "user not found,please enter the detail carefully",
+      //   200
+      // );
     }
     if (user.verify) {
       // req.flash("success", "welcome back");
@@ -106,7 +111,7 @@ router.post(
       req.flash("error", "Please first verify yourself");
       return res.redirect("/user/login");
     }
-  },
+  }),
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/user/login",
@@ -158,7 +163,7 @@ router.post(
   wrapAsync(async (req, res, next) => {
     const { email } = req.body;
     req.session.foremail = email;
-    // console.log("bala", req.body);
+
     const user = await User.findOne({ email });
     if (user) {
       // all these things are used for generating token 1.
@@ -169,9 +174,8 @@ router.post(
       req.session.token = jwt.sign(
         { name, email_fortoken, password },
         process.env.JWT_ACC_ACTIVATE,
-        { expiresIn: "2m" }
+        { expiresIn: "24h" }
       );
-      console.log("lala", req.session.token);
       // below are the code for setting the expiry period of token1.
       var decoded = jwt.decode(req.session.token, { complete: true });
       const exp = decoded.payload.exp;
@@ -179,7 +183,6 @@ router.post(
 
       //idhar result kuch unexpected bhi aa sakta hai kya.
       const result = await mailForForgetpassword(email, req.session.token);
-      console.log("balajee", result);
       if (result.accepted[0]) {
         return res.render("mail_verification");
       } else {
@@ -315,7 +318,7 @@ router.post(
     req.session.token = jwt.sign(
       { name, email, password },
       process.env.JWT_ACC_ACTIVATE,
-      { expiresIn: "2m" }
+      { expiresIn: "24h" }
     );
 
     // below are the code for checking the expiry period of token
