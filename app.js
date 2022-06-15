@@ -29,6 +29,8 @@ const SubscribedUser = require("./routes/subscribed_user");
 const jwt = require("jsonwebtoken");
 const UserDashboard = require("./routes/user_dashboard");
 const TransactionDetail = require("./routes/transation_control_admin");
+const CustomerFeedback = require("./routes/customer-feedback");
+const Lead = require("./routes/lead");
 const AppError = require("./controlError/AppError");
 mongoose
   .connect(dbUrl, {
@@ -124,6 +126,8 @@ app.use("/payment", Payment);
 app.use("/pdf", Pdf_page);
 app.use("/subscribeduser", SubscribedUser);
 app.use("/transactiondetail", TransactionDetail);
+app.use("/customer-feedback", CustomerFeedback);
+app.use("/admin/lead", Lead);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);
 };

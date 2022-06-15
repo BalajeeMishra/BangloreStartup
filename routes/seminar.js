@@ -52,4 +52,10 @@ router.get("/webinar", async (req, res) => {
   const webinar = await Webinar.find({ category });
   return res.send(webinar);
 });
+
+// route for agenda.
+router.get("/:id", async (req, res) => {
+  const seminar = await Webinar.findById(id);
+  return res.send(seminar.agenda);
+});
 module.exports = router;
