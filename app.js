@@ -80,8 +80,8 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
   },
   // idforuser: id_generator(),
 };
@@ -147,35 +147,6 @@ app.use((err, req, res, next) => {
 
 app.get("/", async (req, res) => {
   const webinar = await WebinarModel.find({});
-  webinar.sort(function (a, b) {
-    var dateA = new Date(a.webinartiming),
-      dateB = new Date(b.webinartiming);
-    return dateA - dateB;
-  });
-  const name = "balajee";
-  const email = "bala.44472@gmail.com";
-  const password = "balajeemishra";
-  const token = jwt.sign(
-    { name, email, password },
-    process.env.JWT_ACC_ACTIVATE,
-    { expiresIn: "1m" }
-  );
-  var decoded = jwt.decode(token, { complete: true });
-  // console.log(decoded.payload.exp);
-  // console.log("balajee", decoded);
-  // console.log("hello", Date.now());
-  // console.log(Math.floor(Date.now() / 1000) + 10 * 60);
-  // console.log(token);
-  const date = new Date();
-  // console.log("balajee mishra", date);
-  // console.log(
-  //   `Token Generated at:- ${date.getHours()} :${date.getMinutes()} :${date.getSeconds()}`
-  // );
-  // console.log(
-  //   `Token Generated at:- ${date.getHours()} :${
-  //     date.getMinutes() + 1
-  //   } :${date.getSeconds()}`
-  // );
   const department = await Department.find({});
   return res.render("home", { department });
 });

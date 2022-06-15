@@ -1,0 +1,19 @@
+<%- include("./layouts/header"); -%>
+
+    <div class="card">
+        <h4> your token is deleted. </h4>
+        <form method="post" action="/user/sendthemailagain">
+            <div>
+                <label>Enter your registered email id.</label>
+                <input name="email" id="email" placeholder="Email">
+            </div>
+            <div>
+                <button>
+                    Send the mail again for verification.
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <%- include("./layouts/footer"); -%>

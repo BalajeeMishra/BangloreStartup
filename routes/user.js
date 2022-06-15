@@ -9,7 +9,7 @@ const {
   mailForVerify,
   mailForForgetpassword,
 } = require("../helper/mailsendingfunction");
-
+const { generateString } = require("../helper/string_generator");
 // register form route
 router.get(
   "/register",
@@ -45,12 +45,17 @@ router.post(
       if (password.length < 8) {
         return res.render("register", { userData });
       }
-      // we have to think here.
+      // storing token for verification purpose..
       req.session.token = jwt.sign(
         { firstname, email, password },
         process.env.JWT_ACC_ACTIVATE,
         { expiresIn: "2m" }
       );
+      // below are the code for checking the expiry period of token
+      var decoded = jwt.decode(req.session.token, { complete: true });
+      const exp = decoded.payload.exp;
+      req.session.exp = exp;
+      // registering new user here.
       const user = new User({
         firstname,
         lastname,
@@ -82,8 +87,6 @@ router.post(
 router.get(
   "/login",
   wrapAsync(async (req, res, next) => {
-    // const users = await User.find({}).updateMany({}, { verify: true });
-    // console.log(users);
     res.render("login");
   })
 );
@@ -116,10 +119,17 @@ router.post(
 router.get(
   "/login/:id",
   wrapAsync(async (req, res, next) => {
-    console.log(await User.findOne({ token: req.session.token }));
     const id = req.params.id;
+    // checking if the token is expired;
+    if (!req.session.exp) {
+      return res.redirect("/user/sendthemailagain");
+    }
+    if (Date.now() >= req.session.exp * 1000) {
+      delete req.session.token;
+      delete req.session.exp;
+      return res.redirect("/user/sendthemailagain");
+    }
     if (id === req.session.token) {
-      console.log("balajee mishra");
       const user = await User.findOneAndUpdate(
         { token: req.session.token },
         { verify: true },
@@ -127,21 +137,9 @@ router.get(
           new: true,
         }
       );
-      // User.findOneAndUpdate(
-      //   req.session.token,
-      //   { verify: true },
-      //   { upsert: true },
-      //   function (err, doc) {
-      //     if (err) return res.send(500, { error: err });
-      //   }
-      // ).then((doc) => console.log(doc));
-      // await User.findOneAndUpdate(
-      //   id,
-      //   { //$unset: { token: 1 } },
-      //   { useFindAndModify: false }
-      // );
-      //iske thora check karna hai....
-      // delete req.session.token;
+      // deleting the token from the session after verification.
+      delete req.session.token;
+      delete req.session.exp;
       req.flash("success", "YOU ARE VERIFIED NOW");
       return res.redirect("/user/login");
     }
@@ -159,21 +157,31 @@ router.post(
   "/forgetpassword",
   wrapAsync(async (req, res, next) => {
     const { email } = req.body;
+    req.session.foremail = email;
+    // console.log("bala", req.body);
     const user = await User.findOne({ email });
     if (user) {
-      req.session.foremail = user;
-      const { firstname } = user;
-      const password = "etyu@!321";
-
-      req.session.token1 = jwt.sign(
-        { firstname, email, password },
+      // all these things are used for generating token 1.
+      const name = generateString(5);
+      const email_fortoken = generateString(10);
+      const password = generateString(8);
+      // storing token for verification purpose..
+      req.session.token = jwt.sign(
+        { name, email_fortoken, password },
         process.env.JWT_ACC_ACTIVATE,
-        { expiresIn: "10m" }
+        { expiresIn: "2m" }
       );
+      console.log("lala", req.session.token);
+      // below are the code for setting the expiry period of token1.
+      var decoded = jwt.decode(req.session.token, { complete: true });
+      const exp = decoded.payload.exp;
+      req.session.exp = exp;
+
       //idhar result kuch unexpected bhi aa sakta hai kya.
-      const result = await mailForForgetpassword(email, req.session.token1);
+      const result = await mailForForgetpassword(email, req.session.token);
+      console.log("balajee", result);
       if (result.accepted[0]) {
-        return res.render("mail_verification", { mail_verify: true });
+        return res.render("mail_verification");
       } else {
         return new AppError("Something going wrong,Please try again later.");
       }
@@ -186,8 +194,20 @@ router.post(
 router.get(
   "/detailforchange/:id",
   wrapAsync(async (req, res, next) => {
+    if (!req.session.exp) {
+      req.session.forget = 1;
+      return res.redirect("/user/sendthemailagain");
+    }
+    if (Date.now() >= req.session.exp * 1000) {
+      delete req.session.token;
+      delete req.session.exp;
+      req.session.forget = 1;
+      return res.redirect("/user/sendthemailagain");
+    }
     const id = req.params.id;
-    if (id === req.session.token1) {
+    if (id === req.session.token) {
+      delete req.session.token;
+      delete req.session.exp;
       return res.render("detailforchangepassword");
     }
   })
@@ -197,32 +217,44 @@ router.get(
 router.post(
   "/detailforchange",
   wrapAsync(async (req, res, next) => {
-    if (req.session.foremail) {
-      var { email } = req.session.foremail;
-    }
-    const user = await User.findOne({ email });
-    const { password, password2 } = req.body;
-    const userData = req.body;
-    if (password != password2) {
-      return res.render("detailforchangepassword", {
-        userData,
-        match: true,
-      });
-    }
-    if (password.length < 8) {
-      return res.render("detailforchangepassword", {
-        userData,
-      });
+    // below if block case will rarely happen.
+    if (!req.session.foremail) {
+      req.flash(
+        "error",
+        "It's too late you lastly tried it for.Please try again"
+      );
+      return res.redirect("/user/forgetpassword");
     }
 
-    user.setPassword(req.body.password, async (err, user) => {
-      if (err) {
-        throw new AppError("Something going wrong,please try again");
+    if (req.session.foremail) {
+      var email = req.session.foremail;
+      const user = await User.findOne({ email });
+      const { password, password2 } = req.body;
+      const userData = req.body;
+      if (password != password2) {
+        return res.render("detailforchangepassword", {
+          userData,
+          match: true,
+        });
       }
-      await user.save();
-    });
-    req.flash("success", "your password changed successfully");
-    res.redirect("/user/login");
+      if (password.length < 8) {
+        return res.render("detailforchangepassword", {
+          userData,
+        });
+      }
+
+      user.setPassword(req.body.password, async (err, user) => {
+        if (err) {
+          throw new AppError("Something going wrong,please try again");
+        }
+        await user.save();
+      });
+      req.flash("success", "your password changed successfully");
+      return res.redirect("/user/login");
+    } else {
+      req.flash("error", "please try again");
+      return res.redirect("/user/forgetpassword");
+    }
   })
 );
 // for changing the password rendering the form.
@@ -265,5 +297,62 @@ router.get(
     return res.redirect("/user/login");
   })
 );
+// sending the verificational link again.
+router.get(
+  "/sendthemailagain",
+  wrapAsync(async (req, res) => {
+    return res.render("sendtheLinkAgain");
+  })
+);
+// by using this route user data will update for verificational purpose.
+router.post(
+  "/sendthemailagain",
+  wrapAsync(async (req, res) => {
+    const name = generateString(5);
+    const email = generateString(10);
+    const password = generateString(8);
+    // storing token for verification purpose..
+    req.session.token = jwt.sign(
+      { name, email, password },
+      process.env.JWT_ACC_ACTIVATE,
+      { expiresIn: "2m" }
+    );
 
+    // below are the code for checking the expiry period of token
+    var decoded = jwt.decode(req.session.token, { complete: true });
+    const exp = decoded.payload.exp;
+    req.session.exp = exp;
+
+    //below if statement will execute in only in the case of forget password.
+    if (req.session.forget) {
+      const result = await mailForForgetpassword(email, req.session.token);
+      delete req.session.forget;
+      if (result.accepted[0]) {
+        return res.render("mail_verification");
+      } else {
+        req.flash("error", "Something going wrong,please try again");
+      }
+    }
+    // updating the user token with current token.
+    const findingTheuser = await User.findOneAndUpdate(
+      { email: req.body.email },
+      { token: req.session.token },
+      {
+        new: true,
+      }
+    );
+    if (!findingTheuser) {
+      req.flash("error", "please enter the correct mail id");
+      return res.redirect("/user/sendthemailagain");
+    }
+    // now sending the mail again.
+    const result = await mailForVerify(req.body.email, req.session.token);
+    // result ko bhi check karna hai.
+    if (result.accepted[0]) {
+      return res.render("mail_verification");
+    } else {
+      req.flash("error", "Something going wrong,please try again");
+    }
+  })
+);
 module.exports = router;
