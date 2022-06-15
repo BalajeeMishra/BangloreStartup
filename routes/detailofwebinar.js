@@ -98,7 +98,8 @@ router.get(
     const { category = "", status = "" } = req.query;
     let categoryList = category.split("_");
     // console.log(categoryList);
-    let query = { visibility: true };
+    // console.log(typeof req.query.types);
+    let query = { visibility: true, types: "Webinar" };
     if (category.length) query.category = { $in: [...categoryList] };
     if (status.length) query.status = { $in: [status] };
 
@@ -133,6 +134,7 @@ router.get(
     });
   })
 );
+
 // for finding monthwise data for 2 month from this month.
 router.get("/monthwise", async (req, res) => {
   // month + "-" + year;

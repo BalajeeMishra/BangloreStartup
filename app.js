@@ -13,7 +13,9 @@ const LocalStrategy = require("passport-local");
 const fs = require("fs");
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/new_project";
 const { uploadVideo } = require("./cloudinary/index");
+const Department = require("./models/department");
 const Webinar = require("./routes/detailofwebinar");
+const Seminar = require("./routes/seminar");
 const Portfolio = require("./routes/portfolio");
 const AdminDashboard = require("./routes/admin_dashboard");
 const WebinarModel = require("./models/webinar.js");
@@ -105,6 +107,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/webinar", Webinar);
+app.use("/seminar", Seminar);
 app.use("/portfolio", Portfolio);
 app.use("/admin", AdminDashboard);
 app.use("/price", AddPrice);
@@ -163,7 +166,8 @@ app.get("/", async (req, res) => {
   //     date.getMinutes() + 1
   //   } :${date.getSeconds()}`
   // );
-  return res.render("home");
+  const department = await Department.find({});
+  return res.render("home", { department });
 });
 
 app.post("/video/upload", async (req, res) => {

@@ -27,7 +27,6 @@ const WebinarSchema = new mongoose.Schema(
       },
       filename: String,
     },
-
     // duration of webinar or seminar.
     duration: {
       type: Number,

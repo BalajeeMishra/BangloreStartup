@@ -59,247 +59,256 @@
     </header>
 
     <main class="container-fluid p-0 pb-4">
-        <section class="hero1">
-            <article class="w-50 flex left">
-                <div class="find_courses">
-                    <form method="post" action="/webinar/search">
-                        <input type="search" name="courses" id="courses" required autofocus autocomplete="off"
-                            placeholder="Search courses...">
-                        <button type="submit" onclick="getYourResult()">Find Courses</button>
-                    </form>
-                </div>
-            </article>
-            <article class="w-50 right">
-                <div id="carouselControls" class="carousel slide h-100" data-bs-ride="carousel">
-                    <div class="carousel-inner h-100">
-                        <div class="carousel-item h-100 active">
-                            <div class="showcase-slide w-100 h-100 text-center">
-                                <p class="slide-text">Webinar</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item h-100">
-                            <div class="showcase-slide w-100 h-100 text-center">
-                                <p class="slide-text">Seminar</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item h-100">
-                            <div class="showcase-slide w-100 h-100 text-center">
-                                <p class="slide-text">Webinar & Seminar</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </article>
-        </section>
-        <section class="industries flex text-center flex-column gap">
-            <p class="h1">INDUSTRIES</p>
-            <div class="d-flex justify-content-center align-items-center flex-wrap gap">
-                <div class="industry d-flex justify-content-center align-items-center">BFSI</div>
-                <div class="industry d-flex justify-content-center align-items-center ">LS</div>
-                <div class="industry d-flex justify-content-center align-items-center ">HR</div>
-                <div class="industry d-flex justify-content-center align-items-center ">OSHA</div>
-                <div class="industry d-flex justify-content-center align-items-center ">IT</div>
-                <div class="industry d-flex justify-content-center align-items-center ">KG</div>
-                <div class="industry d-flex justify-content-center align-items-center ">TRADE</div>
-                <div class="industry d-flex justify-content-center align-items-center ">MANUFACTURING</div>
+        <% department.forEach((d)=>{ %>
+            <div class="card">
+                <a href="/seminar/webinar/?category=<%=d.nameofdepartment%>">
+                    <%=d.nameofdepartment %>
+                </a>
             </div>
-        </section>
-        <section class="webinars p-4 py-4 container-fluid">
-            <p class="h1 w-100 text-center">Upcoming Webinars</p>
-            <div class="row py-4 bg-webinars">
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="webinar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
+            <%}) %>
 
-            </div>
-            <a href="#webinars">See All</a>
-        </section>
-        <section class="seminars py-4 p-4 container-fluid">
-            <p class="h1 w-100 text-center">Upcoming Seminars</p>
-            <div class="row py-4 bg-seminars">
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
-                <div class="seminar col-6">
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
-                        <span class="h5 price">$&nbsp;222.0</span>
-                    </div>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <p class="date h6">Date:</p>
-                        <p class="time h6">Time:</p>
-                        <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
-                    </div>
-                </div>
 
-            </div>
-            <a href="#seminars">See All</a>
-        </section>
-        <section class="speakers">
-            <div id="carouselExampleIndicators" class="carousel slide h-100" data-bs-ride="true">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner h-100">
-                    <div class="carousel-item h-100 active">
-                        <img src="..." class="d-block w-100" alt="...">
+                <section class="hero1">
+                    <article class="w-50 flex left">
+                        <div class="find_courses">
+                            <form method="post" action="/webinar/search">
+                                <input type="search" name="courses" id="courses" required autofocus autocomplete="off"
+                                    placeholder="Search courses...">
+                                <button type="submit" onclick="getYourResult()">Find Courses</button>
+                            </form>
+                        </div>
+                    </article>
+                    <article class="w-50 right">
+                        <div id="carouselControls" class="carousel slide h-100" data-bs-ride="carousel">
+                            <div class="carousel-inner h-100">
+                                <div class="carousel-item h-100 active">
+                                    <div class="showcase-slide w-100 h-100 text-center">
+                                        <p class="slide-text">Webinar</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <div class="showcase-slide w-100 h-100 text-center">
+                                        <p class="slide-text">Seminar</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <div class="showcase-slide w-100 h-100 text-center">
+                                        <p class="slide-text">Webinar & Seminar</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselControls"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </article>
+                </section>
+                <section class="industries flex text-center flex-column gap">
+                    <p class="h1">INDUSTRIES</p>
+                    <div class="d-flex justify-content-center align-items-center flex-wrap gap">
+                        <div class="industry d-flex justify-content-center align-items-center">BFSI</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">LS</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">HR</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">OSHA</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">IT</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">KG</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">TRADE</div>
+                        <div class="industry d-flex justify-content-center align-items-center ">MANUFACTURING</div>
                     </div>
-                    <div class="carousel-item h-100">
-                        <img src="..." class="d-block w-100" alt="...">
+                </section>
+                <section class="webinars p-4 py-4 container-fluid">
+                    <p class="h1 w-100 text-center">Upcoming Webinars</p>
+                    <div class="row py-4 bg-webinars">
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="webinar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="carousel-item h-100">
-                        <img src="..." class="d-block w-100" alt="...">
+                    <a href="#webinars">See All</a>
+                </section>
+                <section class="seminars py-4 p-4 container-fluid">
+                    <p class="h1 w-100 text-center">Upcoming Seminars</p>
+                    <div class="row py-4 bg-seminars">
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+                        <div class="seminar col-6">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="h5">Topic: Lorem ipsum dolor sit amet.</p>
+                                <span class="h5 price">$&nbsp;222.0</span>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <p class="date h6">Date:</p>
+                                <p class="time h6">Time:</p>
+                                <p class="link h6"><a href="#" class="nav_link">Know More </a></p>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
-        <section class="newslater flex container-fluid p-3">
-            <div class="input-container d-flex justify-content-between">
-                <input type="email" name="subscriber" id="subscriber" placeholder="Susbcribe" />
-                <button type="submit">Susbcribe</button>
-            </div>
-        </section>
-        <footer class="footer"></footer>
+                    <a href="#seminars">See All</a>
+                </section>
+                <section class="speakers">
+                    <div id="carouselExampleIndicators" class="carousel slide h-100" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner h-100">
+                            <div class="carousel-item h-100 active">
+                                <img src="..." class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item h-100">
+                                <img src="..." class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item h-100">
+                                <img src="..." class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </section>
+                <section class="newslater flex container-fluid p-3">
+                    <div class="input-container d-flex justify-content-between">
+                        <input type="email" name="subscriber" id="subscriber" placeholder="Susbcribe" />
+                        <button type="submit">Susbcribe</button>
+                    </div>
+                </section>
+                <footer class="footer"></footer>
 
     </main>
 </body>
