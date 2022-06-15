@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
+
 const WebinarSchema = new mongoose.Schema(
   {
     name: {
@@ -18,7 +19,12 @@ const WebinarSchema = new mongoose.Schema(
       type: String,
     },
     image: {
-      type: String,
+      url: {
+        type: String,
+        default:
+          "https://hh-certificates.sgp1.digitaloceanspaces.com/blog/wp-content/uploads/2020/07/14072655/istock-1031840318_1594065298235_x2.jpg",
+      },
+      name: String,
       // required: [true, "Uploaded file must have a name"],
     },
     // duration of webinar or seminar.
@@ -83,8 +89,8 @@ const WebinarSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-);
+)
 
-WebinarSchema.index({ title: "text", name: "text", description: "text" });
+WebinarSchema.index({ title: "text", name: "text", description: "text" })
 
-module.exports = mongoose.model("Webinar", WebinarSchema);
+module.exports = mongoose.model("Webinar", WebinarSchema)

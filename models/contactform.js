@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
+
 const ContactFormSchema = new mongoose.Schema({
-  name: {
+  name: String,
+  email: String,
+  phone: String,
+  company: String,
+  industry: String,
+  message: String,
+  contact_type: {
     type: String,
+    default: "feedback",
   },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: Number,
-  },
-  message: {
-    type: String,
-  },
-});
-module.exports = mongoose.model("Contact", ContactFormSchema);
+})
+
+module.exports = mongoose.model("Contact", ContactFormSchema)

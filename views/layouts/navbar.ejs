@@ -1,4 +1,60 @@
-<nav class="navbar navbar-expand-lg navbar-blue" id="navbar">
+<!-- contact and social -->
+<div class="contact flex-wrap">
+    <div class="flex flex-wrap" style="gap: 10px;">
+        <a href="#social" class="social"><i class="bi bi-twitter"></i></a>
+        <a href="#social" class="social"><i class="bi bi-facebook"></i></a>
+        <a href="#social" class="social"><i class="bi bi-instagram"></i></a>
+    </div>
+    <div class="flex flex-wrap" style="gap: 10px;">
+        <a href="tel:18000001234" class="phone">
+            <i class="bi bi-telephone-fill"></i>
+            18000001234</a>
+        <a href="mailto:support@example.com" class="email">
+            <i class="bi bi-envelope-fill"></i>
+            support@example.com</a>
+    </div>
+</div>
+<!-- contact and social end's here... -->
+<!-- header  -->
+<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #023859;">
+    <div class="container-fluid justify-content-between">
+        <a href="/" class="navbar-brand"><img src="/assets/img/logos/logo-1.png" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""><i class="bi bi-list"></i></span>
+        </button>
+
+        <div class="collapse navbar-collapse flex-grow-0 gap-4 gap-md-3" id="navbarNav">
+
+            <form method="POST">
+                <div class="input-group d-flex flex-end-center">
+                    <input class="form-control form-eduprixsearch-control rounded-pill" id="formGroupExampleInput"
+                        type="text" placeholder="Search for webinar" formaction="/search" />
+                    <img class="input-box-icon" src="/assets/img/illustrations/search.png" width="36" alt="search" />
+                </div>
+            </form>
+
+            <ul class="navbar-nav gap-md-3">
+                <li class="nav_item">
+                    <a href="/home" class="nav_link active" aria-current="page"><i class="bi bi-house-fill"></i></a>
+                </li>
+                <li class="nav_item"><a href="/webinar/all" class="nav_link">Webinar</a></li>
+                <li class="nav_item"><a href="/seminar" class="nav_link">Seminar</a></li>
+                <li class="nav_item"><a href="/training" class="nav_link">Consulting</a></li>
+                <li class="nav_item"><a href="/#articles" class="nav_link">Articles Store</a></li>
+                <li class="nav_item">
+                    <a href="/cart/all" class="nav_link text-center">
+                        <i class="bi bi-cart-plus"></i>
+                    </a>
+                </li>
+                <li class="nav_item"><a href="/login" class="nav_link">Login/Register</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-blue" id="navbar">
     <div class="container-fluid" id="containers">
         <a class="navbar-brand" href="/">NewOne</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -23,4 +79,4 @@
             </div>
         </div>
     </div>
-</nav>
+</nav> -->

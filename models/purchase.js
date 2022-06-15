@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
+
 const PurchaseSchema = new mongoose.Schema({
   nameofpurchase: {
     type: String,
@@ -10,5 +11,6 @@ const PurchaseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-});
-module.exports = mongoose.model("Purchase", PurchaseSchema);
+})
+
+module.exports = mongoose.model("Purchase", PurchaseSchema)
