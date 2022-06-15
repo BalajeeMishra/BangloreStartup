@@ -35,6 +35,9 @@ const CartSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    cartSessionId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

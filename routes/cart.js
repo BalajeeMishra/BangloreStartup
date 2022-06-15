@@ -10,6 +10,7 @@ const User = require("../models/user.js");
 router.post(
   "/:id",
   wrapAsync(async (req, res) => {
+    console.log("balallllallal", typeof req.sessionID);
     const { id } = req.params;
     const { purchasecategory } = req.body;
     //finding on the basis of Purchase model.
@@ -63,6 +64,7 @@ router.post(
     if (!cart) {
       var newCart = new Cart({
         userId: req.user ? req.user._id : null,
+        cartSessionId: req.sessionID,
         product: req.params.id,
         categoryofprice: [
           {
@@ -74,6 +76,7 @@ router.post(
         ],
       });
       await newCart.save();
+      // storing in session for the user who is not logged in
       if (!req.session.cartsofnonregisteruser) {
         req.session.cartsofnonregisteruser = [];
       }
@@ -87,7 +90,6 @@ router.post(
     return res.redirect("/cart/all");
   })
 );
-
 // finding all the cart associated with user and clearing too if they choose so.
 router.get(
   "/all",
@@ -95,19 +97,33 @@ router.get(
     const { clear, id } = req.query;
     const Total = 0;
     const TotalPrice = 0;
+    var cart = await Cart.find({
+      cartSessionId: req.sessionID,
+    }).populate("product");
+    if (cart.length && req.user) {
+      await Cart.find({
+        cartSessionId: req.sessionID,
+      }).updateMany({}, { userId: req.user._id });
+    }
     if (id || req.user) {
       var userid = id ? id : req.user._id;
       var cart = await Cart.find({ userId: userid }).populate("product");
+      return res.render("cart", { cart, Total, TotalPrice });
     }
-    //cart = req.session.cartsofnonregisteruser;
-    console.log("balajee", await Webinar.findById(cart[0].product));
+
     if (clear) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id });
       cart = [];
+      return res.render("cart", { cart, Total, TotalPrice });
     }
-    res.render("cart", { cart, Total, TotalPrice });
-    // res.send("hello worldd");
+
+    // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
+    //   {},
+    //   { purchaseId: Date.now() }
+    // );
+
+    return res.render("cart", { cart, Total, TotalPrice });
   })
 );
 // increasing decresing the product category inside cart.

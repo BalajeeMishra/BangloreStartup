@@ -56,6 +56,10 @@ app.use(
 
 app.use(express.json());
 
+function id_generator() {
+  return Math.floor(Math.random() * 899999 + 100000);
+}
+
 const store = new MongoDBStore({
   mongoUrl: dbUrl,
   secret: "thisshouldbeabettersecret!",
@@ -69,6 +73,7 @@ store.on("error", function (e) {
 const sessionConfig = {
   store,
   secret: "thisshouldbeabettersecret!",
+  name: "balajee",
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -76,6 +81,7 @@ const sessionConfig = {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
+  // idforuser: id_generator(),
 };
 
 app.use(session(sessionConfig));
