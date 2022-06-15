@@ -24,6 +24,10 @@ const PurchaseOfUser = new mongoose.Schema(
         },
       },
     ],
+    date: {
+      type: String,
+    },
+
     modifiedOn: {
       type: Date,
       default: Date.now,

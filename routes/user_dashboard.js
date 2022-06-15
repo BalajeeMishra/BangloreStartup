@@ -12,17 +12,17 @@ router.get(
   })
 );
 // purchase historyyy
-router.get(
-  "/purchase_history",
-  wrapAsync(async (req, res) => {
-    const Total = 0;
-    const TotalPrice = 0;
-    let cart = await Cart.find({ userId: req.user._id }).populate("product");
-    cart = cart.filter((e) => {
-      return e.status == true;
-    });
-    res.render("userdashboard/purchasehistory", { cart, Total, TotalPrice });
-  })
-);
+// router.get(
+//   "/purchase_history",
+//   wrapAsync(async (req, res) => {
+//     const Total = 0;
+//     const TotalPrice = 0;
+//     let cart = await Cart.find({ userId: req.user._id }).populate("product");
+//     cart = cart.filter((e) => {
+//       return e.status == true;
+//     });
+//     res.render("userdashboard/purchasehistory", { cart, Total, TotalPrice });
+//   })
+// );
 
 module.exports = router;

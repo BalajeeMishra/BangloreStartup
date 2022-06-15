@@ -81,6 +81,15 @@ router.get("/update_the_visibility/:id", async (req, res) => {
       new: true,
     }
   );
+  // here I am updating visibility cart model for those product that is selected by visibility to true or false.
+  const cart = await Cart.findOneAndUpdate(
+    { product: id },
+    { visibility: !webinartoupdate.visibility },
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
   return res.redirect("/admin/allproduct");
 });
 //deleting or archiving webinar page;

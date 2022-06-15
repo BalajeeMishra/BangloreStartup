@@ -97,12 +97,9 @@ router.get(
   wrapAsync(async (req, res) => {
     const { category = "", status = "" } = req.query;
     let categoryList = category.split("_");
-    // console.log(categoryList);
-    // console.log(typeof req.query.types);
     let query = { visibility: true, types: "Webinar" };
     if (category.length) query.category = { $in: [...categoryList] };
     if (status.length) query.status = { $in: [status] };
-
     const department = await Department.find({}).sort("order");
     // i want to ask ki what will be your order on the basis of sort.
     const allWebinar = await Webinar.find(query)

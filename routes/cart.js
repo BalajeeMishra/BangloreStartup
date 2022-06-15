@@ -6,11 +6,11 @@ const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
 const User = require("../models/user.js");
+const { query } = require("express");
 // adding cart for a user in the database........
 router.post(
   "/:id",
   wrapAsync(async (req, res) => {
-    console.log("balallllallal", typeof req.sessionID);
     const { id } = req.params;
     const { purchasecategory } = req.body;
     //finding on the basis of Purchase model.
@@ -97,26 +97,35 @@ router.get(
     const { clear, id } = req.query;
     const Total = 0;
     const TotalPrice = 0;
+    // basically passing query because we need the data of cart which having visibility of true.
+    let query1 = { cartSessionId: req.sessionID, visibility: true };
+
     var cart = await Cart.find({
-      cartSessionId: req.sessionID,
+      query1,
     }).populate("product");
     if (cart.length && req.user) {
-      await Cart.find({
-        cartSessionId: req.sessionID,
-      }).updateMany({}, { userId: req.user._id });
+      await Cart.find(query1).updateMany({}, { userId: req.user._id });
     }
     if (id || req.user) {
       var userid = id ? id : req.user._id;
-      var cart = await Cart.find({ userId: userid }).populate("product");
+      let query2 = { userId: userid, visibility: true };
+      var cart = await Cart.find(query2).populate("product");
       return res.render("cart", { cart, Total, TotalPrice });
     }
-
-    if (clear) {
+    // clear if already logged in.
+    if (clear && req.user) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id });
       cart = [];
       return res.render("cart", { cart, Total, TotalPrice });
     }
+    if (clear && !req.user) {
+      // await Cart.findOneAndDelete({ userId: req.user._id });
+      await Cart.deleteMany({ cartSessionId: req.sessionID });
+      cart = [];
+      return res.render("cart", { cart, Total, TotalPrice });
+    }
+    // clear without logging in.
 
     // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
     //   {},
