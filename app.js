@@ -132,7 +132,7 @@ app.get("/logout", (req, res) => res.status(301).redirect("/user/logout"))
 app.get("/register", (req, res) => res.status(301).redirect("/user/register"))
 
 const handleValidationErr = (err) => {
-  return new AppError("please fill up all the required field carefully", 400)
+  return new AppError("Please fill up all the required field carefully", 400)
 }
 
 app.get("/", async (req, res) => {

@@ -1,12 +1,20 @@
 const express = require("express")
+const router = express.Router()
+
 const Webinar = require("../models/webinar.js")
 const Purchase = require("../models/purchase")
-const router = express.Router()
+const Department = require("../models/department")
+const Portfolio = require("../models/portfolio.js")
+
 const AppError = require("../controlError/AppError")
 const wrapAsync = require("../controlError/wrapAsync")
+
 const { upload } = require("../helper/multer")
-const Department = require("../models/department")
-const { timingFormat, addtimeinAmPmFormat } = require("../helper/date")
+const {
+  timingFormat,
+  addtimeinAmPmFormat,
+  firsttwomonthfromnow,
+} = require("../helper/date")
 
 // add the detail of webinar.
 router.get(
@@ -35,6 +43,7 @@ router.post(
       const dateformat = timingFormat(webinartiming)
       const datePattern = dateformat.givenDateShowpage
       newWebinar.showingDate = datePattern
+      newWebinar.dateforSort = dateformat.monthandyear
     }
     if (time) {
       const timeinFormat = addtimeinAmPmFormat(time)
@@ -68,7 +77,7 @@ router.post(
       { advantageous, abouttopic, bestfor, agenda }
     )
     delete req.session.newWebinarData
-    return res.redirect("/")
+    return res.redirect("/admin/")
   })
 )
 // all webinar and seminar route for user.
@@ -77,15 +86,36 @@ router.get(
   wrapAsync(async (req, res) => {
     const { category = "", month = "" } = req.query
     let categoryList = category.split("_")
-    // console.log(status, typeof status)
 
     let query = {}
-    if (category.length) query = { category: { $in: [...categoryList] } }
-    // if (month.length)
-    //   query.month = {
-    //     $in: typeof month === "string" ? [month] : [...month],
-    //   }
-    console.log(query)
+    if (category.length) query.category = { $in: [...categoryList] }
+    if (month.length && typeof month == "string") {
+      if (month === "current") {
+        query.dateforSort = firsttwomonthfromnow().currentMonth
+      }
+      if (month === "next") {
+        query.dateforSort = firsttwomonthfromnow().firstmonthfromnow
+      }
+      if (month === "nextofnext") {
+        query.dateforSort = firsttwomonthfromnow().secondmonthfromnow
+      }
+    } else if (month.length) {
+      let dateforSort = []
+      if (month.includes("current")) {
+        dateforSort = [...dateforSort, firsttwomonthfromnow().currentMonth]
+      }
+      if (month.includes("next")) {
+        dateforSort = [...dateforSort, firsttwomonthfromnow().firstmonthfromnow]
+      }
+      if (month.includes("nextofnext")) {
+        dateforSort = [
+          ...dateforSort,
+          firsttwomonthfromnow().secondmonthfromnow,
+        ]
+      }
+      query.dateforSort = { $in: dateforSort }
+    }
+
     const department = await Department.find({}).sort("order")
     // I want to ask ki what will be your order on the basis of sort.
     const allWebinar = await Webinar.find(query).sort({
@@ -122,6 +152,7 @@ router.get(
     const { id } = req.params
     const webinar = await Webinar.findById(id)
     const purchases = await Purchase.find({}).sort("order")
+    const instuctor = await Portfolio.find({})
     return res.render("nextdetailofwebinar", { webinar, purchases })
   })
 )
