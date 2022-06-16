@@ -1,0 +1,36 @@
+<%- include("../layouts/header"); -%>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">coupon code.</th>
+                <th scope="col">Discount in percentages(if any)</th>
+                <th scope="col">Discount in dollor(if any)</th>
+                <th scope="col">Action.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%coupons.forEach((c,i)=> { %>
+                <tr>
+                    <th scope="row">
+                        <%=c.coupon %>
+                    </th>
+                    <td>
+                        <%=c.discountinpercentage%>
+                    </td>
+                    <td>
+                        <%=c.discountinprice %>
+                    </td>
+
+                    <td>
+                        <a href="/coupon/edit_coupon/<%=c._id %>">Edit</a>
+                        <hr>
+                    </td>
+
+
+                </tr>
+                <%}); %>
+
+        </tbody>
+    </table>
+
+    <%- include("../layouts/footer"); -%>

@@ -62,6 +62,7 @@ router.post(
       success_url: `${YOUR_DOMAIN}/success`,
       cancel_url: `${YOUR_DOMAIN}/cancel`,
     });
+
     res.redirect(303, session.url);
   })
 );
@@ -70,8 +71,11 @@ router.post(
 router.get(
   "/success",
   wrapAsync(async (req, res, next) => {
-    req.session.method = "Stripe";
-    isSuccess(req, res, next);
+    //new added code.
+    if (req.session.payment) {
+      req.session.method = "Stripe";
+      isSuccess(req, res, next);
+    }
     return res.render("success");
   })
 );
@@ -82,7 +86,7 @@ router.get("/cancel", (req, res) => {
   return res.render("cancel");
 });
 // paypal integration.
-//paymentwithpaypal page.
+//paymentwithpaypa"l page.
 router.get(
   "/paymentwithpaypal",
   wrapAsync(async (req, res) => {
@@ -170,7 +174,6 @@ router.get(
         } else {
           req.session.method = "Paypal";
           isSuccess(req, res, next);
-          // res.json({ payment });
           res.send("Success");
         }
       }

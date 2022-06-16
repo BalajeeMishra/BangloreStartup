@@ -29,7 +29,8 @@ router.get("/monthlynews", async (req, res) => {
   // pushing last date inside newList(we have weekly data here).
   newList.push(dateNow.dateformattransaction);
   // subscribed user this month.
-  const subscribedUser = await TransactionDetail.find({
+
+  const subscribedUser = await Email.find({
     date: { $in: newList },
   });
   res.send(subscribedUser.length);

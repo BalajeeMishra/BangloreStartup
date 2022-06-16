@@ -6,5 +6,10 @@ const EmailSchema = new mongoose.Schema({
   date: {
     type: String,
   },
+  // new added
+  subscribed: {
+    type: Boolean,
+    default: true,
+  },
 });
 module.exports = mongoose.model("Email", EmailSchema);

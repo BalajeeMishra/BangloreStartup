@@ -52,7 +52,6 @@ router.put(
   "/edit_product/:id",
   upload.single("image"),
   wrapAsync(async (req, res) => {
-    console.log("balajee", req.body);
     const { id } = req.params;
     const webinar = await Webinar.findByIdAndUpdate(id, req.body, {
       runValidators: true,

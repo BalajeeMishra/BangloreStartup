@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const CouponCodeSchema = new mongoose.Schema({
   coupon: {
-    type: String,
+    type: Number,
   },
-  disccountinpercentage: {
+  discountinpercentage: {
     type: Number,
   },
   discountinprice: {
