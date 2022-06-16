@@ -26,6 +26,7 @@ const User = require("./models/user");
 const Payment = require("./routes/payment");
 const Pdf_page = require("./routes/dummy");
 const SubscribedUser = require("./routes/subscribed_user");
+const Coupon = require("./routes/coupon_code");
 const jwt = require("jsonwebtoken");
 const UserDashboard = require("./routes/user_dashboard");
 const TransactionDetail = require("./routes/transation_control_admin");
@@ -128,6 +129,7 @@ app.use("/subscribeduser", SubscribedUser);
 app.use("/transactiondetail", TransactionDetail);
 app.use("/customer-feedback", CustomerFeedback);
 app.use("/admin/lead", Lead);
+app.use("/coupon", Coupon);
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400);
 };

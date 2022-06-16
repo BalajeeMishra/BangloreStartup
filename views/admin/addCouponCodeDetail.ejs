@@ -1,0 +1,24 @@
+<%- include("../layouts/header"); -%>
+
+    <div class="container main-title">
+
+        <h2 class="page-title">Add a Coupone</h2>
+        <a href="/coupone/all" class="btn btn-info mt-2">Back to all Couppone.</a>
+    </div>
+    <br><br>
+
+    <div class="container table-style">
+        <form method="post" action="/coupone">
+            <div class="form-group">
+                <label for="coupon">Enter the coupon code</label>
+                <input class="form-control" type="text" name="coupon" id="coupon" placeholder="Coupone Code">
+            </div>
+            <div class="form-group">
+                <label for="disccountinpercentage">Discount in percentage</label>
+                <input class="form-control" type="text" name="order" id="order" placeholder="Discount in percentage">
+            </div>
+            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+        </form>
+    </div>
+
+    <%- include("../layouts/footer"); -%>
