@@ -1,0 +1,22 @@
+<div class="list-group list-group-flush">
+    <a href="/user/dashboard"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary <%=path=='dashboard'?'active':''%>"
+        aria-current="true">
+        My Profile
+    </a>
+    <a href="/user/dashboard/purchase_history"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary <%=path=='purchase'?'active':''%>">Purchase
+        History</a>
+    <a href="/user/dashboard/live_credentials"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary <%=path=='live_credentials'?'active':''%>">
+        Live Webinar</a>
+    <a href="/user/dashboard/recorded"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary <%=path=='recorded'?'active':''%>">Recorded/On-Demand</a>
+
+    <a href="/user/dashboard/certificates"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary <%=path=='certificates'?'active':''%>">My
+        Certificates</a>
+    <a href="/user/logout"
+        class="list-group-item list-group-item-action fs-2 py-2 bg-hover-secondary border-bottom">LogOut
+    </a>
+</div>

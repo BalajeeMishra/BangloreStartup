@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invoice | SkillPreceptor</title>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <!-- <style>
+        .container {
+            margin: 20px 30px !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .border-top {
+            border: none;
+            border-top: 1px solid #000;
+        }
+
+        .border-2 {
+            border-width: 2px !important;
+        }
+
+        .border-dark {
+            border-color: #000 !important;
+        }
+
+        .w-100 {
+            width: 100% !important;
+        }
+
+        .mb-1 {
+            margin-bottom: .25rem !important;
+        }
+
+        h1 {
+            font-size: calc(1.375rem + 1.5vw);
+        }
+
+        h5 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            /* color: var(--bs-heading-color); */
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: calc(-1 * 0);
+            margin-right: calc(-0.5 * 1.5rem);
+            margin-left: calc(-0.5 * 1.5rem);
+        }
+
+        .row>* {
+            flex-shrink: 0;
+            width: 100%;
+            /* max-width: 100%;
+            padding-right: calc(1.5rem * 0.5);
+            padding-left: calc(11.5rem * 0.5); */
+        }
+
+        .col {
+            flex: 1 0 0%;
+        }
+
+        .col-1 {
+            flex: 0 0 auto;
+            width: 8.33333333%;
+        }
+
+        .col-2 {
+            flex: 0 0 auto;
+            width: 16.66666667%;
+        }
+
+        .col-3 {
+            flex: 0 0 auto;
+            width: 25%;
+        }
+
+        .col-4 {
+            flex: 0 0 auto;
+            width: 33.33333333%;
+        }
+
+        .col-5 {
+            flex: 0 0 auto;
+            width: 41.66666667%;
+        }
+
+        .col-6 {
+            flex: 0 0 auto;
+            width: 50%;
+        }
+
+        .d-flex {
+            display: flex !important;
+        }
+
+        .justify-content-end {
+            justify-content: flex-end !important;
+        }
+
+        .fs-1 {
+            font-size: calc(1.375rem + 1.5vw) !important;
+        }
+
+        .fs-2 {
+            font-size: calc(1.325rem + 0.9vw) !important;
+        }
+
+        .fs-3 {
+            font-size: calc(1.3rem + 0.6vw) !important;
+        }
+
+        .fs-4 {
+            font-size: calc(1.275rem + 0.3vw) !important;
+        }
+
+        .fs-5 {
+            font-size: 1.25rem !important;
+        }
+
+        .fs-6 {
+            font-size: 1rem !important;
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem !important;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem !important;
+        }
+
+        .mt-3 {
+            margin-top: 1rem !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+        ul {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+
+        .list-group {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .list-group-flush {
+            border-radius: 0;
+        }
+
+        .list-group-flush>.list-group-item {
+            border-width: 0 0 2px;
+        }
+
+        .list-group-flush>.list-group-item:last-child {
+            border-bottom-width: 0;
+        }
+
+        table {
+            caption-side: bottom;
+            border-collapse: collapse;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #000;
+            vertical-align: top;
+            border-color: #000;
+        }
+
+
+        th {
+            text-align: inherit;
+            text-align: -webkit-match-parent;
+        }
+
+        thead,
+        tbody,
+        tfoot,
+        tr,
+        td,
+        th {
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+        }
+    </style> -->
+</head>
+
+
+<body>
+
+    <button class="btn btn-primary" onclick="downloadPdf();">Download</button>
+    <main class="container px-2 d-hidden" id="element-to-print">
+        <h1 class="text-center">INVOICE</h1>
+        <!-- divider -->
+        <div class=" border-top border-2 border-dark w-100 mb-1"></div>
+        <div class=" border-top border-2 border-dark w-100 mb-1"></div>
+        <!-- company detail -->
+        <section class="px-3 row">
+            <div class="col-6">
+                <p class="fs-4">Invoice No: #<%= purchaseId %>
+                </p>
+                <h3>SKILLPRECEPTOR (DBA SARGENIX)</h3>
+                <h5>Address:</h5> Lorem ipsum dolor sit amet consectetur.
+            </div>
+            <div class="col-6 ">
+                <div class="d-flex justify-content-end w-100">
+                    <img src="./logo-1.png" alt="logo" />
+                </div>
+                <div class="d-flex justify-content-end w-100">
+                    <h4>Date: <%= date %>
+                    </h4>
+                </div>
+            </div>
+        </section>
+        <!-- customer detail -->
+        </style>
+        <section class="px-3 card mt-4 border-0">
+            <div class="row">
+                <div class="col-2 fs-3">Sold to:</div>
+                <div class="col-4">
+                    <ul class="list-group list-group-flush rounded-0 border-0">
+                        <li class="list-group-item">
+                            <%= customer.name %>
+                        </li>
+                        <li class="list-group-item">
+                            <%= customer.email %>
+                        </li>
+                        <li class="list-group-item">
+                            <%= customer.address %>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- table => purchased item -->
+        <section class="px-3 mt-2">
+            <table class="table table-bordered border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Type</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <%= product.title %>
+                        </th>
+                        <td>
+                            <%= product.type %>
+                        </td>
+                        <td>
+                            <%= product.date %>
+                        </td>
+                        <td>
+                            <%= product.quantity %>
+                        </td>
+                        <td>
+                            $<%= product.price %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <%= product.title %>
+                        </th>
+                        <td>
+                            <%= product.type %>
+                        </td>
+                        <td>
+                            <%= product.date %>
+                        </td>
+                        <td>
+                            <%= product.quantity %>
+                        </td>
+                        <td>
+                            $<%= product.price %>
+                        </td>
+                    </tr>
+                    <!-- Total Price -->
+                    <tr>
+                        <th scope="row">Total:</th>
+                        <td colspan="3">{Two Hundreds Ninty Eight Dallers}</td>
+                        <td>
+                            $<%= totalPrice %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <!-- footer -->
+        <section class="px-3 my-5">
+            <h4 class="text-center">
+                Thank You For Your Purchase.
+            </h4>
+            <!-- divider -->
+            <div class="border-top border-2 border-dark w-100 mb-1 mt-2"></div>
+            <div class="border-top border-2 border-dark w-100 mb-1"></div>
+            <!-- company detail -->
+            <div class="row ">
+                <!-- <div class="col-1"></div> -->
+                <div class="col-2 border-end border-2 border-dark">SkillPreceptor</div>
+                <div class="col-4 border-end border-2 border-dark">Lorem ipsum dolor sit amet.</div>
+                <div class="col-3 border-end border-2 border-dark">company@example.com</div>
+                <div class="col-2">+129843562303</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap Plugin -->
+    <!-- <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script> -->
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./cdnjs/html2pdf.bundle.min.js"></script>
+    <script>
+        var element = document.getElementById('element-to-print');
+        const downloadPdf = () => html2pdf(element);
+    </script>
+</body>
+
+</html>

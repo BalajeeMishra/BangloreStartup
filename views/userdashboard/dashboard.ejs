@@ -1,0 +1,98 @@
+<%- include("../layouts/header"); %>
+
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/userSideBar')%>
+            </div>
+            <div class="col col-9">
+                <p>
+                    <a class="btn btn-secondary" href="/user/dashboard" role="button">
+                        <i class="bi bi-eye"></i> View Info
+                    </a>
+                    <a class="btn btn-outline-secondary" role="button" href="/user/dashboard/edit_profile">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a class="btn btn-outline-secondary" role="button" href="/user/changepassword">
+                        <i class="bi bi-pencil-square"></i> Change Password
+                    </a>
+                </p>
+                <hr />
+                <div class="card">
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Name: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.firstname %>
+                                <%= userdata?.lastname%>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Email Address: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.email %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Phone: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.phone %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Address: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.address %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Job Title: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.jobtitle %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Company Name: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.company%>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Country: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.country %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">State: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.state %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-3 card-subtitle fs-2 mb-3">Zip Code: </p>
+                        <p class="col-9 card-subtitle fs-2 mb-3">
+                            <%= userdata?.zipcode %>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="card-subtitle fs-2 mb-3 col-3">Industry:</p>
+                        <div class="card col row flex-row">
+                            <% userdata.industry.forEach((industry)=>{%>
+                                <div class="form-check col-md-4">
+                                    <input class="form-check-input" type="checkbox" name="industry"
+                                        value="<%= industry %>" id="<%= industry %>" disabled checked />
+                                    <label for="<%= industry %>" class="form-check-label">
+                                        <%= industry %>
+                                    </label>
+                                </div>
+                                <%})%>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+            </div>
+        </div>
+    </section>
+
+    <%- include("../layouts/footer"); -%>

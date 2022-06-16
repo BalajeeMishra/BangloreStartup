@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const ContactFormSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -7,7 +7,7 @@ const ContactFormSchema = new mongoose.Schema({
     type: String,
   },
   phone: {
-    type: Number,
+    type: String,
   },
   message: {
     type: String,
@@ -15,5 +15,11 @@ const ContactFormSchema = new mongoose.Schema({
   date: {
     type: String,
   },
-});
-module.exports = mongoose.model("Contact", ContactFormSchema);
+  contact_type: {
+    type: String,
+    default: "feedback",
+  },
+  industry: String,
+  company: String,
+})
+module.exports = mongoose.model("Contact", ContactFormSchema)

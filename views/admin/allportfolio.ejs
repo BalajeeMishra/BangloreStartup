@@ -3,7 +3,7 @@
         <% portfolio.forEach(p=>{ %>
             <div class="portfolio_inside">
                 <div>
-                    <img src="/<%=p.image%>" width="150" height="150">
+                    <img src="<%=p?.image?.url%>" width="150" height="150">
                 </div>
                 <h5>
                     <%= p.name %>

@@ -1,0 +1,74 @@
+<%- include('layouts/header');%>
+
+    <section class="container-lg">
+        <div class="row">
+            <div class="col col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Consulting</h2>
+                        <h4 class="card-subtitle fw-semibold mt-2 text-muted">Lorem ipsum dolor sit amet consectetur
+                            adipisicing
+                            elit. Eos illo ea eaque dicta provident consequatur maiores nesciunt esse autem corrupti
+                            repellendus, et velit sit fuga. Architecto sequi porro quia nihil.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos maiores distinctio
+                            reiciendis suscipit, voluptatem non amet fuga quo. Optio non eos nesciunt earum delectus
+                            dolorum officia? Id laboriosam sunt sapiente quod dolorem magnam ad veniam adipisci
+                            velit maxime culpa ipsam quo cum asperiores nisi aperiam nobis, explicabo iure rerum.
+                            Doloribus illum neque nostrum, magnam at rerum minima exercitationem enim ipsa nesciunt
+                            iusto, aliquam, quasi mollitia perspiciatis quisquam? Dolores doloribus delectus eveniet
+                            suscipit explicabo quos praesentium aperiam, minima adipisci laudantium quam at commodi
+                            blanditiis sed quaerat nam error cumque, enim ratione, id corporis. Ipsa corrupti quis
+                            qui explicabo suscipit, iure delectus.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-4">
+                <h4>Expert assistance:</h4>
+                <form action="/customer-feedback" method="post">
+                    <div class="mb-3">
+                        <input type="text" id="name" name="name" class="form-control rounded-0" required
+                            placeholder="Your Name" />
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" id="email" name="email" class="form-control rounded-0" required
+                            placeholder="eg: john@example.com" />
+                    </div>
+                    <div class="mb-3">
+                        <input type="tel" id="phone" name="phone" class="form-control rounded-0" required
+                            placeholder="+129299309321" minlength="10" maxlength="10" />
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="business" name="company" class="form-control rounded-0" required
+                            placeholder="Company Name" />
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="industry" name="industry" class="form-control rounded-0" required
+                            placeholder="Job Industry" />
+                    </div>
+                    <div class="mb-3">
+                        <textarea type="text" id="message" name="message" class="form-control rounded-0"
+                            placeholder="Mention your area in which you're looking for trainig or assistance." rows="3"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Detail -->
+    <section class="container-fluid bg-soft-primary py-3 mb-6">
+        <div class="card bg-transparent">
+            <div class="card-body">
+                <h2 class="card-title">Contact Us</h2>
+                <p class="card-text fs-2 d-inline me-4">Call Us: <a href="tel:+11239237988"
+                        class="text-decoration-none"><i class="bi bi-telephone"></i> +11239237988</a> </p>
+                <p class="card-text fs-2 d-inline">Email: <a href="mailto:contact@skillpreceptor.com"
+                        class="text-decoration-none"><i class="bi bi-envelope"></i> contact@skillpreceptor.com</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <%- include('layouts/footer');%>

@@ -1,162 +1,120 @@
 <%- include("./layouts/header"); -%>
-    <div class="container  mt-4 card">
+
+    <div class="container-fluid bg-soft-secondary mb-6 px-sm-9 py-3 py-sm-6">
         <h2 class="page-title">
             Register
         </h2>
         <div class="surface text-center"></div>
         <form method="post" action="/user/register" class="needs-validation" id="formdata" nonvalidate>
-
-            <div class="form-group mb-3">
-                <label for="firstname" class="form-label">First Name</label>
-                <input type="text" name="firstname" class="form-control" placeholder="First Name"
-                    value="<%= typeof userData != 'undefined' ? userData.firstname : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3">
-                <label for="lastname" class="form-label">Last Name</label>
-                <input type="text" name="lastname" class="form-control" placeholder="Last Name"
-                    value="<%= typeof userData != 'undefined' ? userData.lastname : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-
-            <div class="form-group mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Email"
-                    value="<%= typeof userData != 'undefined' ? userData.email : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-
-            <div class="form-group mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password"
-                    value="<%= typeof userData != 'undefined' ? userData.password : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <% if(typeof userData !="undefined" ){ %>
-                    <% if(typeof userData.password !='undefined' && userData.password.length<8 ){ %>
-                        <div id="p1">
-                            <p style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
-                                Password must be at least 8 characters</p>
+            <div class="row justify-content-sm-center">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input type="text" name="firstname" class="form-control rounded-0" placeholder="First Name"
+                            value="<%= typeof userData != 'undefined' ? userData.firstname : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
                         </div>
-                        <% } %>
-                            <% } %>
-            </div>
-
-
-            <div class="form-group mb-3">
-                <label for="password2" class="form-label">Confirm Password</label>
-                <input type="password" id="password2" name="password2" class="form-control"
-                    placeholder="Confirm Password"
-                    value="<%= typeof userData != 'undefined' ? userData.password2 : '' %>" />
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <% if(typeof userData !="undefined" ){ %>
-                    <% if(typeof userData.password2 !='undefined' && match ){ %>
-                        <div id="p2">
-                            <p id="p2" style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
-                                Passwords do not match
-                            </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="lastname" class="form-control rounded-0" placeholder="Last Name"
+                            value="<%= typeof userData != 'undefined' ? userData.lastname : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
                         </div>
-                        <% } %>
-                            <% } %>
+                    </div>
 
-            </div>
-            <div class="form-group mb-3">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" name="address" class="form-control" placeholder="Address"
-                    value="<%= typeof userData != 'undefined' ? userData.address : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
+                    <div class="form-group mb-3">
+                        <input type="email" name="email" class="form-control rounded-0" placeholder="Email"
+                            value="<%= typeof userData != 'undefined' ? userData.email : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
 
-            <div class="form-group mb-3">
-                <label for="company" class="form-label">Company Name</label>
-                <input type="text" name="company" class="form-control" placeholder="companyname"
-                    value="<%= typeof userData != 'undefined' ? userData.company : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
+                    <div class="form-group mb-3">
+                        <input type="password" name="password" class="form-control rounded-0" id="password"
+                            placeholder="Password" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <% if(typeof userData !="undefined" ){ %>
+                            <% if(typeof userData.password !='undefined' && userData.password.length<8 ){ %>
+                                <div id="p1">
+                                    <p style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
+                                        Password must be at least 8 characters</p>
+                                </div>
+                                <% } %>
+                                    <% } %>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" id="password2" name="password2" class="form-control rounded-0"
+                            placeholder="Confirm Password" required />
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <% if(typeof userData !=="undefined" ){ %>
+                            <% if(typeof userData.password2 !=='undefined' && match ){ %>
+                                <div id="p2">
+                                    <p id="p2"
+                                        style="width:fit-content; margin-top: 2px; height: fit-content; color: red;">
+                                        Passwords do not match
+                                    </p>
+                                </div>
+                                <% } %>
+                                    <% } %>
 
-            <div class="form-group mb-3">
-                <label for="jobtitle" class="form-label">Job Title</label>
-                <input type="text" name="jobtitle" class="form-control" placeholder="Job Title"
-                    value="<%= typeof userData != 'undefined' ? userData.jobtitle : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input type="tel" name="phone" class="form-control rounded-0" placeholder="Phone"
+                            value="<%= typeof userData != 'undefined' ? userData.phone : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="address" class="form-control rounded-0" placeholder="Address"
+                            value="<%= typeof userData != 'undefined' ? userData.address : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+
+                        <input type="text" name="company" class="form-control rounded-0" placeholder="Company Name"
+                            value="<%= typeof userData != 'undefined' ? userData.company : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <input type="text" name="jobtitle" class="form-control rounded-0" placeholder="Job Title"
+                            value="<%= typeof userData != 'undefined' ? userData.jobtitle : '' %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="g-recaptcha" data-sitekey="6LfuimkgAAAAAPVdtLlNT6VUaLjNFaihFrBmItS7"></div>
+                        <br />
+                        <p class="text-danger">
+                            <%= (typeof captcha_error=='undefined' )? '' :captcha_error %>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="phone" class="form-label">phone</label>
-                <input type="number" name="phone" class="form-control" placeholder="phone"
-                    value="<%= typeof userData != 'undefined' ? userData.phone : '' %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <button type="submit" id="btn" class="btn btn-success mb-3">Submit</button>
+            <button type="submit" id="btn" class="btn btn-secondary">Submit</button>
+            <a href="/user/login" class="btn btn-outline-secondary" role="button">LogIn</a>
         </form>
     </div>
-    </div>
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-            // Loop over them and prevent submission
-            Array.from(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+    <!-- reCaptcha v2 script -->
+    <%- include('partials/reCaptcha.ejs'); %>
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
+        <!-- Bootstrap plugin for form validation -->
+        <%- include('partials/form-validation.ejs'); %>
 
-        // function loader() {
-        //     document.getElementsByClassName("surface")[0].innerText = "wait...";
-        // }
-        // const form = document.getElementById("formdata");
-        // form.addEventListener('submit', async function (event) {
-        //     event.preventDefault();
-        //     var final_Response;
-        //     if (typeof final_Response === "undefined") {
-        //         loader();
-        //     }
-        //     let formData = new FormData(form);
-        //     const response = await fetch("/user/register", {
-        //         method: "post",
-        //         headers: {
-        //             "Content-type": "application/x-www-form-urlencoded"
-        //         },
-        //         body: new URLSearchParams(formData)
-        //     })
-
-        //     final_Response = await response.json();
-        //     document.getElementsByClassName("surface")[0].innerHTML = "";
-        //     if (final_Response.mail_sent) {
-        //         alert("please go and verify your mail..");
-        //     }
-        //     // const message = final_Response.message
-        //     // if (message) {
-        //     //     alert(`${message}, for more action please verify your mail `);
-        //     // }
-        //     // localStorage.setItem("some",some);
-        // });
-    </script>
-    <%- include("./layouts/footer"); -%>
+            <%- include("./layouts/footer"); -%>

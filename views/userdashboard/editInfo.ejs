@@ -1,0 +1,86 @@
+<%- include('../layouts/header') %>
+
+    <section class="container-fluid py-5">
+        <div class="row mb-2">
+            <div class="col col-3">
+                <%- include('../partials/userSideBar')%>
+            </div>
+            <div class="col col-9">
+                <p>
+                    <a class="btn btn-outline-secondary" href="/user/dashboard" role="button">
+                        <i class="bi bi-eye"></i> View Info
+                    </a>
+                    <a class="btn btn-secondary" role="button" href="/user/dashboard/edit_profile">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                </p>
+                <hr />
+                <div class="card">
+                    <form action="/user/dashboard/edit_profile" method="post">
+                        <div class="row mb-2">
+                            <label for="name" class="col-3 card-subtitle fs-2 mb-3">Name: </label>
+                            <input class="col-sm-3 pe-sm-2 user-detail-input me-2" type="text" name="firstname"
+                                id="name" placeholder="Your Name" value="<%= userdata?.firstname %>" required />
+                            <input class="col-sm-3 pe-sm-2 user-detail-input" type="text" name="lastname" id="name"
+                                placeholder="Your Name" value="<%= userdata?.lastname %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="email" class="col-3 card-subtitle fs-2 mb-3">Email Address: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="email" name="email" id="email"
+                                placeholder="Your Email" value="<%= userdata?.email %>" disabled />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="phone" class="col-3 card-subtitle fs-2 mb-3">Phone: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="tel" name="phone" id="phone"
+                                placeholder="Your Contact no." minlength="10" value="<%= userdata?.phone %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="address" class="col-3 card-subtitle fs-2 mb-3">Address: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="text" name="address" id="address"
+                                placeholder="Your Address" value="<%= userdata?.address %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="job-title" class="col-3 card-subtitle fs-2 mb-3">Job Title: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="text" name="jobtitle" id="job-title"
+                                placeholder="Job Title" value="<%= userdata?.jobtitle %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="country" class="col-3 card-subtitle fs-2 mb-3">Country: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="text" name="country" id="country"
+                                placeholder="Your Country Name" value="<%= userdata?.country %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="state" class="col-3 card-subtitle fs-2 mb-3">State: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="text" name="state" id="state"
+                                placeholder="Your State" value="<%= userdata?.state %>" />
+                        </div>
+                        <div class="row mb-2">
+                            <label for="zip-code" class="col-3 card-subtitle fs-2 mb-3">Zip Code: </label>
+                            <input class="col-sm-4 pe-sm-2 user-detail-input" type="text" name="zipcode" id="zip-code"
+                                placeholder="86352" value="<%= userdata?.zipcode %>" />
+                        </div>
+                        <div class="row mt-2">
+                            <label for="industry" class="col-3 card-subtitle fs-2 mb-3">Industry: </label>
+                            <div class="card col row flex-row">
+                                <% industries.forEach((industry)=>{%>
+                                    <div class="form-check col-md-4">
+                                        <input class="form-check-input" type="checkbox" name="industry"
+                                            value="<%= industry?.nameofdepartment %>"
+                                            id="<%= industry?.nameofdepartment %>" />
+                                        <label for="<%= industry?.nameofdepartment %>" class="form-check-label">
+                                            <%= industry?.nameofdepartment %>
+                                        </label>
+                                    </div>
+                                    <%})%>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Save</button>
+                    </form>
+                </div>
+                <hr />
+
+            </div>
+        </div>
+    </section>
+
+    <%- include('../layouts/footer') %>

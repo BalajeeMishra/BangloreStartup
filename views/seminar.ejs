@@ -1,0 +1,182 @@
+<%- include("./layouts/header"); -%>
+
+    <div class="py-5 py-lg-8 px-lg-9" style="background-color:#10203F;">
+        <div class="card py-5">
+            <div class="card-body ">
+                <h2 class="card-title mb-4 ps-6">
+                    <%= seminar?.title %>
+                </h2>
+                <div class="ps-6">
+
+                    <h5 class="card-subtitle mb-2 text-muted">Product ID: #<%= seminar?.webinarId %>
+                    </h5>
+                    <h4 class="card-subtitle mb-2 text-muted">Instructor: <%= seminar?.name %>
+                    </h4>
+
+                    <h4 class="card-subtitle mb-2 text-muted">Duration: <%= seminar?.duration %> min</h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <section class="container-xxl px-md-4 px-lg-9">
+        <div class="row">
+            <div class="col-md-8">
+                <p class="card-title">
+                    <a href="/seminar/s/<%= seminar._id%>" class="btn btn<%=agenda?'-outline':''%>-secondary">
+                        Overview
+                    </a>
+                    <a href="?agenda=true" class="btn btn<%=!agenda?'-outline':''%>-secondary">
+                        Agenda
+                    </a>
+                </p>
+                <%if(!agenda){%>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-subtitle fw-semibold mt-2 text-muted">
+                                <%- seminar?.abouttopic%>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Why you should attend ? </h2>
+                            <h4 class="card-subtitle fw-semibold mt-2 text-muted">
+                                <%- seminar?.agenda %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Areas Covered</h2>
+                            <h4 class="card-subtitle fw-semibold mt-2 text-muted">
+                                <%- seminar?.advantageous %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Who will benefit ?</h2>
+                            <h4 class="card-subtitle fw-semibold mt-2 text-muted">
+                                <%- seminar?.bestfor %>
+                            </h4>
+                        </div>
+                    </div>
+                    <%}else{%>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-subtitle fw-semibold mt-2 text-muted">
+                                    <%- seminar?.agenda %>
+                                        <%= (seminar.agenda && !seminar.agenda.length)? '' :'No agenda' %>
+                                </h4>
+                            </div>
+                        </div>
+                        <%}%>
+
+            </div>
+            <!-- Side bar  -->
+            <div class="col-md-4">
+                <div class="container-fluid p-0 mb-3">
+                    <style>
+                        input[type='checkbox'] {
+                            --wh-size: 20px;
+                            width: var(--wh-size);
+                            height: var(--wh-size);
+                        }
+                    </style>
+                    <h4>Purchase Options</h4>
+                    <form title="purchasePlans" action="/cart/<%= seminar?._id%>" method="post">
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text rounded-0 bg-secondary text-light border-0 h4 fw-bold">
+                                Payment Option
+                            </span>
+                            <select class="form-select rounded-0 py-0 bg-soft-secondary" name="purchasecategory"
+                                style="height: 48px;">
+                                <option selected>Select</option>
+                                <% purchases.forEach((purchase)=>{%>
+                                    <option value="<%= purchase.nameofpurchase %>">
+                                        <%= purchase.nameofpurchase %> ($<%= purchase.price %>)
+                                    </option>
+                                    <%})%>
+
+                            </select>
+                        </div>
+
+                        <!-- <% purchases.forEach((purchase)=>{%>
+                            <div class="input-group mb-3 align-items-center gap-2">
+                                <input type="checkbox" name="purchasePlan" id="purchansePlan"
+                                    value="<%= purchase.nameofpurchase %> ($<%=purchase.price %>)">
+                                <label for="purchaseOption" class="fs-2 mb-0">
+                                    <%= purchase.nameofpurchase %> ($<%=purchase.price %>)
+                                </label>
+                            </div>
+                            <%})%> -->
+                        <button type="submit" class="btn btn-secondary fw-normal">Add to Cart</button>
+                    </form>
+
+                </div>
+                <hr />
+                <div class="container-fluid p-0 mb-3">
+                    <h4>Questions</h4>
+                    <form action="/customer-feedback/enquery" method="post">
+                        <div class="mb-3 ">
+                            <input type="text" class="form-control rounded-0" id="name" placeholder="Your Name"
+                                required>
+                        </div>
+                        <div class="mb-3 ">
+                            <input type="email" class="form-control rounded-0" id="email" aria-describedby="emailMsg"
+                                placeholder="john@example.com" required>
+                            <div id="emailMsg" class="form-text">
+                                We'll never share your email with anyone else.
+                            </div>
+                        </div>
+                        <div class="mb-3 ">
+                            <input type="tel" class="form-control rounded-0" id="phone" placeholder="+129857342305"
+                                minlength="10" maxlength="10" required>
+                        </div>
+                        <div class="mb-3 ">
+                            <textarea class="form-control rounded-0" id="message" rows="3" placeholder="Type here..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </form>
+                </div>
+                <hr />
+                <div class="container-fluid p-0 mb-3">
+                    <style>
+                        .hover-light:hover {
+                            color: #fff !important;
+                        }
+                    </style>
+                    <button class="btn btn-outline-secondary text-dark hover-light" type="submit">Download
+                        Broucher</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Instructor Details -->
+    <section class="container-fluid bg-soft-primary mb-6 px-md-4 px-lg-9">
+        <h4 class="text-center">Instructor</h4>
+        <div class="card mb-3 bg-transparent w-100 w-md-75 mx-auto">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="<%= seminar?.portfolio?.image.url %>" class="img-fluid rounded-0" alt="peter">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <%= seminar?.portfolio?.name %>
+                        </h3>
+                        <p class="card-text h5">
+                            <%= seminar?.portfolio?.description %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Instructor Details End-->
+
+    <%- include("./layouts/footer"); -%>

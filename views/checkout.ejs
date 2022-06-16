@@ -1,27 +1,78 @@
-<!DOCTYPE html>
-<html>
+<%- include('layouts/header')%>
+    <%- include('partials/stripePlugin')%>
 
-<head>
-    <title>Buy cool new product</title>
-    <link rel="stylesheet" href="/css/stripe_style.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-</head>
 
-<body>
-    <section>
-        <form action="/payment/paymentwithstripe/create-checkout-session" method="POST">
-            <div class="product">
-                <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
-                <div class="description">
-                    <h3>your checkout product price::--->$<%=total %>
-                    </h3>
-                    <input type="hidden" name="totalprice" value="<%=total %>">
+        <div class="container-lg p-sm-7">
+            <div class="row flex-center">
+                <div class="col col-7">
+                    <div class="card">
+                        <div class="row ">
+                            <div class="col col-3 fs-2">Name:</div>
+                            <div class="col fs-2">
+                                <%= userdata?.firstname%>
+                                    <%= userdata?.lastname%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Eamil:</div>
+                            <div class="col fs-2">
+                                <%= userdata?.email%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Phone:</div>
+                            <div class="col fs-2">
+                                <%= userdata?.phone%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Company:</div>
+                            <div class="col  fs-2">
+                                <%= userdata?.company%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Job Titles:</div>
+                            <div class="col  fs-2">
+                                <%= userdata?.jobtitle%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">State:</div>
+                            <div class="col  fs-2">
+                                <%= userdata?.state%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Country:</div>
+                            <div class="col  fs-2">
+                                <%= userdata?.country%>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-3 fs-2">Zip Code:</div>
+                            <div class="col  fs-2">
+                                <%= userdata?.zipcode%>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" id="checkout-button">Checkout</button>
-        </form>
-    </section>
-</body>
 
-</html>
+                <form action="/payment/paymentwithstripe/create-checkout-session" method="POST">
+                    <div class="product">
+                        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
+                        <div class="description">
+                            <h3>Your Checkout Total $<%=total %>
+                            </h3>
+                            <input type="hidden" name="totalprice" value="<%=total %>">
+                        </div>
+                    </div>
+                    <button type="submit" id="checkout-button">Checkout</button>
+                </form>
+
+            </div>
+        </div>
+        </div>
+
+
+        <%- include('layouts/footer')%>

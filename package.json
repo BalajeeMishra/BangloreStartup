@@ -7,11 +7,12 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "serve-global": "ngrok http 3000",
-    "b":"git add -A && git commit -am \"done\" && git push origin master"
+    "b": "git add -A && git commit -am \"done\" && git push origin master"
   },
   "author": "BalaJee Mishra",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
     "cloudinary": "^1.30.0",
     "connect-flash": "^0.1.1",

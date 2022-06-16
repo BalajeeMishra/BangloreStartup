@@ -1,0 +1,39 @@
+<script async="false">
+    const checkedCategories = document.querySelectorAll('#category');
+    const checkedMonth = document.querySelectorAll('#month');
+    const { href: route, search } = window.location;
+    const query = new URLSearchParams(search);
+    let queryStr, selectedCategories, unchecked;
+    // filtering based on category --> Indutsry
+    checkedCategories.forEach((element, i) =>
+        element.addEventListener('click',
+            () => {
+                selectedCategories = query.get('category')
+                if (selectedCategories && !selectedCategories.includes(element.value)) return window.location.search = `?category=${selectedCategories}_${element.value}`
+
+                if (selectedCategories && selectedCategories.includes(element.value)) {
+                    selectedCategories = selectedCategories.split("_").filter((str) => str !== element.value).join("_")
+                    return window.location.search = `?category=${selectedCategories}`
+                }
+                // if (selectedCategories) return window.location.search = `?category=${selectedCategories}_${element.value}`
+
+                return window.location.search = `?category=${element.value}`
+            })
+    );
+
+    // sorting --> status [live, recorded]
+    checkedMonth.forEach(element => {
+        element.addEventListener('change', () => {
+            // check if same query is being raised...
+            if (route.includes(element.value)) {
+                let indexOfCheckedValue = route.indexOf(element.value);
+                let redirectRoute = route.split(`month=${element.value}`);
+                // console.log(redirectRoute)
+                return window.location.href = `${redirectRoute.join('')}`;
+            }
+            // check if something is already queried...
+            if (route.includes('?')) return window.location.href = `${route}&month=${element.value}`
+            return window.location.href = `${route}?month=${element.value}`
+        })
+    })
+</script>
