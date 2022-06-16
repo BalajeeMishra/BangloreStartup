@@ -124,9 +124,12 @@ app.use("/transactiondetail", TransactionDetail)
 app.use("/training", Training)
 app.use("/customer-feedback", CustomerFeedback)
 
-app.get("/login", (req, res) => res.status(301).redirect("/user/login"))
-app.get("/register", (req, res) => res.status(301).redirect("/user/register"))
+// common route redirection...e
 app.get("/home", (req, res) => res.status(301).redirect("/"))
+app.get("/user", (req, res) => res.status(301).redirect("/user/dashboard"))
+app.get("/login", (req, res) => res.status(301).redirect("/user/login"))
+app.get("/logout", (req, res) => res.status(301).redirect("/user/logout"))
+app.get("/register", (req, res) => res.status(301).redirect("/user/register"))
 
 const handleValidationErr = (err) => {
   return new AppError("please fill up all the required field carefully", 400)
@@ -136,20 +139,6 @@ app.get("/", async (req, res) => {
   const webinars = (
     await WebinarModel.find({}).sort({ time: "1", date: "1" })
   ).slice(0, 4)
-  // webinar.sort(function (a, b) {
-  //   var dateA = new Date(a.webinartiming),
-  //     dateB = new Date(b.webinartiming)
-  //   return dateA - dateB
-  // })
-  // const name = "balajee"
-  // const email = "bala.44472@gmail.com"
-  // const password = "balajeemishra"
-  // const token = jwt.sign(
-  //   { name, email, password },
-  //   process.env.JWT_ACC_ACTIVATE,
-  //   { expiresIn: "1m" }
-  // )
-  // var decoded = jwt.decode(token, { complete: true })
 
   return res.render("home", { webinars })
 })

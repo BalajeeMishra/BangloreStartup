@@ -1,51 +1,42 @@
 <%- include("../layouts/header"); -%>
-    <div class="container mt-5 table-style table-responsive-sm  table-responsive-md table-responsive-lg">
-        <% if (cart.length) { %>
-            <a href="/cart/all?clear=true">Clear All</a>
-            <table class="table table-striped alignmiddle  table-success table-hover">
-                <thead>
-                    <tr style="text-align:center;">
-                        <th>product</th>
-                        <th>deleivery</th>
-                        <th>price</th>
-                        <th>quantity</th>
-                        <th>total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% cart.forEach((c,i)=> { %>
-                        <% c.categoryofprice.forEach((e)=>{ %>
-                            <% Total=Total+(e.price)*(e.quantity); %>
-                                <% TotalPrice=TotalPrice+Total; %>
-                                    <tr style="text-align:center;">
-                                        <td>
-                                            <%=c.product.title%>
-                                        </td>
-                                        <td>Training access details will be available in My CO section</td>
-                                        <td class="goodalign">
-                                            $ <%=e.price%>
-                                        </td>
-                                        <td>
-                                            <a href="/cart/<%=c._id %>/<%=e._id%>?action=-1"
-                                                style="text-decoration: none;">-</a>
-                                            <%=e.quantity %>
-                                                <a href="/cart/<%=c._id %>/<%=e._id%>?action=1"
-                                                    style="text-decoration: none;">+</a>
-                                        </td>
-                                        <td>
-                                            $<%=Total %>
-                                        </td>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/userSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="card">
+                    <%if(!cart.length){%>
+                        <h4 class="text-center mt-5">No purchase history.</h4>
+                        <%}else{%>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Topic Title</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Invoice</th>
                                     </tr>
-                                    <% Total=0%>
-                                        <% }); %>
-                                            <% }); %>
-
-                                                <h1>
-                                                    <span>Total::--></span>
-                                                    <%=TotalPrice%>
-                                                </h1>
-                                                <% } %>
-
-                </tbody>
-            </table>
-            <%- include("../layouts/footer"); -%>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <%cart.forEach((item)=>{%>
+                                        <tr>
+                                            <th scope="row">
+                                                <%= item?.product?.title%>
+                                            </th>
+                                            <td>item?.date || item?.createdAt</td>
+                                            <td>$<% item.categoryofprice.reduce((acc,curr)=> acc+curr.totalPrice,0)%>
+                                            </td>
+                                            <td>CC</td>
+                                            <td><a href="#downloadInvoice" class="nav-link">Download</a></td>
+                                        </tr>
+                                        <%})%>
+                                </tbody>
+                            </table>
+                            <%}%>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include("../layouts/footer"); -%>

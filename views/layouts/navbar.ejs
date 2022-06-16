@@ -39,7 +39,7 @@
                     <a href="/home" class="nav_link active" aria-current="page"><i class="bi bi-house-fill"></i></a>
                 </li>
                 <li class="nav_item"><a href="/webinar/all" class="nav_link">Webinar</a></li>
-                <li class="nav_item"><a href="/seminar" class="nav_link">Seminar</a></li>
+                <li class="nav_item"><a href="/seminar/all" class="nav_link">Seminar</a></li>
                 <li class="nav_item"><a href="/training" class="nav_link">Consulting</a></li>
                 <li class="nav_item"><a href="/#articles" class="nav_link">Articles Store</a></li>
                 <li class="nav_item">
@@ -47,7 +47,13 @@
                         <i class="bi bi-cart-plus"></i>
                     </a>
                 </li>
-                <li class="nav_item"><a href="/login" class="nav_link">Login/Register</a></li>
+                <%if(!currentUser){%>
+                    <li class="nav_item"><a href="/user/login" class="nav_link">Login/Register</a></li>
+                    <%}else{%>
+                        <li class="nav_item"><a href="/user/dashboard" class="nav_link">
+                                <%= currentUser.firstname %>
+                            </a></li>
+                        <%}%>
             </ul>
         </div>
     </div>

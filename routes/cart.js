@@ -1,11 +1,10 @@
-const express = require("express")
-const Webinar = require("../models/webinar.js")
-const Purchase = require("../models/purchase")
+const router = require("express").Router()
 const Cart = require("../models/cart.js")
-const router = express.Router()
+const User = require("../models/user.js")
+const Purchase = require("../models/purchase")
+const Webinar = require("../models/webinar.js")
 const AppError = require("../controlError/AppError")
 const wrapAsync = require("../controlError/wrapasync")
-const user = require("../models/user.js")
 
 // adding cart for a user in the database........
 router.post(

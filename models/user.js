@@ -36,12 +36,20 @@ const UserSchema = new mongoose.Schema({
   },
   company: {
     type: String,
-    required: true,
   },
   jobtitle: {
     type: String,
-    required: true,
   },
+  country: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  zipcode: {
+    type: String,
+  },
+  industry: [String],
 })
 
 UserSchema.plugin(passportLocalMongoose)

@@ -81,7 +81,8 @@
                             <span class="input-group-text rounded-0 bg-secondary text-light border-0 h4 fw-bold">
                                 Payment Option
                             </span>
-                            <select class="form-select rounded-0 py-0" name="purchasecategory">
+                            <select class="form-select rounded-0 py-0 bg-soft-secondary" name="purchasecategory"
+                                style="height: 48px;">
                                 <option selected>Select</option>
                                 <% purchases.forEach((purchase)=>{%>
                                     <option value="<%= purchase.nameofpurchase %>">

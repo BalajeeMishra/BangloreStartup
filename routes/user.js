@@ -69,18 +69,20 @@ router.post(
         address,
         company,
         jobtitle,
+        verify: true,
       })
 
       const registeredUser = await User.register(user, password)
       req.session.ids = registeredUser._id || null
 
-      if (typeof registeredUser != "undefined") {
+      if (typeof registeredUser != "undefined" && !registeredUser.verify) {
         const result = await mailForVerify(email, req.session.token)
         // result ko bhi check karna hai.
         if (result.accepted[0]) {
           return res.render("mail_verification")
         }
       }
+      res.redirect("/user/login")
     } catch (e) {
       req.flash("error", e.message)
       return res.redirect("/user/register")
@@ -118,7 +120,7 @@ router.post(
     failureFlash: true,
     failureRedirect: "/user/login",
     successFlash: true,
-    successRedirect: "/",
+    successRedirect: "/user/dashboard",
   })
 )
 
@@ -192,7 +194,8 @@ router.post(
     }
   })
 )
-// taking user input as password and confirm password for the user who will  forget their password.
+
+// taking user input as password and confirm password for the user who have forget their password.
 router.get(
   "/detailforchange/:id",
   wrapAsync(async (req, res, next) => {
@@ -203,7 +206,7 @@ router.get(
   })
 )
 
-//posting the entered password and changing the password for user.
+// posting the entered password and changing the password for user.
 router.post(
   "/detailforchange",
   wrapAsync(async (req, res, next) => {
@@ -237,8 +240,9 @@ router.post(
 )
 // for changing the password rendering the form.
 router.get("/changepassword", async (req, res) => {
-  res.render("pass_for_sec")
+  res.render("userdashboard/changepassword")
 })
+
 // changing user password.
 router.post("/changepassword", async (req, res) => {
   const user = await User.findById(req.user._id)
@@ -266,6 +270,7 @@ router.post("/changepassword", async (req, res) => {
   req.flash("success", "your password changed successfully")
   res.redirect("/user/login")
 })
+
 //logging out route for user.
 router.get(
   "/logout",
