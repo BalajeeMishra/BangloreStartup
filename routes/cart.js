@@ -6,7 +6,6 @@ const router = express.Router();
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapasync");
 const User = require("../models/user.js");
-const { query } = require("express");
 // adding cart for a user in the database........
 router.post(
   "/:id",
@@ -17,9 +16,19 @@ router.post(
     const purchase = await Purchase.findOne({
       nameofpurchase: purchasecategory,
     });
+    // price of selected purchase.
+    // let query1 = { cartSessionId: req.sessionID, visibility: true };
     const price = purchase.price;
-    // const product = await Webinar.findById(id);
-    const cart = await Cart.findOne({ product: id });
+    // **********adding new line of code **************;
+    // now here we will find the cart on the basis of specific user.
+    var query = null;
+    if (req.user) {
+      query = { userId: req.user._id, product: id };
+    }
+    if (!req.user) {
+      query = { cartSessionId: req.sessionID, product: id };
+    }
+    const cart = await Cart.findOne(query);
     //cart existing and product selected is also existing in that case.
     if (cart && cart.product == id) {
       const hi = cart.categoryofprice.filter(function (e) {
@@ -97,6 +106,10 @@ router.get(
     const { clear, id } = req.query;
     const Total = 0;
     const TotalPrice = 0;
+    // adding the new line of code here.
+    const discountinprice = req.session.discountinprice;
+    const discountinpercentage = req.session.discountinpercentage;
+
     // basically passing query because we need the data of cart which having visibility of true.
     let query1 = { cartSessionId: req.sessionID, visibility: true };
 
@@ -110,20 +123,40 @@ router.get(
       var userid = id ? id : req.user._id;
       let query2 = { userId: userid, visibility: true };
       var cart = await Cart.find(query2).populate("product");
-      return res.render("cart", { cart, Total, TotalPrice });
+      return res.render("cart", {
+        cart,
+        Total,
+        TotalPrice,
+        discountinpercentage,
+        discountinprice,
+      });
     }
     // clear if already logged in.
     if (clear && req.user) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id });
       cart = [];
-      return res.render("cart", { cart, Total, TotalPrice });
+      return res.render("cart", {
+        cart,
+        Total,
+        TotalPrice,
+        discountinpercentage,
+        discountinprice,
+      });
     }
+
+    // if he want to clear the cart and don't registered yet or logged out.
     if (clear && !req.user) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ cartSessionId: req.sessionID });
       cart = [];
-      return res.render("cart", { cart, Total, TotalPrice });
+      return res.render("cart", {
+        cart,
+        Total,
+        TotalPrice,
+        discountinpercentage,
+        discountinprice,
+      });
     }
     // clear without logging in.
 
@@ -141,7 +174,18 @@ router.get(
   wrapAsync(async (req, res, next) => {
     const { cartId, categoryId } = req.params;
     const { action } = req.query;
-    const cart = await Cart.findById(cartId);
+    // adding new line of code, remove the last one.
+    var query = null;
+    // passed query if user is logged in.
+    if (req.user) {
+      query = { userId: req.user._id, _id: cartId };
+    }
+    // passing the query if no user is there that means finding with session id.
+    if (!req.user) {
+      query = { cartSessionId: req.sessionID, _id: cartId };
+    }
+    const cart = await Cart.findOne(query);
+
     const [selectedProduct] = cart.categoryofprice.filter((doc) =>
       doc._id.equals(categoryId)
     );

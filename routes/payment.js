@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Cart = require("../models/cart");
+const Coupon = require("../models/coupon_code");
 const AppError = require("../controlError/AppError");
 const wrapAsync = require("../controlError/wrapAsync");
 const paypal = require("paypal-rest-sdk");
@@ -21,9 +22,25 @@ paypal.configure({
     "EFbnaSsvOF6knHvTNewuxNk0SSSoO-YWYzqYPN3eRAYhL-uJ9OKfBTf04L7nS44vdLZIElLYIU4p_qMx",
 });
 
-//payment option route either paypal or stripe.
-router.get("/paymentoption", (req, res) => res.render("paymentoption"));
-
+// checking if a user got a coupone code.
+router.get("/haveaCouponecode", async (req, res) => {
+  return res.render("haveaCouponecode");
+});
+// checking whether the user entering the right coupon code or not.
+router.post(
+  "/haveaCouponecode",
+  wrapAsync(async (req, res) => {
+    const { coupon } = req.body;
+    const matchingtheCouponCode = await Coupon.find({ coupon });
+    if (matchingtheCouponCode) {
+      req.session.discountinpercentage =
+        matchingtheCouponCode[0].discountinpercentage;
+      req.session.discountinprice = matchingtheCouponCode[0].discountinprice;
+      return res.redirect("/cart/all");
+    }
+    return res.redirect("/payment/haveaCouponecode");
+  })
+);
 // payment with stripe input form.
 router.get(
   "/paymentwithstripe",
@@ -35,6 +52,12 @@ router.get(
         total = total + cat.totalPrice;
       });
     });
+    if (req.session.discountinprice) {
+      total = total - req.session.discountinprice;
+    }
+    if (req.session.discountinpercentage) {
+      total = total - total * (req.session.discountinpercentage / 100);
+    }
     res.render("checkout", { cart, total });
   })
 );
@@ -97,6 +120,12 @@ router.get(
         total = total + cat.totalPrice;
       });
     });
+    if (req.session.discountinprice) {
+      total = total - req.session.discountinprice;
+    }
+    if (req.session.discountinpercentage) {
+      total = total - total * (req.session.discountinpercentage / 100);
+    }
     res.render("paypal_payment", { total });
   })
 );

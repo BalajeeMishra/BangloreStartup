@@ -49,9 +49,25 @@
             <a href="/payment/paymentwithpaypal">pay with paypal</a>
             <hr>
             <a href="/payment/paymentwithstripe">pay with stripe</a>
-            <% } else { %>
-                <h4>Nothing in cart.</h4>
-                <h3>Explore our collection... <a href="/" class="nav-link">click here</a> </h3>
-                <% } %>
+            <hr>
+            <!--  this part is added okayyy. -->
+            <a href="/payment/haveaCouponecode">Have a coupone code??</a>
+            <% if(typeof discountinpercentage !="undefined" ) { %>
+                <p>coupon code applied of <%=discountinpercentage %>%</p>
+                <% TotalPrice=TotalPrice-TotalPrice*(discountinpercentage/100); %>
+                    <p>you have to pay only <%=TotalPrice%>
+                    </p>
+                    <% } %>
+                        <% if(typeof discountinprice !="undefined" ) {%>
+                            <p>coupon code applied of $<%=discountinprice %>
+                                    <% TotalPrice=TotalPrice-discountinprice; %>
+                                        <p>you have to pay only <%=TotalPrice%>
+                                        </p>
+                                        <% } %>
+                                            <% } else { %>
+                                                <h4>Nothing in cart.</h4>
+                                                <h3>Explore our collection... <a href="/" class="nav-link">click
+                                                        here</a> </h3>
+                                                <% } %>
     </div>
     <%- include("./layouts/footer");-%>

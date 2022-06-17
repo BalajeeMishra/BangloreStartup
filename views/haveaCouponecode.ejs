@@ -1,0 +1,13 @@
+<%- include("./layouts/header"); -%>
+
+    <div class="container table-style card">
+        <form method="post" action="/payment/haveaCouponecode">
+            <div class="form-group">
+                <label for="coupon">Enter the coupon code</label>
+                <input class="form-control" type="number" name="coupon" id="coupon"
+                    placeholder="Enter the Coupone Code">
+            </div>
+            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+        </form>
+    </div>
+    <%- include("./layouts/footer"); -%>

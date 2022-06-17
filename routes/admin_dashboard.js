@@ -81,13 +81,12 @@ router.get("/update_the_visibility/:id", async (req, res) => {
     }
   );
   // here I am updating visibility cart model for those product that is selected by visibility to true or false.
-  const cart = await Cart.findOneAndUpdate(
-    { product: id },
-    { visibility: !webinartoupdate.visibility },
-    {
-      runValidators: true,
-      new: true,
-    }
+  // i am adding new line of code please remove last one.
+
+  // this will update every cart inside cart if product will get updated.
+  await Cart.find({ product: id }).updateMany(
+    {},
+    { visibility: !webinartoupdate.visibility }
   );
   return res.redirect("/admin/allproduct");
 });
