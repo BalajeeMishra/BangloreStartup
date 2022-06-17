@@ -1,0 +1,29 @@
+<%- include("../layouts/header"); -%>
+
+    <div class="container main-title">
+        <h2 class="page-title">Add a Coupone</h2>
+        <a href="/coupon/all" class="btn btn-info mt-2">Back to all Couppone.</a>
+    </div>
+    <br><br>
+    <div class="container table-style card">
+        <form method="post" action="/coupon/edit_coupon/<%=edit_coupon_code._id%>?_method=PUT">
+            <div class="form-group">
+                <label for="coupon">Enter the coupon code</label>
+                <input class="form-control" type="number" value="<%=edit_coupon_code.coupon %>" name="coupon"
+                    id="coupon" placeholder="Coupone Code">
+            </div>
+            <div class="form-group mt-3">
+                <label for="discountinpercentage">Discount in Percentage(%)</label>
+                <input class="form-control" type="number" value="<%=edit_coupon_code.discountinpercentage%>"
+                    name="discountinpercentage" id="discountinpercentage" placeholder="Discount in percentages">
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="discountinprice">Discount in Dollar($)</label>
+                <input class="form-control" type="text" value="<%=edit_coupon_code.discountinprice%>"
+                    name="discountinprice" id="order" placeholder="Discount in prices">
+            </div>
+            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+        </form>
+    </div>
+    <%- include("../layouts/footer"); -%>

@@ -1,0 +1,14 @@
+<%- include("./layouts/header"); -%>
+
+    <div class="container py-md-7 py-lg-9 w-25">
+        <form method="POST" action="/payment/haveaCouponecode">
+            <div class="form-group">
+                <label for="coupon fs-3 fw-bold">Enter the coupon code</label>
+                <input class="form-control rounded-0" type="text" name="coupon" id="coupon"
+                    placeholder="Enter the Coupone Code">
+            </div>
+            <button class="btn btn-secondary mt-2" type="submit">Apply</button>
+        </form>
+    </div>
+
+    <%- include("./layouts/footer"); -%>
