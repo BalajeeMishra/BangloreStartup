@@ -55,15 +55,20 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   delete req.session.amount;
   //now deleting everything relared to coupon session
   //new code.
+
+  // const discountinprice = req.session.discountinprice;
+  //   const discountinpercentage = req.session.discountinpercentage;
   if (req.session.discountinprice) {
     delete req.session.discountinprice;
+    console.log("lets,see 1", req.session.discountinprice);
   }
   if (req.session.discountinpercentage) {
     delete req.session.discountinpercentage;
+    console.log("lets,see 2", req.session.discountinpercentage);
   }
-
+  await req.session.save();
   // removing all the cart after successfully payment.
-  await Cart.deleteMany({ userId: req.user._id });
+  const cart = await Cart.deleteMany({ userId: req.user._id });
   // basically here we will give null to cart of that user.
   const user = await User.findById(req.user._id);
   user.cart = null;

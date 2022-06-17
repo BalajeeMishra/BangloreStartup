@@ -109,7 +109,7 @@ router.get(
       );
       return res.redirect("/admin/allproduct");
     }
-    const deletedProduct = await Webinar.findByIdAndDelete(id);
+    await Webinar.findByIdAndDelete(id);
     req.flash("success", "webinar  deleted");
     res.redirect("/admin/allproduct");
   })

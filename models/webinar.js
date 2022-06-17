@@ -105,6 +105,11 @@ const WebinarSchema = new mongoose.Schema(
       type: Number,
       default: 108,
     },
+    // added new
+    // in case of recorded only.
+    urlofseminar: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

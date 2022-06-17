@@ -52,16 +52,16 @@
             <hr>
             <!--  this part is added okayyy. -->
             <a href="/payment/haveaCouponecode">Have a coupone code??</a>
-            <% if(typeof discountinpercentage !="undefined" ) { %>
+            <% if( discountinpercentage ) { %>
                 <p>coupon code applied of <%=discountinpercentage %>%</p>
                 <% TotalPrice=TotalPrice-TotalPrice*(discountinpercentage/100); %>
-                    <p>you have to pay only <%=TotalPrice%>
+                    <p>you have to pay only <%=parseInt(TotalPrice)%>
                     </p>
                     <% } %>
-                        <% if(typeof discountinprice !="undefined" ) {%>
+                        <% if( discountinprice ) {%>
                             <p>coupon code applied of $<%=discountinprice %>
                                     <% TotalPrice=TotalPrice-discountinprice; %>
-                                        <p>you have to pay only <%=TotalPrice%>
+                                        <p>you have to pay only <%=parseInt(TotalPrice)%>
                                         </p>
                                         <% } %>
                                             <% } else { %>

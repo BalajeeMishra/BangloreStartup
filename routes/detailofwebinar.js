@@ -82,10 +82,11 @@ router.post(
   "/moredetail/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const { advantageous, abouttopic, bestfor, agenda } = req.body;
+    const { advantageous, abouttopic, bestfor, agenda, urlofseminar } =
+      req.body;
     await Webinar.findOneAndUpdate(
       { id },
-      { advantageous, abouttopic, bestfor, agenda }
+      { advantageous, abouttopic, bestfor, agenda, urlofseminar }
     );
     delete req.session.newWebinarData;
     res.redirect("/");

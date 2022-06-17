@@ -109,7 +109,6 @@ router.get(
     // adding the new line of code here.
     const discountinprice = req.session.discountinprice;
     const discountinpercentage = req.session.discountinpercentage;
-
     // basically passing query because we need the data of cart which having visibility of true.
     let query1 = { cartSessionId: req.sessionID, visibility: true };
 
@@ -119,18 +118,7 @@ router.get(
     if (cart.length && req.user) {
       await Cart.find(query1).updateMany({}, { userId: req.user._id });
     }
-    if (id || req.user) {
-      var userid = id ? id : req.user._id;
-      let query2 = { userId: userid, visibility: true };
-      var cart = await Cart.find(query2).populate("product");
-      return res.render("cart", {
-        cart,
-        Total,
-        TotalPrice,
-        discountinpercentage,
-        discountinprice,
-      });
-    }
+
     // clear if already logged in.
     if (clear && req.user) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
@@ -145,7 +133,6 @@ router.get(
       });
     }
 
-    // if he want to clear the cart and don't registered yet or logged out.
     if (clear && !req.user) {
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ cartSessionId: req.sessionID });
@@ -158,6 +145,21 @@ router.get(
         discountinprice,
       });
     }
+
+    if (id || req.user) {
+      var userid = id ? id : req.user._id;
+      let query2 = { userId: userid, visibility: true };
+      var cart = await Cart.find(query2).populate("product");
+      return res.render("cart", {
+        cart,
+        Total,
+        TotalPrice,
+        discountinpercentage,
+        discountinprice,
+      });
+    }
+    // if he want to clear the cart and don't registered yet or logged out.
+
     // clear without logging in.
 
     // await PurchaseOfUser.find({ userId: req.user._id }).updateMany(
@@ -165,7 +167,13 @@ router.get(
     //   { purchaseId: Date.now() }
     // );
 
-    return res.render("cart", { cart, Total, TotalPrice });
+    return res.render("cart", {
+      cart,
+      Total,
+      TotalPrice,
+      discountinpercentage,
+      discountinprice,
+    });
   })
 );
 // increasing decresing the product category inside cart.

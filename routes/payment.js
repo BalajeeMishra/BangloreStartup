@@ -58,7 +58,7 @@ router.get(
     if (req.session.discountinpercentage) {
       total = total - total * (req.session.discountinpercentage / 100);
     }
-    res.render("checkout", { cart, total });
+    res.render("checkout", { cart, total: parseInt(total) });
   })
 );
 
@@ -95,7 +95,7 @@ router.get(
   "/success",
   wrapAsync(async (req, res, next) => {
     //new added code.
-    if (req.session.payment) {
+    if (req.session.amount) {
       req.session.method = "Stripe";
       isSuccess(req, res, next);
     }
