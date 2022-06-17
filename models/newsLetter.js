@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const EmailSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -6,5 +6,9 @@ const EmailSchema = new mongoose.Schema({
   date: {
     type: String,
   },
-});
-module.exports = mongoose.model("Email", EmailSchema);
+  subscribed: {
+    type: Boolean,
+    default: true,
+  },
+})
+module.exports = mongoose.model("Email", EmailSchema)

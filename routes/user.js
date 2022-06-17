@@ -301,12 +301,8 @@ router.get(
   })
 )
 // sending the verificational link again.
-router.get(
-  "/sendthemailagain",
-  wrapAsync(async (req, res) => {
-    return res.render("sendtheLinkAgain")
-  })
-)
+router.get("/sendthemailagain", (_, res) => res.render("sendtheLinkAgain"))
+
 // by using this route user data will update for verificational purpose.
 router.post(
   "/sendthemailagain",
@@ -357,5 +353,39 @@ router.post(
       req.flash("error", "Something going wrong,please try again")
     }
   })
+) // adding new user for newsLetter.
+router.post(
+  "/addnewuser",
+  wrapAsync(async (req, res) => {
+    const { email } = req.body
+    const dateNow = timingFormat(new Date())
+    const newUser = new Email({
+      email: email,
+      date: dateNow.dateformattransaction,
+    })
+    await newUser.save()
+    if (!newUser) {
+      throw new AppError("Something going wrong", 404)
+    }
+    req.flash("success", "Thanks for subscribing our news letter.")
+    return res.redirect("/")
+  })
 )
+
+// route if someone will unsubscribe us.
+router.post(
+  "/unsubscribe",
+  wrapAsync(async (req, res) => {
+    const { email } = req.body
+    const userforunsubscribe = await Email.findOne({ email: email })
+    userforunsubscribe.subscribed = false
+    await userforunsubscribe.save()
+    if (!userforunsubscribe) {
+      throw new AppError("Something going wrong,please try again.", 404)
+    }
+    req.flash("error", "you won't get any mails anymore.")
+    return res.redirect("/")
+  })
+)
+
 module.exports = router

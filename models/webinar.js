@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const WebinarSchema = new mongoose.Schema(
   {
     //name of instructor
@@ -105,10 +105,14 @@ const WebinarSchema = new mongoose.Schema(
       type: Number,
       default: 108,
     },
+    // in case of recorded only.
+    urlofseminar: {
+      type: String,
+    },
   },
   { timestamps: true }
-);
+)
 
-WebinarSchema.index({ title: "text", name: "text", description: "text" });
+WebinarSchema.index({ title: "text", name: "text", description: "text" })
 
-module.exports = mongoose.model("Webinar", WebinarSchema);
+module.exports = mongoose.model("Webinar", WebinarSchema)

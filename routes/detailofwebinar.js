@@ -84,12 +84,13 @@ router.post(
   "/moredetail/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params
-    const { advantageous, abouttopic, bestfor, agenda } = req.body
+    const { advantageous, abouttopic, bestfor, agenda, urlofseminar } = req.body
     await Webinar.findOneAndUpdate(
       { id },
-      { advantageous, abouttopic, bestfor, agenda }
+      { advantageous, abouttopic, bestfor, agenda, urlofseminar }
     )
     delete req.session.newWebinarData
+    await req.session.save()
     res.redirect("/admin")
   })
 )
@@ -136,10 +137,6 @@ router.get(
 
 // for finding monthwise data for 2 month from this month.
 router.get("/monthwise", async (req, res) => {
-  // month + "-" + year;
-  // currentMonth,
-  // firstmonthfromnow,
-  // secondmonthfromnow,
   const monthFormat = firsttwomonthfromnow()
   const webinar = await Webinar.find({
     dateforSort: monthFormat.secondmonthfromnow,

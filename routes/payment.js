@@ -1,11 +1,10 @@
 const express = require("express")
-const paypal = require("paypal-rest-sdk")
 const router = express.Router()
-
 const Cart = require("../models/cart")
-
+const Coupon = require("../models/coupon_code")
 const AppError = require("../controlError/AppError")
 const wrapAsync = require("../controlError/wrapAsync")
+const paypal = require("paypal-rest-sdk")
 const { isSuccess } = require("../helper/successtransaction_middleware")
 //stripe credential.
 const PUBLISHABLE_KEY =
@@ -13,7 +12,7 @@ const PUBLISHABLE_KEY =
 const SECRET_KEY =
   "sk_test_51KTsAkSCz6YD7QQytElBt5LdtRIgvpauD7S6UuNy5U1AEiQJNbY7hWkRgZ60VjHp3KmhBfCJAuIq4SCjLCn3H7hd00F7BIykKO"
 const stripe = require("stripe")(SECRET_KEY)
-const YOUR_DOMAIN = "http://test.mrityunjay.com:5000/payment"
+const YOUR_DOMAIN = "http://localhost:3000/payment"
 //paypal credential.
 paypal.configure({
   mode: "sandbox", //sandbox or live
@@ -23,15 +22,32 @@ paypal.configure({
     "EFbnaSsvOF6knHvTNewuxNk0SSSoO-YWYzqYPN3eRAYhL-uJ9OKfBTf04L7nS44vdLZIElLYIU4p_qMx",
 })
 
-//payment option route either paypal or stripe.
-router.get("/paymentoption", (req, res) => res.render("paymentoption"))
-
+// checking if a user got a coupone code.
+router.get("/haveaCouponecode", async (req, res) => {
+  return res.render("haveaCouponecode")
+})
+// checking whether the user entering the right coupon code or not.
+router.post(
+  "/haveaCouponecode",
+  wrapAsync(async (req, res) => {
+    const { coupon } = req.body
+    const [matchingtheCouponCode] = await Coupon.find({ coupon })
+    console.log(matchingtheCouponCode)
+    if (matchingtheCouponCode) {
+      req.session.discountinpercentage =
+        matchingtheCouponCode.discountinpercentage
+      req.session.discountinprice = matchingtheCouponCode.discountinprice
+      return res.redirect("/cart/all")
+    }
+    return res.redirect("/payment/haveaCouponecode")
+  })
+)
 // payment with stripe input form.
 router.get(
   "/paymentwithstripe",
   wrapAsync(async (req, res) => {
-    const cart = await Cart.find({ userId: req.user._id }).populate("product")
-    const total = cart.reduce(
+    let cart = await Cart.find({ userId: req.user._id }).populate("product")
+    let total = cart.reduce(
       (acc, item) =>
         item.reduce(
           (itemTotal, { categoryofprice }) =>
@@ -40,12 +56,13 @@ router.get(
         ),
       0
     )
-    // cart.forEach((c) => {
-    //   c.categoryofprice.forEach((cat) => {
-    //     total = total + cat.totalPrice
-    //   })
-    // })
-    res.render("checkout", { cart, total })
+    if (req.session.discountinprice) {
+      total = total - req.session.discountinprice
+    }
+    if (req.session.discountinpercentage) {
+      total = total - total * (req.session.discountinpercentage / 100)
+    }
+    res.render("checkout", { cart, total: parseInt(total) })
   })
 )
 
@@ -72,6 +89,7 @@ router.post(
       success_url: `${YOUR_DOMAIN}/success`,
       cancel_url: `${YOUR_DOMAIN}/cancel`,
     })
+
     res.redirect(303, session.url)
   })
 )
@@ -80,8 +98,11 @@ router.post(
 router.get(
   "/success",
   wrapAsync(async (req, res, next) => {
-    req.session.method = "Stripe"
-    isSuccess(req, res, next)
+    //new added code.
+    if (req.session.amount) {
+      req.session.method = "Stripe"
+      isSuccess(req, res, next)
+    }
     return res.render("success")
   })
 )
@@ -91,9 +112,8 @@ router.get("/cancel", (req, res) => {
   delete req.session.amount
   return res.render("cancel")
 })
-
 // paypal integration.
-//paymentwithpaypal page.
+//paymentwithpaypa"l page.
 router.get(
   "/paymentwithpaypal",
   wrapAsync(async (req, res) => {
@@ -104,6 +124,12 @@ router.get(
         total = total + cat.totalPrice
       })
     })
+    if (req.session.discountinprice) {
+      total = total - req.session.discountinprice
+    }
+    if (req.session.discountinpercentage) {
+      total = total - total * (req.session.discountinpercentage / 100)
+    }
     res.render("paypal_payment", { total })
   })
 )
@@ -119,8 +145,8 @@ router.post(
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: `${YOUR_DOMAIN}successtransaction`,
-        cancel_url: `${YOUR_DOMAIN}canceltransaction`,
+        return_url: "http://localhost:3000/payment/successtransaction",
+        cancel_url: "http://localhost:3000/payment/canceltransaction",
       },
       transactions: [
         {
@@ -181,7 +207,6 @@ router.get(
         } else {
           req.session.method = "Paypal"
           isSuccess(req, res, next)
-          // res.json({ payment });
           res.send("Success")
         }
       }

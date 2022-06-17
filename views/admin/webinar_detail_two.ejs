@@ -1,5 +1,5 @@
 <%- include("../layouts/header"); -%>
-    <div class="card">
+    <div class="card py-7">
         <form method="post" action="/webinar/moredetail/<%=detailOfNew._id%>" class="needs-validation" nonvalidate>
             <div class="form-group mb-3 mx-3">
                 <label for="advantageous" class="form-label">Why Should You Attend</label>
@@ -29,6 +29,14 @@
                 <label for="agenda" class="form-label">Agenda,In case of seminar only</label>
                 <textarea id="my-expressjs-tinymce-app" name="agenda" class="form-control"
                     placeholder="agenda"></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="form-group mb-3 mx-3">
+                <label for="urlofseminar" class="form-label">In case of recorded only.</label>
+                <input type="text" name="urlofseminar" id="urlofseminar" placeholder="Recorded webinar or seminar link."
+                    class="form-control" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>

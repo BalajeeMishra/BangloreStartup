@@ -59,7 +59,28 @@
                                                     </tr>
                     </tbody>
                 </table>
-                <a href="/cart/checkout" role="button" class="btn btn-outline-secondary ms-auto">Checkout</a>
+                <div class="row px-sm-3">
+                    <a href="/payment/haveaCouponecode" class="nav_link text-primary me-auto col-md-4" role="button">
+                        Do you have a coupon code?
+                    </a>
+                    <div class="col col-md-4 d-flex justify-content-between align-items-center">
+                        <% if( discountinpercentage ) { %>
+                            <p class="d-inline fw-medium">Discount <%= discountinpercentage %>%</p>
+                            <% TotalPrice=TotalPrice-TotalPrice*(discountinpercentage/100); %>
+                                <p class="d-inline fw-medium">Final Price: $<%=parseInt(TotalPrice)%>
+                                </p>
+                                <% } %>
+                                    <% if( discountinprice ) {%>
+                                        <p class="d-inline fw-medium">Discount $<%=discountinprice %>
+                                                <% TotalPrice=TotalPrice-discountinprice; %>
+                                                    <p class="d-inline fw-medium">Final Price: $
+                                                        <%=parseInt(TotalPrice)%>
+                                                    </p>
+                                                    <% } %>
+                    </div>
+                    <a href="/cart/checkout" role="button"
+                        class="btn btn-outline-secondary ms-auto col-md-2">Checkout</a>
+                </div>
                 <% } else { %>
                     <div class="text-center">
                         <h4>Nothing in cart.</h4>
