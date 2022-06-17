@@ -1,22 +1,33 @@
 <%- include("../layouts/header"); -%>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>Name of user</th>
-                <th>CartAbandon</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% user.forEach(e=>{ %>
-                <tr>
-                    <td>balajee</td>
-                    <td>
-                        <a href="/cart/all?id=<%=e._id %>">check this user data.</a>
-                    </td>
-                </tr>
 
-                <% }) %>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name of user</th>
+                            <th>CartAbandon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.forEach(e=>{ %>
+                            <tr>
+                                <td>balajee</td>
+                                <td>
+                                    <a href="/cart/all?id=<%=e._id %>">check this user data.</a>
+                                </td>
+                            </tr>
 
-        </tbody>
-    </table>
+                            <% }) %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <%- include("../layouts/footer"); -%>

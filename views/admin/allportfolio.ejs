@@ -1,20 +1,30 @@
 <%- include("../layouts/header"); -%>
-    <div class="portfolio">
-        <% portfolio.forEach(p=>{ %>
-            <div class="portfolio_inside">
-                <div>
-                    <img src="<%=p?.image?.url%>" width="150" height="150">
-                </div>
-                <h5>
-                    <%= p.name %>
-                </h5>
-
-                <a href="/portfolio/edit/<%=p._id%> " class="ml-4">Edit</a>
-                <a href="/portfolio/delete/<%=p._id%>" class=" ml-4">Delete</a>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
             </div>
-            <% }) %>
+            <div class="col col-9">
+                <div class="portfolio">
+                    <% portfolio.forEach(p=>{ %>
+                        <div class="portfolio_inside">
+                            <div>
+                                <img src="<%=p?.image?.url%>" width="150" height="150">
+                            </div>
+                            <h5>
+                                <%= p.name %>
+                            </h5>
 
-    </div>
+                            <a href="/portfolio/edit/<%=p._id%> " class="ml-4">Edit</a>
+                            <a href="/portfolio/delete/<%=p._id%>" class=" ml-4">Delete</a>
+                        </div>
+                        <% }) %>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
     <%- include("../layouts/footer"); -%>

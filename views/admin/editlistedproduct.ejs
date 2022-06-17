@@ -1,189 +1,183 @@
 <%- include("../layouts/header"); -%>
-    <div class="edited_card">
-        <form method="post" action="/admin/edit_product/<%=webinar._id%>?_method=PUT" class="needs-validation"
-            enctype="multipart/form-data" nonvalidate>
-            <div class="twocolumn">
-                <div class="part1">
-                    <div class="form-group mb-3 mx-3">
-                        <label for="types">Types of</label>
-                        <select name="types" id="types">
-                            <% if(webinar.types=="Webinar" ) {%>
-                                <option value="Webinar" selected>Webinar</option>
-                                <option value="Seminar">Seminar</option>
-                                <% } else{ %>
-                                    <option value="Webinar">Webinar</option>
-                                    <option value="Seminar" selected>Seminar</option>
-                                    <% } %>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="types">Status</label>
-                        <select name="status" id="status">
-                            <% if(webinar.status=="Live" ){ %>
-                                <option value="Live" selected>Live</option>
-                                <option value="Recorded">recorded</option>
-                                <% } else{%>
-                                    <option value="Recorded" selected>Recorded</option>
-                                    <option value="Live">live</option>
-                                    <% } %>
-                        </select>
-                    </div>
 
-                    <div class="form-group mb-3 mx-3">
-                        <label for="nameofdepartment">Category</label>
-                        <select name="nameofdepartment" id="nameofdepartment">
-                            <% categories.forEach(function(cat){ %>
-                                <% if(webinar.category==cat.nameofdepartment){ %>
-                                    <option value="<%=webinar.category %>" selected>
-                                        <%=cat.nameofdepartment %>
-                                    </option>
-                                    <% } else{%>
-                                        <option value="<%=cat.nameofdepartment %>">
-                                            <%=cat.nameofdepartment %>
-                                        </option>
-                                        <% } %>
-                                            <% }); %>
-                        </select>
-                    </div>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="edited_card">
+                    <form method="post" action="/admin/edit_product/<%=webinar._id%>?_method=PUT"
+                        class="needs-validation" enctype="multipart/form-data" nonvalidate>
+                        <div class="twocolumn">
+                            <div class="part1">
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="types">Types of</label>
+                                    <select name="types" id="types">
+                                        <% if(webinar.types=="Webinar" ) {%>
+                                            <option value="Webinar" selected>Webinar</option>
+                                            <option value="Seminar">Seminar</option>
+                                            <% } else{ %>
+                                                <option value="Webinar">Webinar</option>
+                                                <option value="Seminar" selected>Seminar</option>
+                                                <% } %>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="types">Status</label>
+                                    <select name="status" id="status">
+                                        <% if(webinar.status=="Live" ){ %>
+                                            <option value="Live" selected>Live</option>
+                                            <option value="Recorded">recorded</option>
+                                            <% } else{%>
+                                                <option value="Recorded" selected>Recorded</option>
+                                                <option value="Live">live</option>
+                                                <% } %>
+                                    </select>
+                                </div>
 
-                    <div class="form-group mb-3 mx-3">
-                        <label for="name">Name Of Instructor</label>
-                        <select name="name" id="name">
-                            <% portfolio.forEach(function(p){ %>
-                                <% if(webinar.name==p.name){ %>
-                                    <option value="<%=p.name%>" selected>
-                                        <%=p.name%>
-                                    </option>
-                                    <% } else{%>
-                                        <option value="<%=p.name%>">
-                                            <%=p.name%>
-                                        </option>
-                                        <% } %>
-                                            <% }); %>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="title"
-                            value="<%=webinar.title %>" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                            placeholder="Description"><%=webinar.description %></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="nameofdepartment">Category</label>
+                                    <select name="nameofdepartment" id="nameofdepartment">
+                                        <% categories.forEach(function(cat){ %>
+                                            <% if(webinar.category==cat.nameofdepartment){ %>
+                                                <option value="<%=webinar.category %>" selected>
+                                                    <%=cat.nameofdepartment %>
+                                                </option>
+                                                <% } else{%>
+                                                    <option value="<%=cat.nameofdepartment %>">
+                                                        <%=cat.nameofdepartment %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% }); %>
+                                    </select>
+                                </div>
 
-                    <div class="form-group mb-3 mx-3">
-                        <label for="webinartiming" class="form-label">Date</label>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="name">Name Of Instructor</label>
+                                    <select name="name" id="name">
+                                        <% portfolio.forEach(function(p){ %>
+                                            <% if(webinar.name==p.name){ %>
+                                                <option value="<%=p.name%>" selected>
+                                                    <%=p.name%>
+                                                </option>
+                                                <% } else{%>
+                                                    <option value="<%=p.name%>">
+                                                        <%=p.name%>
+                                                    </option>
+                                                    <% } %>
+                                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="title"
+                                        value="<%=webinar.title %>" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea name="description" id="description" class="form-control" cols="30"
+                                        rows="10" placeholder="Description"><%=webinar.description %></textarea>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="webinartiming" class="form-label">Date</label>
 
 
-                        <input type="date" class="form-control" id="webinartiming" name="webinartiming"
-                            value="<%=datePattern%>" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="time" class="form-label">Time</label>
-                        <input type="time" name="time" id="time" placeholder="Time" class="form-control" min="00:00"
-                            max="24:00" value="<%=webinar.time %>" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+                                    <input type="date" class="form-control" id="webinartiming" name="webinartiming"
+                                        value="<%=datePattern%>" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="time" class="form-label">Time</label>
+                                    <input type="time" name="time" id="time" placeholder="Time" class="form-control"
+                                        min="00:00" max="24:00" value="<%=webinar.time %>" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
 
-                    <div class="form-group mb-3 mx-3">
-                        <label for="duration" class="form-label">Duration</label>
-                        <input type="Number" name="duration" id="duration" placeholder="Duration of webinar"
-                            class="form-control" value="<%=webinar.duration %>" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="form-group mb-2 mx-3">
-                        <label for="image">Image</label>
-                        <input type="file" class="form-control" name="image" value="<%=webinar.image%>" id="img">
-                    </div>
-                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="duration" class="form-label">Duration</label>
+                                    <input type="Number" name="duration" id="duration" placeholder="Duration of webinar"
+                                        class="form-control" value="<%=webinar.duration %>" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 mx-3">
+                                    <label for="image">Image</label>
+                                    <input type="file" class="form-control" name="image" value="<%=webinar.image%>"
+                                        id="img">
+                                </div>
+                            </div>
 
-                <div class="part2">
-                    <div class="form-group mb-3 mx-3">
-                        <label for="advantageous" class="form-label">Why Should You Attend</label>
-                        <textarea id="my-expressjs-tinymce-app" name="advantageous" class="form-control"
-                            placeholder="Why Should You Attend:"><%=webinar.advantageous %></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
-                        <textarea name="abouttopic" id="my-expressjs-tinymce-app" class="form-control"
-                            placeholder="Areas Covered in the Webinar"><%=webinar.abouttopic %></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="bestfor" class="form-label">Who Will Benefit</label>
-                        <textarea name="bestfor" id="my-expressjs-tinymce-app" class="form-control"
-                            placeholder="Who Will Benefit"><%=webinar.bestfor %></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+                            <div class="part2">
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="advantageous" class="form-label">Why Should You Attend</label>
+                                    <textarea id="my-expressjs-tinymce-app" name="advantageous" class="form-control"
+                                        placeholder="Why Should You Attend:"><%=webinar.advantageous %></textarea>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
+                                    <textarea name="abouttopic" id="my-expressjs-tinymce-app" class="form-control"
+                                        placeholder="Areas Covered in the Webinar"><%=webinar.abouttopic %></textarea>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="bestfor" class="form-label">Who Will Benefit</label>
+                                    <textarea name="bestfor" id="my-expressjs-tinymce-app" class="form-control"
+                                        placeholder="Who Will Benefit"><%=webinar.bestfor %></textarea>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
 
-                    <div class="form-group mb-3 mx-3">
-                        <label for="agenda" class="form-label">Agenda,In case of seminar only</label>
-                        <textarea id="my-expressjs-tinymce-app" name="agenda"
-                            class="form-control"><%- webinar.agenda %> </textarea>
-                        <div class="valid-feedback">
-                            Looks good!
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="agenda" class="form-label">Agenda,In case of seminar only</label>
+                                    <textarea id="my-expressjs-tinymce-app" name="agenda"
+                                        class="form-control"><%- webinar.agenda %> </textarea>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 mx-3">
+                                    <label for="urlofseminar" class="form-label">In case of recorded only.</label>
+                                    <input type="text" name="urlofseminar" id="urlofseminar"
+                                        placeholder="Recorded webinar or seminar link."
+                                        value="<%=webinar.urlofseminar%>" class="form-control" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group mb-3 mx-3">
-                        <label for="urlofseminar" class="form-label">In case of recorded only.</label>
-                        <input type="text" name="urlofseminar" id="urlofseminar"
-                            placeholder="Recorded webinar or seminar link." value="<%=webinar.urlofseminar%>"
-                            class="form-control" required>
-                        <div class="valid-feedback">
-                            Looks good!
+                        <div class="button mb-2 mx-3 text-center">
+                            <button type="submit" class="btn btn-success">Add
+                                Detail</button>
                         </div>
-                    </div>
+
+                    </form>
                 </div>
             </div>
-            <div class="button mb-2 mx-3 text-center">
-                <button type="submit" class="btn btn-success">Add
-                    Detail</button>
-            </div>
+        </div>
+    </section>
 
-        </form>
-    </div>
 
-    <script>
-        (function () {
-            'use strict'
+    <!-- Bootstrap Form Validation Plugin -->
+    <%- include('../partials/form-validation') %>
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-    <%- include("../layouts/footer"); -%>
+        <%- include("../layouts/footer"); -%>

@@ -1,49 +1,57 @@
 <%- include("../layouts/header"); -%>
 
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Count</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">code</th>
-                <th scope="col">Instructor</th>
-                <th scope="col">Action</th>
-                <th scope="col">Archive.</th>
-                <th scope="col">Visibility.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% webinar.forEach((e,i)=> { %>
-                <tr>
-                    <th scope="row">
-                        <%=i %>
-                    </th>
-                    <td>
-                        <%=e.title %>
-                    </td>
-                    <td>
-                        <%=e.id %>
-                    </td>
-                    <td>
-                        <%=e.name%>
-                    </td>
-                    <td>
-                        <a href="/admin/edit_product/<%=e._id %> ">Edit</a>
-                        <a href="/admin/delete_product/<%=e._id %> ">Delete</a>
-                    </td>
-                    <td>
-                        <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
-                    </td>
-                    <td>
-                        <span>
-                            <%=e.visibility%>
-                        </span>
-                        <a href="/admin/update_the_visibility/<%=e._id %>">update now</a>
-                    </td>
-                </tr>
-                <%}); %>
-        </tbody>
-    </table>
-
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Count</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">code</th>
+                            <th scope="col">Instructor</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Archive.</th>
+                            <th scope="col">Visibility.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% webinar.forEach((e,i)=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%=i %>
+                                </th>
+                                <td>
+                                    <%=e.title %>
+                                </td>
+                                <td>
+                                    <%=e.id %>
+                                </td>
+                                <td>
+                                    <%=e.name%>
+                                </td>
+                                <td>
+                                    <a href="/admin/edit_product/<%=e._id %> ">Edit</a>
+                                    <a href="/admin/delete_product/<%=e._id %> ">Delete</a>
+                                </td>
+                                <td>
+                                    <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
+                                </td>
+                                <td>
+                                    <span>
+                                        <%=e.visibility%>
+                                    </span>
+                                    <a href="/admin/update_the_visibility/<%=e._id %>">update now</a>
+                                </td>
+                            </tr>
+                            <%}); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <%- include("../layouts/footer"); -%>

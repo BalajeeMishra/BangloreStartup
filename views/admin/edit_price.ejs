@@ -1,32 +1,42 @@
 <%- include("../layouts/header"); -%>
-    <div class="card">
-        <form method="post" action="/price/edit_purchase/<%=purchase._id%>?_method=PUT" class="needs-validation"
-            nonvalidate>
-            <div class="form-group mb-3 mx-3">
-                <label for="nameofpurchase" class="form-label">Purchase Name</label>
-                <input type="text" class="form-control" id="nameofpurchase" name="nameofpurchase"
-                    placeholder="Purchase Name" value="<%=purchase.nameofpurchase%>" required>
-                <div class="valid-feedback">
-                    Looks good!
+
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="card">
+                    <form method="post" action="/price/edit_purchase/<%=purchase._id%>?_method=PUT"
+                        class="needs-validation" nonvalidate>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="nameofpurchase" class="form-label">Purchase Name</label>
+                            <input type="text" class="form-control" id="nameofpurchase" name="nameofpurchase"
+                                placeholder="Purchase Name" value="<%=purchase.nameofpurchase%>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="price" class="form-label">price</label>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Give price"
+                                value="<%=purchase.price%>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="order" class="form-label">order</label>
+                            <input type="number" class="form-control" id="order" name="order" placeholder="Enter order"
+                                value="<%=purchase.order%>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+                    </form>
                 </div>
             </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="price" class="form-label">price</label>
-                <input type="number" class="form-control" id="price" name="price" placeholder="Give price"
-                    value="<%=purchase.price%>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="order" class="form-label">order</label>
-                <input type="number" class="form-control" id="order" name="order" placeholder="Enter order"
-                    value="<%=purchase.order%>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
-        </form>
-    </div>
+        </div>
+    </section>
     <%- include("../layouts/footer"); -%>

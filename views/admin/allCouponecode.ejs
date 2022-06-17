@@ -1,36 +1,46 @@
 <%- include("../layouts/header"); -%>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">coupon code.</th>
-                <th scope="col">Discount in percentages(if any)</th>
-                <th scope="col">Discount in dollor(if any)</th>
-                <th scope="col">Action.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%coupons.forEach((c,i)=> { %>
-                <tr>
-                    <th scope="row">
-                        <%=c.coupon %>
-                    </th>
-                    <td>
-                        <%=c.discountinpercentage%>
-                    </td>
-                    <td>
-                        <%=c.discountinprice %>
-                    </td>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">coupon code.</th>
+                            <th scope="col">Discount in percentages(if any)</th>
+                            <th scope="col">Discount in dollor(if any)</th>
+                            <th scope="col">Action.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%coupons.forEach((c,i)=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%=c.coupon %>
+                                </th>
+                                <td>
+                                    <%=c.discountinpercentage%>
+                                </td>
+                                <td>
+                                    <%=c.discountinprice %>
+                                </td>
 
-                    <td>
-                        <a href="/coupon/edit_coupon/<%=c._id %>">Edit</a>
-                        <hr>
-                    </td>
+                                <td>
+                                    <a href="/coupon/edit_coupon/<%=c._id %>">Edit</a>
+                                    <hr>
+                                </td>
 
 
-                </tr>
-                <%}); %>
+                            </tr>
+                            <%}); %>
 
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
 
     <%- include("../layouts/footer"); -%>

@@ -1,9 +1,18 @@
 <%- include("../layouts/header"); -%>
-    <div class="card">
-        <% archive.forEach(e=>{ %>
-            <div>
-                <%=e.title %>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
             </div>
-            <% }) %>
-    </div>
+            <div class="col col-9">
+                <div class="card">
+                    <% archive.forEach(e=>{ %>
+                        <div>
+                            <%=e.title %>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+    </section>
     <%- include("../layouts/footer"); -%>

@@ -1,41 +1,54 @@
 <%- include("../layouts/header"); -%>
 
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Numbering</th>
-                <th scope="col">Name of purchase</th>
-                <th scope="col">price</th>
-                <th scope="col">order</th>
-                <th scope="col">Action</th>
-                <th scope="col">More Action...</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% purchase.forEach((p,i)=> { %>
-                <tr>
-                    <th scope="row">
-                        <%=i %>
-                    </th>
-                    <td>
-                        <%=p.nameofpurchase %>
-                    </td>
-                    <td>
-                        <%=p.price %>
-                    </td>
-                    <td>
-                        <%=p.order%>
-                    </td>
-                    <td>
-                        <a href="/price/edit_purchase/<%=p._id %>">Edit</a>
-                        <a href="/price/delete_purchase/<%=p._id %>">Delete</a>
-                    </td>
-                    <td>
-                        <a href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=1">Up</a>
-                        <a href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=-1">Down</a>
-                    </td>
-                </tr>
-                <%}); %>
-        </tbody>
-    </table>
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Numbering</th>
+                            <th scope="col">Name of purchase</th>
+                            <th scope="col">price</th>
+                            <th scope="col">order</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">More Action...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% purchase.forEach((p,i)=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%=i %>
+                                </th>
+                                <td>
+                                    <%=p.nameofpurchase %>
+                                </td>
+                                <td>
+                                    <%=p.price %>
+                                </td>
+                                <td>
+                                    <%=p.order%>
+                                </td>
+                                <td>
+                                    <a href="/price/edit_purchase/<%=p._id %>">Edit</a>
+                                    <a href="/price/delete_purchase/<%=p._id %>">Delete</a>
+                                </td>
+                                <td>
+                                    <a href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=1">Up</a>
+                                    <a
+                                        href="/price/upanddownthe_price/<%=p._id%>?position=<%=p.order%>&action=-1">Down</a>
+                                </td>
+                            </tr>
+                            <%}); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+
     <%- include("../layouts/footer"); -%>

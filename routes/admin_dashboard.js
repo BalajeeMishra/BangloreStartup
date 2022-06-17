@@ -88,6 +88,7 @@ router.get("/update_the_visibility/:id", async (req, res) => {
   )
   return res.redirect("/admin/allproduct")
 })
+
 //deleting or archiving webinar page;
 router.get(
   "/delete_product/:id",

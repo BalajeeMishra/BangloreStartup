@@ -1,48 +1,61 @@
 <%- include("../layouts/header"); -%>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Order of industry Category</th>
-                <th scope="col">Name of category</th>
-                <th scope="col">action</th>
-                <th scope="col">More action</th>
-                <th scope="col">Visibility.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%category.forEach((e,i)=> { %>
-                <tr>
-                    <th scope="row">
-                        <%=e.order %>
-                    </th>
-                    <td>
-                        <%=e.nameofdepartment%>
-                    </td>
+
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order of industry Category</th>
+                            <th scope="col">Name of category</th>
+                            <th scope="col">action</th>
+                            <th scope="col">More action</th>
+                            <th scope="col">Visibility.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%category.forEach((e,i)=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%=e.order %>
+                                </th>
+                                <td>
+                                    <%=e.nameofdepartment%>
+                                </td>
 
 
-                    <td>
-                        <a href="/admin/edit_category/<%=e._id %> ">Edit</a>
-                        <hr>
-                        <!-- <a href="/admin/delete_category/<%=//e._id %> ">Delete</a> -->
-                    </td>
+                                <td>
+                                    <a href="/admin/edit_category/<%=e._id %> ">Edit</a>
+                                    <hr>
+                                    <!-- <a href="/admin/delete_category/<%=//e._id %> ">Delete</a> -->
+                                </td>
 
-                    <td>
-                        <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1">up</a>
-                        <hr>
-                        <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">Down</a>
-                    </td>
-                    <td>
-                        <span>
-                            <%=e.visibility%>
-                        </span>
-                        <a href="/admin/update_the_visibility_of_category/<%=e._id %>">update now</a>
-                    </td>
+                                <td>
+                                    <a
+                                        href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1">up</a>
+                                    <hr>
+                                    <a
+                                        href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">Down</a>
+                                </td>
+                                <td>
+                                    <span>
+                                        <%=e.visibility%>
+                                    </span>
+                                    <a href="/admin/update_the_visibility_of_category/<%=e._id %>">update now</a>
+                                </td>
 
 
-                </tr>
-                <%}); %>
+                            </tr>
+                            <%}); %>
 
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
 
     <%- include("../layouts/footer"); -%>

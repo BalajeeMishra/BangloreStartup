@@ -1,51 +1,64 @@
 <%- include("../layouts/header"); -%>
-    <div class="card py-7">
-        <form method="post" action="/webinar/moredetail/<%=detailOfNew._id%>" class="needs-validation" nonvalidate>
-            <div class="form-group mb-3 mx-3">
-                <label for="advantageous" class="form-label">Why Should You Attend</label>
-                <textarea id="my-expressjs-tinymce-app" name="advantageous" class="form-control" cols="30" rows="10"
-                    placeholder="Why Should You Attend"></textarea>
-                <div class="valid-feedback">
-                    Looks good!
+
+
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="card py-7">
+                    <form method="post" action="/webinar/moredetail/<%=detailOfNew._id%>" class="needs-validation"
+                        nonvalidate>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="advantageous" class="form-label">Why Should You Attend</label>
+                            <textarea id="my-expressjs-tinymce-app" name="advantageous" class="form-control" cols="30"
+                                rows="10" placeholder="Why Should You Attend"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
+                            <textarea id="my-expressjs-tinymce-app" name="abouttopic" class="form-control"
+                                placeholder="Areas Covered in the Webinar"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="bestfor" class="form-label">Who Will Benefit</label>
+                            <textarea id="my-expressjs-tinymce-app" name="bestfor" class="form-control"
+                                placeholder="Who Will Benefit"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="agenda" class="form-label">Agenda,In case of seminar only</label>
+                            <textarea id="my-expressjs-tinymce-app" name="agenda" class="form-control"
+                                placeholder="agenda"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="urlofseminar" class="form-label">In case of recorded only.</label>
+                            <input type="text" name="urlofseminar" id="urlofseminar"
+                                placeholder="Recorded webinar or seminar link." class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="button mb-3 mx-3">
+                            <button type="submit" class="btn btn-success">Add
+                                Detail</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="abouttopic" class="form-label">Areas Covered in the Webinar</label>
-                <textarea id="my-expressjs-tinymce-app" name="abouttopic" class="form-control"
-                    placeholder="Areas Covered in the Webinar"></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="bestfor" class="form-label">Who Will Benefit</label>
-                <textarea id="my-expressjs-tinymce-app" name="bestfor" class="form-control"
-                    placeholder="Who Will Benefit"></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="agenda" class="form-label">Agenda,In case of seminar only</label>
-                <textarea id="my-expressjs-tinymce-app" name="agenda" class="form-control"
-                    placeholder="agenda"></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="urlofseminar" class="form-label">In case of recorded only.</label>
-                <input type="text" name="urlofseminar" id="urlofseminar" placeholder="Recorded webinar or seminar link."
-                    class="form-control" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="button mb-3 mx-3">
-                <button type="submit" class="btn btn-success">Add
-                    Detail</button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
+
 
     <%- include("../layouts/footer"); -%>

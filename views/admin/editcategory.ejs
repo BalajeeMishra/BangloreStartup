@@ -1,26 +1,36 @@
 <%- include("../layouts/header"); -%>
 
-    <div class="container main-title">
 
-        <h2 class="page-title">Add a category</h2>
-        <a href="/admin/allcategories" class="btn btn-info mt-2">Back to all categories</a>
-    </div>
-    <br><br>
-    <div class="container table-style">
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="container main-title">
 
-        <form method="post" action="/admin/category/<%=category._id%>?_method=PUT">
-            <div class="form-group">
-                <label for="nameofdepartment">Title</label>
-                <input class="form-control" type="text" name="nameofdepartment" id="nameofdepartment"
-                    value="<%=category.nameofdepartment%>" placeholder="Add the department">
+                    <h2 class="page-title">Add a category</h2>
+                    <a href="/admin/allcategories" class="btn btn-info mt-2">Back to all categories</a>
+                </div>
+                <br><br>
+                <div class="container table-style">
+
+                    <form method="post" action="/admin/category/<%=category._id%>?_method=PUT">
+                        <div class="form-group">
+                            <label for="nameofdepartment">Title</label>
+                            <input class="form-control" type="text" name="nameofdepartment" id="nameofdepartment"
+                                value="<%=category.nameofdepartment%>" placeholder="Add the department">
+                        </div>
+                        <div class="form-group">
+                            <label for="order">Title</label>
+                            <input class="form-control" type="number" name="order" id="order"
+                                value="<%=category.order%>" placeholder="Add the department">
+                        </div>
+                        <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="order">Title</label>
-                <input class="form-control" type="number" name="order" id="order" value="<%=category.order%>"
-                    placeholder="Add the department">
-            </div>
-            <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
-        </form>
-    </div>
+        </div>
+    </section>
 
     <%- include("../layouts/footer"); -%>

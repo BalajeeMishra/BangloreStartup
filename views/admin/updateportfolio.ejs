@@ -1,88 +1,80 @@
 <%- include("../layouts/header"); -%>
-    <div class="card">
-        <form method="post" action="/portfolio/edit/<%=portfolio._id%>?_method=PUT" class="needs-validation"
-            enctype="multipart/form-data" nonvalidate>
-            <div class="form-group mb-3 mx-3">
-                <label for="name" class="form-label">Instructor</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Name of instructor"
-                    value="<%=portfolio.name%>" required>
-                <div class="valid-feedback">
-                    Looks good!
+    <section class="container-fluid py-5">
+        <div class="row">
+            <div class="col col-3">
+                <%- include('../partials/adminSideBar')%>
+            </div>
+            <div class="col col-9">
+                <div class="card">
+                    <form method="post" action="/portfolio/edit/<%=portfolio._id%>?_method=PUT" class="needs-validation"
+                        enctype="multipart/form-data" nonvalidate>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="name" class="form-label">Instructor</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Name of instructor" value="<%=portfolio.name%>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-2 mx-3">
+                            <label for="image">Image</label>
+                            <input type="file" class="form-control" name="image" id="img" value="<%=portfolio.image%>">
+                        </div>
+
+                        <div class="form-group mb-3 mx-3">
+                            <label for="qualification" class="form-label">Qualification</label>
+                            <input type="text" class="form-control" id="qualification" name="qualification"
+                                placeholder="Qualification" value="<%=portfolio.qualification %>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="designation" class="form-label">Designation</label>
+                            <input type="text" class="form-control" id="designation" name="designation"
+                                placeholder="Designation" value="<%=portfolio.designation%>" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 mx-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="description" id="description" class="form-control" cols="30" rows="10"
+                                placeholder="Description"><%=portfolio.description%></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mx-3">
+                            <label for="cars">Choose profile visibility:</label>
+
+                            <select name="visible" id="visible" value="<%=portfolio.visible%>">
+                                <% if(portfolio.visible=="yes" ) {%>
+                                    <option value="Yes" selected>Yes</option>
+                                    <option value="No">No</option>
+                                    <% }else{ %>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No" selected>No</option>
+                                        <% } %>
+                            </select>
+
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="button mb-2 mx-3">
+                            <button type="submit" class="btn btn-success">update portfolio</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="form-group mb-2 mx-3">
-                <label for="image">Image</label>
-                <input type="file" class="form-control" name="image" id="img" value="<%=portfolio.image%>">
-            </div>
 
-            <div class="form-group mb-3 mx-3">
-                <label for="qualification" class="form-label">Qualification</label>
-                <input type="text" class="form-control" id="qualification" name="qualification"
-                    placeholder="Qualification" value="<%=portfolio.qualification %>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="designation" class="form-label">Designation</label>
-                <input type="text" class="form-control" id="designation" name="designation" placeholder="Designation"
-                    value="<%=portfolio.designation%>" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
+    <!-- Bootstrap Form Validation Plugin -->
+    <%- include('../partials/form-validation') %>
 
-            <div class="form-group mb-3 mx-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                    placeholder="Description"><%=portfolio.description%></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="form-group mb-3 mx-3">
-                <label for="cars">Choose profile visibility:</label>
-
-                <select name="visible" id="visible" value="<%=portfolio.visible%>">
-                    <% if(portfolio.visible=="yes" ) {%>
-                        <option value="Yes" selected>Yes</option>
-                        <option value="No">No</option>
-                        <% }else{ %>
-                            <option value="Yes">Yes</option>
-                            <option value="No" selected>No</option>
-                            <% } %>
-                </select>
-
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div class="button mb-2 mx-3">
-                <button type="submit" class="btn btn-success">update portfolio</button>
-            </div>
-        </form>
-    </div>
-    <script>
-        (function () {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-
-    <%- include("../layouts/footer"); -%>
+        <%- include("../layouts/footer"); -%>
