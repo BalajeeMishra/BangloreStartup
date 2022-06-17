@@ -13,12 +13,7 @@ const { generateString } = require("../helper/string_generator")
 const { verifyCaptcha } = require("../helper/middleware")
 
 // register form route
-router.get(
-  "/register",
-  wrapAsync(async (req, res, next) => {
-    res.render("register")
-  })
-)
+router.get("/register", (_, res) => res.render("register"))
 
 // registering the user.
 router.post(
@@ -36,15 +31,11 @@ router.post(
         company,
         jobtitle,
       } = req.body)
-
-      const captcha_res = await verifyCaptcha(req.body["g-recaptcha-response"])
-      if (!captcha_res.success)
-        return res.status(400).render("register", {
-          userData,
-          captcha_error: "Captcha validation failed.",
-          match: false,
-        })
-
+      // google captch validation
+      verifyCaptcha(
+        req,
+        res
+      )({ path: "register", detail: { userData, match: false } })
       if (password != password2) {
         return res.render("register", {
           userData,
@@ -74,7 +65,6 @@ router.post(
         phone,
         address,
         company,
-        verify: true,
         jobtitle,
       })
       const registeredUser = await User.register(user, password)

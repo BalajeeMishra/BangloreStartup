@@ -18,7 +18,6 @@ router.get(
         total = total + cat.totalPrice
       })
     })
-    console.log(cart["userId"])
     return res.status(200).render("checkout", {
       cart,
       total,

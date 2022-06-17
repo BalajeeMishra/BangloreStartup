@@ -1,78 +1,108 @@
 <%- include('layouts/header')%>
     <%- include('partials/stripePlugin')%>
 
-
-        <div class="container-lg p-sm-7">
-            <div class="row flex-center">
-                <div class="col col-7">
-                    <div class="card">
-                        <div class="row ">
-                            <div class="col col-3 fs-2">Name:</div>
-                            <div class="col fs-2">
-                                <%= userdata?.firstname%>
-                                    <%= userdata?.lastname%>
+        <% Total=0,TotalPrice=0 %>
+            <div class="container-lg p-sm-7">
+                <div class="row flex-center">
+                    <div class="col col-md-7">
+                        <div class="card">
+                            <div class="row ">
+                                <div class="col col-3 fs-2">Name:</div>
+                                <div class="col fs-2">
+                                    <%= userdata?.firstname%>
+                                        <%= userdata?.lastname%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Eamil:</div>
-                            <div class="col fs-2">
-                                <%= userdata?.email%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Eamil:</div>
+                                <div class="col fs-2">
+                                    <%= userdata?.email%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Phone:</div>
-                            <div class="col fs-2">
-                                <%= userdata?.phone%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Phone:</div>
+                                <div class="col fs-2">
+                                    <%= userdata?.phone%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Company:</div>
-                            <div class="col  fs-2">
-                                <%= userdata?.company%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Company:</div>
+                                <div class="col  fs-2">
+                                    <%= userdata?.company%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Job Titles:</div>
-                            <div class="col  fs-2">
-                                <%= userdata?.jobtitle%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Job Titles:</div>
+                                <div class="col  fs-2">
+                                    <%= userdata?.jobtitle%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">State:</div>
-                            <div class="col  fs-2">
-                                <%= userdata?.state%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">State:</div>
+                                <div class="col  fs-2">
+                                    <%= userdata?.state%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Country:</div>
-                            <div class="col  fs-2">
-                                <%= userdata?.country%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Country:</div>
+                                <div class="col  fs-2">
+                                    <%= userdata?.country%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-3 fs-2">Zip Code:</div>
-                            <div class="col  fs-2">
-                                <%= userdata?.zipcode%>
+                            <div class="row">
+                                <div class="col col-3 fs-2">Zip Code:</div>
+                                <div class="col  fs-2">
+                                    <%= userdata?.zipcode%>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="row justify-content-between">
+                                <h4 class="col col-md-7">Item</h4>
+                                <h4 class="col col-md-4">
+                                    Qty
+                                </h4>
+                                <hr />
+                            </div>
+                            <% cart.forEach(c=> { %>
+                                <% c.categoryofprice.forEach((e)=>{ %>
+                                    <% Total=Total+(e.price)*(e.quantity); %>
+                                        <% TotalPrice=TotalPrice+Total; %>
+                                            <div class="row justify-content-between py-0">
+                                                <p class="col col-md-7 fs-1">
+                                                    <%= c.product.title %>
+                                                </p>
+                                                <p class="col col-md-4 m-0">
+                                                    <%= e.quantity %> x <%= e.price %>
+                                                </p>
+                                            </div>
+                                            <% }) %>
+                                                <% }) %>
+                        </div>
+                        <!-- Stripe Payment Form -->
+                        <form action="/payment/paymentwithstripe/checkout" method="POST">
+                            <div class="product">
+                                <div class="description  mb-2">
+                                    <h3>Your Checkout Total <span class="fs-1">$<%=total %></span>
+                                    </h3>
+                                    <input type="hidden" name="totalprice" value="<%=total %>">
+                                </div>
+                            </div>
+                            <button type="submit" id="checkout-button">Pay with Stripe</button>
+                        </form>
+                        <!-- Paypal Payment Form -->
+                        <form action="/payment/paymentwithpaypal" method="POST">
+                            <input type="hidden" name="totalpayment" value="<%=total%>">
+                            <button type="submit" class="btn btn-sm btn-outline-primary w-100 mt-2">Pay with
+                                Paypal</button>
+                        </form>
+                    </div>
+
                 </div>
-
-                <form action="/payment/paymentwithstripe/create-checkout-session" method="POST">
-                    <div class="product">
-                        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
-                        <div class="description">
-                            <h3>Your Checkout Total $<%=total %>
-                            </h3>
-                            <input type="hidden" name="totalprice" value="<%=total %>">
-                        </div>
-                    </div>
-                    <button type="submit" id="checkout-button">Checkout</button>
-                </form>
-
             </div>
-        </div>
-        </div>
+            </div>
 
 
-        <%- include('layouts/footer')%>
+            <%- include('layouts/footer')%>

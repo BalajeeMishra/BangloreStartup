@@ -46,15 +46,17 @@
                                             <td class="align-middle">$<%=Total %>
                                             </td>
                                         </tr>
-                                        <%})%>
+                                        <% Total=0%>
+
                                             <%})%>
-                                                <!-- Area for total -->
-                                                <tr>
-                                                    <th scope="row" colspan="3">Total:</th>
-                                                    <td class="fw-bold">
-                                                        $<%= TotalPrice %>
-                                                    </td>
-                                                </tr>
+                                                <%})%>
+                                                    <!-- Area for total -->
+                                                    <tr>
+                                                        <th scope="row" colspan="3">Total:</th>
+                                                        <td class="fw-bold">
+                                                            $<%= TotalPrice %>
+                                                        </td>
+                                                    </tr>
                     </tbody>
                 </table>
                 <a href="/cart/checkout" role="button" class="btn btn-outline-secondary ms-auto">Checkout</a>

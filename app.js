@@ -111,6 +111,7 @@ passport.deserializeUser(function (user, done) {
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user
+  res.locals.captcha_error = req.flash("captcha_error")
   req.session.count = 1
   res.locals.gotmail = req.session.count
   res.locals.success = req.flash("success")
@@ -158,11 +159,13 @@ app.get("/", async (req, res) => {
   return res.render("home", { departments, webinars })
 })
 
-app.get("/home", (req, res) => res.redirect("/"))
-app.get("/user", (req, res) => res.redirect("/user/dashboard"))
-app.get("/login", (req, res) => res.redirect("/user/login"))
-app.get("/logout", (req, res) => res.redirect("/user/logout"))
-app.get("/register", (req, res) => res.redirect("/user/register"))
+app.get("/home", (_, res) => res.redirect("/"))
+app.get("/aboutus", (_, res) => res.render("aboutUs"))
+app.get("/contact", (_, res) => res.render("contactUs"))
+app.get("/user", (_, res) => res.redirect("/user/dashboard"))
+app.get("/login", (_, res) => res.redirect("/user/login"))
+app.get("/logout", (_, res) => res.redirect("/user/logout"))
+app.get("/register", (_, res) => res.redirect("/user/register"))
 
 app.post("/video/upload", async (req, res) => {
   const response = await uploadVideo("testing.mp4")

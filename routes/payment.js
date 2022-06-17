@@ -1,9 +1,11 @@
 const express = require("express")
+const paypal = require("paypal-rest-sdk")
 const router = express.Router()
+
 const Cart = require("../models/cart")
+
 const AppError = require("../controlError/AppError")
 const wrapAsync = require("../controlError/wrapAsync")
-const paypal = require("paypal-rest-sdk")
 const { isSuccess } = require("../helper/successtransaction_middleware")
 //stripe credential.
 const PUBLISHABLE_KEY =
@@ -11,7 +13,7 @@ const PUBLISHABLE_KEY =
 const SECRET_KEY =
   "sk_test_51KTsAkSCz6YD7QQytElBt5LdtRIgvpauD7S6UuNy5U1AEiQJNbY7hWkRgZ60VjHp3KmhBfCJAuIq4SCjLCn3H7hd00F7BIykKO"
 const stripe = require("stripe")(SECRET_KEY)
-const YOUR_DOMAIN = "http://localhost:3000/payment"
+const YOUR_DOMAIN = "http://test.mrityunjay.com:5000/payment"
 //paypal credential.
 paypal.configure({
   mode: "sandbox", //sandbox or live
@@ -28,20 +30,28 @@ router.get("/paymentoption", (req, res) => res.render("paymentoption"))
 router.get(
   "/paymentwithstripe",
   wrapAsync(async (req, res) => {
-    let cart = await Cart.find({ userId: req.user._id }).populate("product")
-    let total = 0
-    cart.forEach((c) => {
-      c.categoryofprice.forEach((cat) => {
-        total = total + cat.totalPrice
-      })
-    })
+    const cart = await Cart.find({ userId: req.user._id }).populate("product")
+    const total = cart.reduce(
+      (acc, item) =>
+        item.reduce(
+          (itemTotal, { categoryofprice }) =>
+            itemTotal + categoryofprice.totalPrice,
+          acc
+        ),
+      0
+    )
+    // cart.forEach((c) => {
+    //   c.categoryofprice.forEach((cat) => {
+    //     total = total + cat.totalPrice
+    //   })
+    // })
     res.render("checkout", { cart, total })
   })
 )
 
 // payment with stripe processing
 router.post(
-  "/paymentwithstripe/create-checkout-session",
+  "/paymentwithstripe/checkout",
   wrapAsync(async (req, res) => {
     // storing session here so that we can store the amount in success route.
     req.session.amount = req.body.totalprice
@@ -81,6 +91,7 @@ router.get("/cancel", (req, res) => {
   delete req.session.amount
   return res.render("cancel")
 })
+
 // paypal integration.
 //paymentwithpaypal page.
 router.get(
@@ -108,8 +119,8 @@ router.post(
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:3000/payment/successtransaction",
-        cancel_url: "http://localhost:3000/payment/canceltransaction",
+        return_url: `${YOUR_DOMAIN}successtransaction`,
+        cancel_url: `${YOUR_DOMAIN}canceltransaction`,
       },
       transactions: [
         {

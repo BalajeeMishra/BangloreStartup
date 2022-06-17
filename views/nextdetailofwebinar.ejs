@@ -16,7 +16,8 @@
                         Date: <%= webinar?.showingDate %>
                     </h4>
                     <h4 class="card-subtitle mb-2 text-muted text-start">
-                        Time: <%= webinar?.time %>
+                        Time: <%= webinar?.addtiminginpacific %> PST
+                            | <%= webinar?.addtimingineastern + ' EST' %>
                     </h4>
                     <h4 class="card-subtitle mb-2 text-muted">Duration: <%= webinar.duration %> min</h4>
                 </div>
@@ -91,22 +92,13 @@
                             </select>
                         </div>
 
-                        <!-- <% purchases.forEach((purchase)=>{%>
-                            <div class="input-group mb-3 align-items-center gap-2">
-                                <input type="checkbox" name="purchasePlan" id="purchansePlan"
-                                    value="<%= purchase.nameofpurchase %> ($<%=purchase.price %>)">
-                                <label for="purchaseOption" class="fs-2 mb-0">
-                                    <%= purchase.nameofpurchase %> ($<%=purchase.price %>)
-                                </label>
-                            </div>
-                            <%})%> -->
                         <button type="submit" class="btn btn-secondary fw-normal">Add to Cart</button>
                     </form>
 
                 </div>
                 <hr />
                 <div class="container-fluid p-0 mb-3">
-                    <h4>Questions</h4>
+                    <h4>Enquery:</h4>
                     <form action="/customer-feedback/enquery" method="post">
                         <div class="mb-3 ">
                             <input type="text" class="form-control rounded-0" id="name" placeholder="Your Name"
@@ -126,6 +118,13 @@
                         <div class="mb-3 ">
                             <textarea class="form-control rounded-0" id="message" rows="3" placeholder="Type here..."
                                 required></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="g-recaptcha" data-sitekey="6LfuimkgAAAAAPVdtLlNT6VUaLjNFaihFrBmItS7"></div>
+                            <br />
+                            <p class="text-danger">
+                                <%= !captcha_error ? captcha_error:'' %>
+                            </p>
                         </div>
                         <button type="submit" class="btn btn-secondary">Submit</button>
                     </form>
@@ -167,5 +166,6 @@
 
     </section>
     <!-- Instructor Details End-->
-
-    <%- include("./layouts/footer"); -%>
+    <!-- Google reCaptcha verification plugin -->
+    <%- include('partials/reCaptcha') %>
+        <%- include("./layouts/footer"); -%>
