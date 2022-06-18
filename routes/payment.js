@@ -12,7 +12,7 @@ const PUBLISHABLE_KEY =
 const SECRET_KEY =
   "sk_test_51KTsAkSCz6YD7QQytElBt5LdtRIgvpauD7S6UuNy5U1AEiQJNbY7hWkRgZ60VjHp3KmhBfCJAuIq4SCjLCn3H7hd00F7BIykKO"
 const stripe = require("stripe")(SECRET_KEY)
-const YOUR_DOMAIN = "http://localhost:3000/payment"
+const YOUR_DOMAIN = "http://test.mrityunjay.com:5000/payment"
 //paypal credential.
 paypal.configure({
   mode: "sandbox", //sandbox or live
@@ -103,7 +103,7 @@ router.get(
       req.session.method = "Stripe"
       isSuccess(req, res, next)
     }
-    return res.render("success")
+    return res.redirect("/user/dashboard/purchase_history")
   })
 )
 
@@ -145,8 +145,9 @@ router.post(
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:3000/payment/successtransaction",
-        cancel_url: "http://localhost:3000/payment/canceltransaction",
+        return_url:
+          "http://test.mrityunjay.com:5000/payment/successtransaction",
+        cancel_url: "http://test.mrityunjay.com:5000/payment/canceltransaction",
       },
       transactions: [
         {

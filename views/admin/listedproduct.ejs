@@ -8,13 +8,17 @@
             <div class="col col-9">
                 <div class="mb-2">
                     <a href="/webinar" class="btn btn-sm btn-secondary">Add</a>
+                    <button onclick="exportTableToExcel('all_product')" class="btn btn-sm btn-secondary">
+                        Export</button>
                 </div>
-                <table class="table table-striped">
+                <table class="table table-striped" id="all_product">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Product Title</th>
                             <th scope="col">Instructor Name</th>
+                            <th scope="col">Industry</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -31,6 +35,12 @@
                                     <%=e.name%>
                                 </td>
                                 <td>
+                                    <%=e.category%>
+                                </td>
+                                <td>
+                                    <%=e.types%>
+                                </td>
+                                <td>
                                     <a href="/admin/update_the_visibility/<%=e._id %>" class="me-2">
                                         <%= e.visibility? 'Hide' : 'Show' %>
                                     </a>
@@ -44,5 +54,5 @@
             </div>
         </div>
     </section>
-
-    <%- include("../layouts/footer"); -%>
+    <%- include('../partials/export_to_excel') %>
+        <%- include("../layouts/footer"); -%>

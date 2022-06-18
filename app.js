@@ -11,9 +11,7 @@ const methodOverride = require("method-override")
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const fs = require("fs")
-const dbUrl =
-  process.env.MONGO_DB_LOCAL || "mongodb://localhost:27017/project-banglore"
-const { uploadVideo } = require("./cloudinary/index")
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/project-banglore"
 const Department = require("./models/department")
 const Webinar = require("./routes/detailofwebinar")
 const Seminar = require("./routes/seminar")
