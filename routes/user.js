@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 const router = express.Router()
 const User = require("../models/user")
 const AppError = require("../controlError/AppError")
-const wrapAsync = require("../controlError/wrapasync")
+const wrapAsync = require("../controlError/wrapAsync")
 const {
   mailForVerify,
   mailForForgetpassword,

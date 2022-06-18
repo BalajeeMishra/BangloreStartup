@@ -4,7 +4,7 @@ const Purchase = require("../models/purchase")
 const Cart = require("../models/cart.js")
 const router = express.Router()
 const AppError = require("../controlError/AppError")
-const wrapAsync = require("../controlError/wrapasync")
+const wrapAsync = require("../controlError/wrapAsync")
 const User = require("../models/user.js")
 
 router.get(
