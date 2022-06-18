@@ -6,14 +6,16 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
+                <div>
+                    <a href="/admin/category" class="btn btn-sm btn-secondary">Add</a>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Order of industry Category</th>
-                            <th scope="col">Name of category</th>
-                            <th scope="col">action</th>
-                            <th scope="col">More action</th>
-                            <th scope="col">Visibility.</th>
+                            <th scope="col">Order</th>
+                            <th scope="col">Name of Industry</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Alter Order</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,26 +30,21 @@
 
 
                                 <td>
-                                    <a href="/admin/edit_category/<%=e._id %> ">Edit</a>
-                                    <hr>
-                                    <!-- <a href="/admin/delete_category/<%=//e._id %> ">Delete</a> -->
+                                    <a href="/admin/edit_category/<%=e._id %> " class="me-2">Edit</a>
+                                    <a href="/admin/update_the_visibility_of_category/<%=e._id %>">
+                                        <%= e.visibility? 'Hide' : 'Show' %>
+                                    </a>
                                 </td>
 
                                 <td>
-                                    <a
-                                        href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1">up</a>
-                                    <hr>
-                                    <a
-                                        href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">Down</a>
+                                    <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=1"
+                                        class="me-2">
+                                        <i class="bi bi-arrow-up"></i>
+                                    </a>
+                                    <a href="/admin/upanddownthe_category/<%=e._id%>?position=<%=e.order%>&action=-1">
+                                        <i class="bi bi-arrow-down"></i>
+                                    </a>
                                 </td>
-                                <td>
-                                    <span>
-                                        <%=e.visibility%>
-                                    </span>
-                                    <a href="/admin/update_the_visibility_of_category/<%=e._id %>">update now</a>
-                                </td>
-
-
                             </tr>
                             <%}); %>
 

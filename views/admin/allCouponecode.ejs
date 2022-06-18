@@ -5,39 +5,39 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">coupon code.</th>
-                            <th scope="col">Discount in percentages(if any)</th>
-                            <th scope="col">Discount in dollor(if any)</th>
-                            <th scope="col">Action.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%coupons.forEach((c,i)=> { %>
+                <div class="container">
+                    <a href="/coupon/" class="btn btn-sm btn-secondary mb-3">ADD</a>
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <th scope="row">
-                                    <%=c.coupon %>
-                                </th>
-                                <td>
-                                    <%=c.discountinpercentage%>
-                                </td>
-                                <td>
-                                    <%=c.discountinprice %>
-                                </td>
-
-                                <td>
-                                    <a href="/coupon/edit_coupon/<%=c._id %>">Edit</a>
-                                    <hr>
-                                </td>
-
-
+                                <th scope="col">Code</th>
+                                <th scope="col" class="text-center">Discount (in %)</th>
+                                <th scope="col" class="text-center">Discount (in $) </th>
+                                <th scope="col" class="text-center">Action.</th>
                             </tr>
-                            <%}); %>
+                        </thead>
+                        <tbody>
+                            <%coupons.forEach((c,i)=> { %>
+                                <tr>
+                                    <th scope="row">
+                                        <%=c.coupon %>
+                                    </th>
+                                    <td class="text-center">
+                                        <%=c.discountinpercentage%>
+                                    </td>
+                                    <td class="text-center">
+                                        <%=c.discountinprice %>
+                                    </td>
 
-                    </tbody>
-                </table>
+                                    <td class="text-center">
+                                        <a href="/coupon/edit_coupon/<%=c._id %>">Edit</a>
+                                    </td>
+                                </tr>
+                                <%}); %>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>

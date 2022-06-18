@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
+
 const PortfolioSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -23,5 +24,6 @@ const PortfolioSchema = new mongoose.Schema({
   visible: {
     type: String,
   },
-});
-module.exports = mongoose.model("Portfolio", PortfolioSchema);
+})
+
+module.exports = mongoose.model("Portfolio", PortfolioSchema)

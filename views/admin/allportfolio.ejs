@@ -5,23 +5,55 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
-                <div class="portfolio">
-                    <% portfolio.forEach(p=>{ %>
-                        <div class="portfolio_inside">
-                            <div>
-                                <img src="<%=p?.image?.url%>" width="150" height="150">
-                            </div>
+                <div class="container">
+                    <a href="/portfolio" class="btn btn-sm btn-secondary mb-3">ADD</a>
+                    <div class="row flex-center">
+                        <div class="col col-2">
+                            <h4>
+                                Image
+                            </h4>
+                        </div>
+                        <div class="col-3">
                             <h5>
-                                <%= p.name %>
+                                Instructor Name
                             </h5>
-
-                            <a href="/portfolio/edit/<%=p._id%> " class="ml-4">Edit</a>
-                            <a href="/portfolio/delete/<%=p._id%>" class=" ml-4">Delete</a>
+                        </div>
+                        <div class="col-3">
+                            <h5>
+                                Designation
+                            </h5>
+                        </div>
+                        <div class="col-4">
+                            <h5>
+                                Action
+                            </h5>
+                        </div>
+                    </div>
+                    <!-- Data from database. -->
+                    <% portfolio.forEach(p=>{ %>
+                        <div class="row flex-center mb-3">
+                            <div class="col col-2">
+                                <img src="<%=p?.image?.url%>" width="70" height="70">
+                            </div>
+                            <div class="col-3">
+                                <p class="fs-1 fw-normal">
+                                    <%= p.name %>
+                                </p>
+                            </div>
+                            <div class="col-3">
+                                <p class="fs-1 fw-normal">
+                                    <%= p.designation %>
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <a href="/portfolio/edit/<%=p._id%>" class="me-2">Edit</a>
+                                <a href="/portfolio/delete/<%=p._id%>">Delete</a>
+                            </div>
                         </div>
                         <% }) %>
-
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

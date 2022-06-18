@@ -7,26 +7,27 @@
             </div>
             <div class="col col-9">
                 <div class="container main-title">
-
-                    <h2 class="page-title">Add a category</h2>
-                    <a href="/admin/allcategories" class="btn btn-info mt-2">Back to all categories</a>
+                    <h2 class="page-title">Add Industry</h2>
+                    <a href="/admin/allcategories" class="btn btn-sm btn-secondary mt-2">Back to all Industries</a>
                 </div>
-                <br><br>
-
-                <div class="container table-style">
-
+                <br />
+                <div class="container">
                     <form method="post" action="/admin/add-category">
-                        <div class="form-group">
-                            <label for="nameofdepartment">Title</label>
-                            <input class="form-control" type="text" name="nameofdepartment" id="nameofdepartment"
-                                placeholder="Give the name of department">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="nameofdepartment">Title</label>
+                                <input class="form-control rounded-0" type="text" name="nameofdepartment"
+                                    id="nameofdepartment" placeholder="Enter Name of Industry">
+                            </div>
+                            <div class="col-md-5">
+                                <label for="order">Order</label>
+                                <input class="form-control rounded-0" type="text" name="order" id="order"
+                                    placeholder="Specify Order">
+                                <div class="form-text">This is the position in which the industry will be shown.</div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="order">Order</label>
-                            <input class="form-control" type="text" name="order" id="order"
-                                placeholder="Give the order for category.">
-                        </div>
-                        <button class="btn btn-info mt-2 button-style" type="submit">submit</button>
+                        <br />
+                        <button class="btn btn-secondary mt-2" type="submit">ADD</button>
                     </form>
                 </div>
             </div>

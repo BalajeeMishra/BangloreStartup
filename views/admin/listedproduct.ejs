@@ -6,45 +6,36 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
-                <table class="table table-dark table-striped">
+                <div class="mb-2">
+                    <a href="/webinar" class="btn btn-sm btn-secondary">Add</a>
+                </div>
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Count</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Product Name</th>
-                            <th scope="col">code</th>
-                            <th scope="col">Instructor</th>
+                            <th scope="col">Instructor Name</th>
                             <th scope="col">Action</th>
-                            <th scope="col">Archive.</th>
-                            <th scope="col">Visibility.</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% webinar.forEach((e,i)=> { %>
                             <tr>
                                 <th scope="row">
-                                    <%=i %>
+                                    <%=e.webinarId %>
                                 </th>
                                 <td>
                                     <%=e.title %>
                                 </td>
                                 <td>
-                                    <%=e.id %>
-                                </td>
-                                <td>
                                     <%=e.name%>
                                 </td>
                                 <td>
-                                    <a href="/admin/edit_product/<%=e._id %> ">Edit</a>
-                                    <a href="/admin/delete_product/<%=e._id %> ">Delete</a>
-                                </td>
-                                <td>
-                                    <a href="/admin/delete_product/<%=e._id %>?archive=1">Archived</a>
-                                </td>
-                                <td>
-                                    <span>
-                                        <%=e.visibility%>
-                                    </span>
-                                    <a href="/admin/update_the_visibility/<%=e._id %>">update now</a>
+                                    <a href="/admin/update_the_visibility/<%=e._id %>" class="me-2">
+                                        <%= e.visibility? 'Hide' : 'Show' %>
+                                    </a>
+                                    <a href="/admin/edit_product/<%=e._id %>" class="me-2">Edit</a>
+                                    <a href="/admin/delete_product/<%=e._id %>?archive=1">Delete</a>
                                 </td>
                             </tr>
                             <%}); %>

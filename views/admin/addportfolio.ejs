@@ -6,64 +6,71 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
-                <div class="card">
+                <div class="container">
+                    <h2 class="page-title">Add Instructor</h2>
+                    <a href="/portfolio/all" class="btn btn-sm btn-secondary">Back to all Instructor</a>
+                </div>
+                <br />
+                <div class="container">
                     <form method="post" action="/portfolio" class="needs-validation" enctype="multipart/form-data"
                         nonvalidate>
-                        <div class="form-group mb-3 mx-3">
-                            <label for="name" class="form-label">Instructor</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Name of instructor" required>
-                            <div class="valid-feedback">
-                                Looks good!
+                        <div class="row">
+                            <div class="col col-md-4 mb-3">
+                                <label for="name" class="form-label">Instructor Name:</label>
+                                <input type="text" class="form-control rounded-0" id="name" name="name"
+                                    placeholder="Name of instructor" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+
+                            <div class="col col-md-4 mb-2">
+                                <label for="image">Upload Image:</label>
+                                <input type="file" class="form-control rounded-0" name="image" id="img">
+                            </div>
+
+                            <div class="col col-md-4 mb-3">
+                                <label for="qualification" class="form-label">Qualification:</label>
+                                <input type="text" class="form-control rounded-0" id="qualification"
+                                    name="qualification" placeholder="Qualification" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="col col-md-4 mb-3">
+                                <label for="designation" class="form-label">Designation:</label>
+                                <input type="text" class="form-control rounded-0" id="designation" name="designation"
+                                    placeholder="Designation" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+
+                            <div class="col col-md-4 mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea name="description" id="description" class="form-control rounded-0" rows="3"
+                                    placeholder="Description"></textarea>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="col col-md-4 mb-3 pt-4">
+                                <div class="input-group">
+                                    <label class="input-group-text bg-soft-secondary rounded-0" for="visible"
+                                        style="height: 49px;">Visibility</label>
+                                    <select class="form-select rounded-0" name="visible" id="visible"
+                                        style="height: 49px;">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
-                        <div class="form-group mb-2 mx-3">
-                            <label for="image">Image</label>
-                            <input type="file" class="form-control" name="image" id="img">
-                        </div>
-
-                        <div class="form-group mb-3 mx-3">
-                            <label for="qualification" class="form-label">Qualification</label>
-                            <input type="text" class="form-control" id="qualification" name="qualification"
-                                placeholder="Qualification" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-                        <div class="form-group mb-3 mx-3">
-                            <label for="designation" class="form-label">Designation</label>
-                            <input type="text" class="form-control" id="designation" name="designation"
-                                placeholder="Designation" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-
-                        <div class="form-group mb-3 mx-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                                placeholder="Description"></textarea>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-                        <div class="form-group mb-3 mx-3">
-                            <label for="visible">visible:</label>
-
-                            <select name="visible" id="visible">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-                        <div class="button mb-2 mx-3">
-                            <button type="submit" class="btn btn-success">Add
-                                Detail</button>
-                        </div>
+                        <button type="submit" class="btn btn-secondary">Add Detail</button>
                     </form>
                 </div>
             </div>
