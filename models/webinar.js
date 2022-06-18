@@ -62,6 +62,9 @@ const WebinarSchema = new mongoose.Schema(
     status: {
       type: String,
     },
+    liveLink: {
+      type: String,
+    },
     // just the name of pdf.
     pdf_path: {
       type: String,

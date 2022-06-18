@@ -1,4 +1,5 @@
 <%- include("../layouts/header"); -%>
+
     <section class="container-fluid py-5">
         <div class="row">
             <div class="col col-3">
@@ -6,7 +7,7 @@
             </div>
             <div class="col col-9">
                 <div class="card">
-                    <%if(!cart.length){%>
+                    <%if(!purchase_history.length){%>
                         <h4 class="text-center mt-5">No purchase history.</h4>
                         <%}else{%>
                             <table class="table">
@@ -20,16 +21,28 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    <%cart.forEach((item)=>{%>
+                                    <%purchase_history.forEach((item)=>{%>
                                         <tr>
                                             <th scope="row">
                                                 <%= item?.product?.title%>
                                             </th>
-                                            <td>item?.date || item?.createdAt</td>
-                                            <td>$<% item.categoryofprice.reduce((acc,curr)=> acc+curr.totalPrice,0)%>
+                                            <td>
+                                                <%=item?.date %>
                                             </td>
-                                            <td>CC</td>
-                                            <td><a href="#downloadInvoice" class="nav-link">Download</a></td>
+                                            <% total=item.purchaseOrder.reduce((acc,curr)=> acc+curr.totalPrice,0)%>
+                                                <% if(item.discount<1) {%>
+                                                    <td>$<%= total-(total*item.discount)%>
+                                                    </td>
+                                                    <% } else{%>
+                                                        <td>$<%= total-item.discount %>
+                                                        </td>
+
+                                                        <% } %>
+                                                            <td>
+                                                                <%=item.method %>
+                                                            </td>
+                                                            <td><a href="#downloadInvoice" class="nav-link">Download</a>
+                                                            </td>
                                         </tr>
                                         <%})%>
                                 </tbody>

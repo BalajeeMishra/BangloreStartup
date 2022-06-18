@@ -136,7 +136,7 @@ app.use("/admin/lead", Lead)
 app.use("/coupon", Coupon)
 
 const handleValidationErr = (err) => {
-  return new AppError("please fill up all the required field carefully", 400)
+  return new AppError("Please fill up all the required field carefully", 400)
 }
 
 app.use((err, req, res, next) => {
@@ -145,9 +145,22 @@ app.use((err, req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "Something went wrong" } = err
+  const { statusCode = 500 } = err
+  if (err && err.status == 555) {
+    res.status(statusCode).render("404", { err })
+  }
+  if (err && err.status == 400) {
+    req.flash("error", err.message)
+    return res.redirect(req.header("Referer") || "/")
+  }
+  next(err)
+})
+
+// this is for handling unexpected
+app.use((err, req, res, next) => {
   if (err) {
-    res.status(statusCode).render("error", { err })
+    req.flash("error", "Something went wrong, please try later.")
+    return res.redirect(req.header("Referer") || "/")
   }
 })
 
@@ -164,12 +177,13 @@ app.get("/aboutus", (_, res) => res.render("aboutUs"))
 app.get("/contact", (_, res) => res.render("contactUs"))
 app.get("/user", (_, res) => res.redirect("/user/dashboard"))
 app.get("/login", (_, res) => res.redirect("/user/login"))
+app.get("/forgetpassword", (_, res) => res.redirect("/user/forgetpassword"))
 app.get("/logout", (_, res) => res.redirect("/user/logout"))
 app.get("/register", (_, res) => res.redirect("/user/register"))
 
-app.post("/video/upload", async (req, res) => {
-  const response = await uploadVideo("testing.mp4")
-})
+app.get("*", (_, res) =>
+  res.render("404", { msg: "Page not found", err: { status: 404 } })
+)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log("APP IS LISTENING ON PORT " + PORT))

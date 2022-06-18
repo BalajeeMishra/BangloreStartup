@@ -129,7 +129,7 @@
                                     <%= webinar.showingDate %>
                                 </h6>
                                 <a class="text-muted fs--1 stretched-link text-decoration-none"
-                                    href="/webinar/allnext/<%=webinar._id%>">
+                                    href="/<%= webinar.types=='Seminar'?'seminar/s': 'webinar/allnext/'%>/<%=webinar._id%>">
                                     <%= webinar.category %>
                                 </a>
                             </div>
@@ -223,7 +223,7 @@
                                     <h4 class="fw-light">England</h4>
                                     <p class="mt-4 pe-xxl-8">Eduprix is an ideal location for anybody who wants to learn
                                         something new
-                                        or share what they know with others.  Eduprix is a worldwide platform for online
+                                        or share what they know with others. Eduprix is a worldwide platform for online
                                         learning that
                                         helps to connect with one another via knowledge. It comes highly recommended
                                         from my
@@ -320,7 +320,7 @@
                         src="assets/img/illustrations/top-course.png" height="140" alt="rectangle" />
                     <h1 class="text-secondary">1257</h1>
                     <h1 class="fw-normal text-secondary">Top <br> Courses</h1>
-                    <p>Take courses from the world’s best <br> instructors and universities. </p>
+                    <p>Take courses from the world's best <br> instructors and universities. </p>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3 text-center mb-5 mb-lg-0"><img class="mb-5"
                         src="assets/img/illustrations/happy-learners.png" height="140" alt="rectangle" />

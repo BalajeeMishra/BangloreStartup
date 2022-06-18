@@ -137,6 +137,15 @@ router.get(
 
     // clear if already logged in.
     if (clear && req.user) {
+      if (req.session.discountinprice) {
+        delete req.session.discountinprice
+        console.log("lets,see 1", req.session.discountinprice)
+      }
+      if (req.session.discountinpercentage) {
+        delete req.session.discountinpercentage
+        console.log("lets,see 2", req.session.discountinpercentage)
+      }
+      await req.session.save()
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ userId: req.user._id })
       cart = []
@@ -150,6 +159,15 @@ router.get(
     }
 
     if (clear && !req.user) {
+      if (req.session.discountinprice) {
+        delete req.session.discountinprice
+        console.log("lets,see 1", req.session.discountinprice)
+      }
+      if (req.session.discountinpercentage) {
+        delete req.session.discountinpercentage
+        console.log("lets,see 2", req.session.discountinpercentage)
+      }
+      await req.session.save()
       // await Cart.findOneAndDelete({ userId: req.user._id });
       await Cart.deleteMany({ cartSessionId: req.sessionID })
       cart = []

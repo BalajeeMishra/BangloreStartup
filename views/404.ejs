@@ -1,7 +1,9 @@
 <%- include('layouts/header');%>
 
     <div class="container-fluid bg-soft-secondary my-5 my-md-9 py-7">
-        <h1 class="text-center text-secondary">404, <%= msg %>
+        <h1 class="text-center text-secondary">
+            <%= err?.status==404? '404,' :'' %>
+                <%= err?.message || msg %>
         </h1>
     </div>
 

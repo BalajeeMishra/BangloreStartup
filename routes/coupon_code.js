@@ -12,8 +12,12 @@ router.get("/", async (req, res) => {
 router.post(
   "/",
   wrapAsync(async (req, res) => {
+    // new code
+    if (req.body.discountinpercentage && req.body.discountinprice) {
+      console.log("balajeee")
+      req.body.discountinprice = null
+    }
     const newCoupon = new Coupon(req.body)
-    console.log(newCoupon)
     await newCoupon.save()
     res.redirect("/coupon/all")
   })

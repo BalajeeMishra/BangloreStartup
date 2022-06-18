@@ -12,12 +12,26 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
   // schema named PurchaseOfUser.
   const allCartofuser = await Cart.find({ userId: req.user._id })
   const dateformat = timingFormat(new Date())
+
+  // new code
+  var discount = 0
+  if (req.session.discountinprice) {
+    // i assumed that you will not give less than $1 discount in price always more than that.
+    discount = req.session.discountinprice
+    delete req.session.discountinprice
+  }
+  if (req.session.discountinpercentage) {
+    discount = req.session.discountinpercentage / 100
+    delete req.session.discountinpercentage
+  }
+  await req.session.save()
   for (let i = 0; i < allCartofuser.length; i++) {
     var purchaseOfUser = new PurchaseOfUser({
       userId: req.user._id,
       product: allCartofuser[i].product,
       date: dateformat.dateformattransaction,
       method: req.session.method,
+      discount: discount,
     })
 
     for (let j = 0; j < allCartofuser[i].categoryofprice.length; j++) {
@@ -50,22 +64,10 @@ module.exports.isSuccess = wrapAsync(async (req, res, next) => {
     amount: req.session.amount,
     date: dateNow.dateformattransaction,
   })
+
   amount.purchaseId = !id ? 1111 : id + 1
   await amount.save()
   delete req.session.amount
-  //now deleting everything relared to coupon session
-  //new code.
-
-  // const discountinprice = req.session.discountinprice;
-  //   const discountinpercentage = req.session.discountinpercentage;
-  if (req.session.discountinprice) {
-    delete req.session.discountinprice
-    console.log("lets,see 1", req.session.discountinprice)
-  }
-  if (req.session.discountinpercentage) {
-    delete req.session.discountinpercentage
-    console.log("lets,see 2", req.session.discountinpercentage)
-  }
   await req.session.save()
   // removing all the cart after successfully payment.
   await Cart.deleteMany({ userId: req.user._id })

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const PurchaseOfUser = new mongoose.Schema(
   {
     method: {
@@ -11,6 +11,10 @@ const PurchaseOfUser = new mongoose.Schema(
     product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Webinar",
+    },
+    discount: {
+      type: Number,
+      default: 0,
     },
     purchaseOrder: [
       {
@@ -40,6 +44,6 @@ const PurchaseOfUser = new mongoose.Schema(
     },
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.model("PurchaseOfUser", PurchaseOfUser);
+module.exports = mongoose.model("PurchaseOfUser", PurchaseOfUser)

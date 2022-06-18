@@ -4,6 +4,8 @@ const Cart = require("../models/cart")
 const router = express.Router()
 const wrapAsync = require("../controlError/wrapAsync.js")
 const Department = require("../models/department")
+// this model is just for storing purchased data from cart.
+const PurchaseOfUser = require("../models/purchase_Schema")
 // user dashboard
 router.get(
   "/",
@@ -24,12 +26,14 @@ router.get(
   wrapAsync(async (req, res) => {
     const Total = 0
     const TotalPrice = 0
-    let cart = await Cart.find({ userId: req.user._id, status: true }).populate(
-      "product"
-    )
-
+    let purchase_history = await PurchaseOfUser.find({
+      userId: req.user._id,
+    })
+      .populate("product")
+      .sort({ modifiedOn: "-1" })
+    // res.send(purchase_history);
     res.render("userdashboard/purchasehistory", {
-      cart,
+      purchase_history,
       Total,
       TotalPrice,
       path: "purchase",
@@ -88,17 +92,38 @@ router
     })
   )
 
+// my certificates.
 router.get("/certificates", (req, res) =>
   res.render("userdashboard/certificates", { path: "certificates" })
 )
 
-router.get("/live_credentials", (req, res) =>
-  res.render("userdashboard/live_credentials", { path: "live_credentials" })
+// live credential.
+router.get(
+  "/live_credentials",
+  wrapAsync(async (req, res) => {
+    let purchase_history = await PurchaseOfUser.find({
+      userId: req.user._id,
+    })
+      .populate("product")
+      .sort({ modifiedOn: "-1" })
+    res.render("userdashboard/live_credentials", {
+      path: "live_credentials",
+      purchase_history,
+    })
+  })
 )
 
-router.get("/recorded", (req, res) =>
-  res.render("userdashboard/recorded", { path: "recorded" })
-)
+// recorded
+router.get("/recorded", async (req, res) => {
+  let purchase_history = await PurchaseOfUser.find({
+    userId: req.user._id,
+  })
+    .populate("product")
+    .sort({ modifiedOn: "-1" })
+  res.render("userdashboard/recorded", { path: "recorded", purchase_history })
+})
+
+//added by me.
 // adding new user for newsLetter.
 router.post(
   "/addnewuser",

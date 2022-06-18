@@ -33,16 +33,17 @@
                     <% portfolio.forEach(p=>{ %>
                         <div class="row flex-center mb-3">
                             <div class="col col-2">
-                                <img src="<%=p?.image?.url%>" width="70" height="70">
+                                <img src="<%= p?.image?.filename?'/'+p.image.filename: p?.image?.url %>" width="70"
+                                    height="70">
                             </div>
                             <div class="col-3">
                                 <p class="fs-1 fw-normal">
-                                    <%= p.name %>
+                                    <%= p?.name %>
                                 </p>
                             </div>
                             <div class="col-3">
                                 <p class="fs-1 fw-normal">
-                                    <%= p.designation %>
+                                    <%= p?.designation %>
                                 </p>
                             </div>
                             <div class="col-4">

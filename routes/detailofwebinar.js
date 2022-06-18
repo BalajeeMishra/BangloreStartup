@@ -84,10 +84,10 @@ router.post(
   "/moredetail/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params
-    const { advantageous, abouttopic, bestfor, agenda, urlofseminar } = req.body
+    const { advantageous, abouttopic, bestfor, agenda } = req.body
     await Webinar.findOneAndUpdate(
       { id },
-      { advantageous, abouttopic, bestfor, agenda, urlofseminar }
+      { advantageous, abouttopic, bestfor, agenda }
     )
     delete req.session.newWebinarData
     await req.session.save()
@@ -167,6 +167,11 @@ router.post(
   "/search",
   wrapAsync(async (req, res) => {
     const department = await Department.find({}).sort("order")
+    if (!req.body.courses) {
+      req.flash("error", "No match found")
+      return req.redirect("/")
+    }
+
     str = '"' + req.body.courses + '"'
     str1 = "'" + str + "'"
     let searchedWebinar = []

@@ -74,7 +74,11 @@ router.post(
         const result = await mailForVerify(email, req.session.token)
         // result ko bhi check karna hai.
         if (result.accepted[0]) {
-          return res.render("mail_verification")
+          req.flash(
+            "success",
+            "We have sent a verification mail, please check your inbox."
+          )
+          return res.redirect("/login")
         }
       }
     } catch (e) {
@@ -186,7 +190,11 @@ router.post(
       //idhar result kuch unexpected bhi aa sakta hai kya.
       const result = await mailForForgetpassword(email, req.session.token)
       if (result.accepted[0]) {
-        return res.render("mail_verification")
+        req.flash(
+          "success",
+          "We have sent a verification mail, please check your inbox."
+        )
+        return res.redirect("/forgetpassword")
       } else {
         return new AppError("Something going wrong,Please try again later.")
       }
@@ -213,6 +221,7 @@ router.get(
       delete req.session.exp
       return res.render("detailforchangepassword")
     }
+    throw AppError("Something went wrong", 555)
   })
 )
 
@@ -327,7 +336,11 @@ router.post(
       const result = await mailForForgetpassword(email, req.session.token)
       delete req.session.forget
       if (result.accepted[0]) {
-        return res.render("mail_verification")
+        req.flash(
+          "success",
+          "We have sent a verification mail, please check your inbox."
+        )
+        return res.redirect("/user/sendthemailagain")
       } else {
         req.flash("error", "Something going wrong,please try again")
       }
@@ -348,7 +361,11 @@ router.post(
     const result = await mailForVerify(req.body.email, req.session.token)
     // result ko bhi check karna hai.
     if (result.accepted[0]) {
-      return res.render("mail_verification")
+      req.flash(
+        "success",
+        "We have sent a verification mail, please check your inbox."
+      )
+      return res.redirect("/login")
     } else {
       req.flash("error", "Something going wrong,please try again")
     }

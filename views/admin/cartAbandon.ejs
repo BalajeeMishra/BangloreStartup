@@ -6,6 +6,7 @@
                 <%- include('../partials/adminSideBar')%>
             </div>
             <div class="col col-9">
+                <a href="/admin" class="btn btn-sm btn-secondary mb-3">Go Back</a>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -19,7 +20,7 @@
                                 <td>
                                     <%= e?.firstname +' '+ e?.lastname%> </td>
                                 <td>
-                                    <a href="/cart/all?id=<%=e._id %>">check this user data.</a>
+                                    <a href="/cart/all?id=<%=e._id %>">Click here to user' s cart</a>
                                 </td>
                             </tr>
 

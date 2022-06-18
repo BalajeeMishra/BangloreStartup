@@ -6,11 +6,20 @@
             </div>
             <div class="col col-9">
                 <div class="card">
+                    <p>
+                        <span class="fw-bold text-dark fs-2">Archive's</span>
+                        <a href="/admin" class="btn btn-sm btn-secondary ms-2">Go Back</a>
+                    </p>
                     <% archive.forEach(e=>{ %>
-                        <div>
-                            <%=e.title %>
-                        </div>
-                        <% }) %>
+                        <p>
+                            <span class="fs-1 fw-medium">
+                                <%=e.title %>
+                            </span>
+
+                            <a href="/<%= e.types=='Seminar'?'seminar/s': 'webinar/allnext'%>/<%=e._id%>"
+                                class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye-fill"></i></a>
+                            <% }) %>
+                        </p>
                 </div>
             </div>
         </div>

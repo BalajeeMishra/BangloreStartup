@@ -15,7 +15,7 @@
                                 <div class="input-group">
                                     <label class="input-group-text bg-soft-secondary rounded-0" for="types"
                                         style="height: 49px;">
-                                        Types<sup class="text-danger">*</sup></label>
+                                        Type<sup class="text-danger">*</sup></label>
                                     <select class="form-select rounded-0" name="types" id="types" style="height: 49px;">
                                         <option value="Webinar">Webinar</option>
                                         <option value="Seminar">Seminar</option>
@@ -126,9 +126,27 @@
                                     Looks good!
                                 </div>
                             </div>
+                            <div class="col col-md-6 mb-3">
+                                <label for="urlofseminar" class="form-label">Recording Link</label>
+                                <input type="text" name="urlofseminar" id="urlofseminar"
+                                    placeholder="Recordeding link of webinar or seminar" class="form-control rounded-0"
+                                    required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="col col-md-6 mb-3">
+                                <label for="liveLink" class="form-label">Live Link</label>
+                                <input type="url" name="liveLink" id="liveLink" placeholder="Enter live link here"
+                                    class="form-control rounded-0" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+
                         </div>
                         <p class="text-muted"><sup class="text-danger">*</sup> All fields are required.</p>
-                        <button type="submit" class="btn btn-secondary">Add</button>
+                        <button type="submit" class="btn btn-secondary">NEXT</button>
                     </form>
                 </div>
             </div>

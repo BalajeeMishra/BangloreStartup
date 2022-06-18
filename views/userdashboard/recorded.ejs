@@ -8,65 +8,83 @@
             <div class="col col-9">
                 <hr />
                 <div class="card">
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">ProductId: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">#23856</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Webinar Name: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">Lorem ipsum Lorem ipsum</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Duration: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">90 minutes</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Speaker: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">Lorem ipsum </p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Watch Now: </p>
-                        <a class="col-2 nav-link card-subtitle fs-2 mb-3" href="#seminarId"> Click Here </a>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Download Transcript: </p>
-                        <a class="col-2 nav-link card-subtitle fs-2 mb-3" href="#seminarId"> Click Here </a>
-                    </div>
+                    <%purchase_history.forEach(e=> { %>
+                        <% if(e.product.status=="Recorded" ) {%>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">ProductId: </p>
+                                <p class="col-9 card-subtitle fs-2 mb-3">
+                                    <%=e.product.webinarId %>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">Webinar Name: </p>
+                                <p class="col-9 card-subtitle fs-2 mb-3">
+                                    <%=e.product.title %>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">Duration: </p>
+                                <p class="col-9 card-subtitle fs-2 mb-3">
+                                    <%=e.product.duration %> minutes
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">Speaker: </p>
+                                <p class="col-9 card-subtitle fs-2 mb-3">
+                                    <%=e.product.name %>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">Watch Now: </p>
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Launch demo modal
+                            </button> -->
+
+                                <a class="col-2 nav-link card-subtitle fs-2 mb-3" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" href="<%=e.product.urlofseminar %>">
+                                    Click
+                                    Here </a>
+                            </div>
+                            <div class="row">
+                                <p class="col-3 card-subtitle fs-2 mb-3">Download Transcript: </p>
+                                <a class="col-2 nav-link card-subtitle fs-2 mb-3" href="#seminarId"> Click Here </a>
+                            </div>
+                            <% } %>
+                                <% }) %>
 
                 </div>
-                <hr />
-                <div class="card">
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">ProductId: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">#23856</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Webinar Name: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">Lorem ipsum Lorem ipsum</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Duration: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">90 minutes</p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Speaker: </p>
-                        <p class="col-9 card-subtitle fs-2 mb-3">Lorem ipsum </p>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Watch Now: </p>
-                        <a class="col-2 nav-link card-subtitle fs-2 mb-3" href="#seminarId"> Click Here </a>
-                    </div>
-                    <div class="row">
-                        <p class="col-3 card-subtitle fs-2 mb-3">Download Transcript: </p>
-                        <a class="col-2 nav-link card-subtitle fs-2 mb-3" href="#seminarId"> Click Here </a>
-                    </div>
+            </div>
+        </div>
 
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div style="padding:75% 0 0 0;position:relative;"><iframe
+                                src="https://player.vimeo.com/video/721544233?h=289a8a36bb&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                title="upload__it.mp4"></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="myFun()">Close</button>
+                    </div>
                 </div>
-                <hr />
-
             </div>
         </div>
     </section>
+    <script>
+        function myFun() {
+            console.log("balajee mishra");
+            window.location.href = 'http://localhost:3000/user/dashboard';
+        }
+    </script>
 
 
     <%- include('../layouts/footer') %>
